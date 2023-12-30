@@ -1,19 +1,20 @@
-import React,{ useCallback, useMemo, useState } from "react";
+import React, {FormEvent, useCallback, useState} from "react";
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
 import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
-import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/material';
-import { subDays, subHours } from 'date-fns';
-import { CustomersTable } from '@/components/customer/customers-table';
-import { CustomersSearch } from '@/components/customer/customers-search.tsx';
-import { applyPagination } from '@/utils/apply-pagination';
-import { useSelection } from '@/hooks/use-selection';
+import {Box, Button, Container, Stack, SvgIcon, TextField, Typography} from '@mui/material';
+import {subDays, subHours} from 'date-fns';
+import {CustomersTable} from '@/components/customer/customers-table';
+import {CustomersSearch} from '@/components/customer/customers-search.tsx';
+import {useSelection} from '@/hooks/use-selection';
 import {Customer} from "@/types/Customer.ts";
-// import {createUser} from "@root/electron/src/services/user-service.ts";
+import ModalAddStudent from "@/components/ModalAddStudent.tsx";
+import {useCustomers} from "@/hooks/use-customers.ts";
+import {useCustomerIds} from "@/hooks/use-customer-ids.ts";
 
 const now = new Date();
 
-const data:Customer[] = [
+const data: Customer[] = [
     {
         id: '5e887ac47eed253091be10cb',
         address: {
@@ -156,53 +157,37 @@ const data:Customer[] = [
     }
 ];
 
-
-const useCustomers = (page: number, rowsPerPage: number): Customer[] => {
-    return useMemo(
-        () => {
-            return applyPagination(data, page, rowsPerPage);
-        },
-        [page, rowsPerPage]
-    );
-};
-
-const useCustomerIds = (customers: Customer[]): string[] => {
-    return useMemo(
-        () => {
-            return customers.map((customer) => customer.id);
-        },
-        [customers]
-    );
-};
-
 export const Customers: React.FC = () => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const customers = useCustomers(page, rowsPerPage);
+    const customers = useCustomers(data, page, rowsPerPage);
     const customersIds = useCustomerIds(customers);
     const customersSelection = useSelection(customersIds);
+    const [openModalAddStudent, setOpenModalAddStudent] = useState(false);
 
     const handlePageChange = useCallback(
-    (_: React.MouseEvent<HTMLButtonElement> | null, value: number) => {
-        setPage(value);
-    },
-    []
-);
+        (_: React.MouseEvent<HTMLButtonElement> | null, value: number) => {
+            setPage(value);
+        },
+        []
+    );
 
-const handleRowsPerPageChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-    },
-    []
-);
-const handeAddUser = () => {
-    console.log('add user')
-    // createUser("benji").then((res) => {
-    //     console.log(res)
-    // }).catch((err) => {
-    //     console.log(err)
-    // })
-}
+    const handleRowsPerPageChange = useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            setRowsPerPage(parseInt(event.target.value, 10));
+        },
+        []
+    );
+    const handleOpenAddStudent = () => {
+        setOpenModalAddStudent(true);
+    }
+    const handleCloseAddStudent = () => {
+        setOpenModalAddStudent(false);
+    }
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        console.log(e);
+        handleCloseAddStudent();
+    }
 
     return (<>
         <Box
@@ -232,7 +217,7 @@ const handeAddUser = () => {
                                     color="inherit"
                                     startIcon={(
                                         <SvgIcon fontSize="small">
-                                            <ArrowUpOnSquareIcon />
+                                            <ArrowUpOnSquareIcon/>
                                         </SvgIcon>
                                     )}
                                 >
@@ -242,7 +227,7 @@ const handeAddUser = () => {
                                     color="inherit"
                                     startIcon={(
                                         <SvgIcon fontSize="small">
-                                            <ArrowDownOnSquareIcon />
+                                            <ArrowDownOnSquareIcon/>
                                         </SvgIcon>
                                     )}
                                 >
@@ -254,17 +239,17 @@ const handeAddUser = () => {
                             <Button
                                 startIcon={(
                                     <SvgIcon fontSize="small">
-                                        <PlusIcon />
+                                        <PlusIcon/>
                                     </SvgIcon>
                                 )}
                                 variant="contained"
-                                onClick={handeAddUser}
+                                onClick={handleOpenAddStudent}
                             >
-                                Add
+                                Ajouter un étudiant
                             </Button>
                         </div>
                     </Stack>
-                    <CustomersSearch />
+                    <CustomersSearch/>
                     <CustomersTable
                         count={data.length}
                         items={customers}
@@ -281,5 +266,31 @@ const handeAddUser = () => {
                 </Stack>
             </Container>
         </Box>
-        </>)
+        {openModalAddStudent && (<ModalAddStudent isOpen={openModalAddStudent} onClose={handleCloseAddStudent}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+                Text in a modal
+            </Typography>
+            <form onSubmit={handleSubmit}>
+                <TextField
+                    label="Nom"
+                    type="text"
+                    required
+                    fullWidth
+                />
+                <TextField
+                    label="Prénom"
+                    type="text"
+                    required
+                    fullWidth
+                />
+                <TextField
+                    label="Email"
+                    type="email"
+                    required
+                    fullWidth
+                />
+                <button type="submit">Ajouter</button>
+            </form>
+        </ModalAddStudent>)}
+    </>)
 }
