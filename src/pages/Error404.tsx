@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Typography, Button } from '@mui/material';
 
-export const ErrorPage: React.FC = () => {
+export const Error404: React.FC = () => {
   const handleBack = () => {
       // TODO: handle back
       console.log('handleBack');
