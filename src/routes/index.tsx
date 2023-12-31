@@ -6,6 +6,7 @@ import {MainLayout} from "@/layouts/MainLayout";
 import {AuthLayout} from "@/layouts/AuthLayout";
 import {Customers} from "@/pages/customers.tsx";
 import {Dashboard} from "@/pages/dashboard.tsx";
+import {ErrorPage} from "@/pages/ErrorPage.tsx";
 
 const routes: RouteObject[] = [
     {
@@ -26,7 +27,7 @@ const routes: RouteObject[] = [
     },
     {
         path: "*",
-        element: <div>404</div>
+        element: <ErrorPage />,
     }
 ];
 
