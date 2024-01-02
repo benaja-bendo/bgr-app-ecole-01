@@ -13,7 +13,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
       <ThemeProvider theme={theme}>
           <CssBaseline/>
-          <RouterProvider router={Router}/>
+          <RouterProvider router={Router} fallbackElement={<div>Loading...</div>}/>
       </ThemeProvider>
   </React.StrictMode>,
 )

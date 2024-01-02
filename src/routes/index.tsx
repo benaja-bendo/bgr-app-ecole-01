@@ -1,33 +1,65 @@
 import {
-    createBrowserRouter,
+    createBrowserRouter, redirect,
     RouteObject,
 } from "react-router-dom";
 import {MainLayout} from "@/layouts/MainLayout";
 import {AuthLayout} from "@/layouts/AuthLayout";
 import {Customers} from "@/pages/customers.tsx";
 import {Dashboard} from "@/pages/dashboard.tsx";
-import {ErrorPage} from "@/pages/ErrorPage.tsx";
+import {Error404} from "@/pages/Error404.tsx";
+import Login from "@/pages/Login.tsx";
+import {authenticateLoader} from "@/routes/loaders/AuthenticateLoader.ts";
+import {GuestLoader} from "@/routes/loaders/GuestLoader.ts";
+import AuthService from "@/services/authService.ts";
+import {loginAction} from "@/routes/actions/loginAction.ts";
 
 const routes: RouteObject[] = [
     {
+        id: "main",
         path: "",
-        element: <MainLayout />,
+        loader: authenticateLoader,
+        element: <MainLayout/>,
         children: [
-            { path: "/", element: <Dashboard/> },
-            { path: "/customers", element: <Customers/> },
-            { path: "/about", element: <div>About</div> },
+            {
+                index: true,
+                path: "/",
+                Component: Dashboard,
+            },
+            {path: "/customers", element: <Customers/>},
+            {path: "/about", element: <div>About</div>},
         ]
     },
     {
         path: "/auth",
-        element: <AuthLayout />,
+        element: <AuthLayout/>,
+        loader: GuestLoader,
         children: [
-            // Add your auth routes here
+            {
+                path: "login",
+                action: loginAction,
+                Component: Login,
+            },
+            {path: "register", element: <div>Register</div>},
+            {
+                path: "forgot-password",
+                element: <div>Forgot Password</div>,
+            },
+            {
+                path: "reset-password",
+                element: <div>Reset Password</div>,
+            },
+            {
+                path: "logout",
+                action: async () => {
+                    await AuthService.signout();
+                    redirect("/auth/login");
+                },
+            }
         ]
     },
     {
         path: "*",
-        element: <ErrorPage />,
+        element: <Error404/>,
     }
 ];
 
@@ -35,3 +67,8 @@ export const Router = createBrowserRouter(routes, {
     // basename: "/",
     // window,
 });
+
+if (import.meta.hot) {
+    import.meta.hot.accept();
+    import.meta.hot.dispose(() => Router.dispose());
+}
