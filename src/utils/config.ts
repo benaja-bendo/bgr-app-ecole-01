@@ -5,6 +5,7 @@ interface Config {
         timeout: number;
         routes: {
             login: string;
+            logout: string;
         }
     };
     app: {
@@ -22,7 +23,8 @@ const config: Config = {
         baseUrl: import.meta.env.VITE_API_BASE_URL || 'https://api.example.com',
         timeout: Number(import.meta.env.VITE_API_TIMEOUT) || 3000,
         routes: {
-            login: import.meta.env.VITE_API_ROUTE_LOGIN || '/login'
+            login: import.meta.env.VITE_API_ROUTE_LOGIN || '/login',
+            logout: import.meta.env.VITE_API_ROUTE_LOGOUT || '/logout'
         }
     },
     app: {

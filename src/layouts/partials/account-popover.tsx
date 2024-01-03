@@ -1,5 +1,6 @@
 import React from 'react';
-import {Box, Divider, MenuItem, MenuList, Popover, Typography} from '@mui/material';
+import {Box, Button, Divider, Popover, Typography} from '@mui/material';
+import {useFetcher} from "react-router-dom";
 
 interface AccountPopoverProps {
     anchorEl: Element | null;
@@ -8,9 +9,7 @@ interface AccountPopoverProps {
 }
 
 export const AccountPopover: React.FC<AccountPopoverProps> = ({anchorEl, onClose, open}) => {
-    const handleSignOut = () => {
-        console.log('sign out');
-    };
+    const fetcher = useFetcher();
 
     return (
         <Popover
@@ -29,18 +28,18 @@ export const AccountPopover: React.FC<AccountPopoverProps> = ({anchorEl, onClose
                 </Typography>
             </Box>
             <Divider/>
-            <MenuList
-                disablePadding
-                dense
-                sx={{
-                    p: '8px',
-                    '& > *': {
-                        borderRadius: 1
-                    }
-                }}
-            >
-                <MenuItem onClick={handleSignOut}>Sign out</MenuItem>
-            </MenuList>
+            <fetcher.Form method="post" action={`/auth/logout`}>
+                <Button type={"submit"}
+                        fullWidth={true}
+                        sx={{
+                            p: '8px',
+                            '& > *': {
+                                borderRadius: 1
+                            }
+                        }}>
+                    Sign out
+                </Button>
+            </fetcher.Form>
         </Popover>
     );
 };

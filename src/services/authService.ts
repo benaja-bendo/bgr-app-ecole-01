@@ -4,24 +4,30 @@ import config from "@/utils/config.ts";
 
 interface AuthServiceProps {
     isAuthenticated: boolean;
-    user: null | Tuser;
-    username: null | string;
+    user: object | Tuser;
     signin(username: string, password: string): Promise<void>;
     signout(): Promise<void>;
 }
 
 class AuthService implements AuthServiceProps {
-    isAuthenticated = false;
-    user = null;
-    username = null as null | string;
+    get isAuthenticated() {
+        return localStorage.getItem('token') !== null;
+    }
+    get user() {
+        const user = localStorage.getItem('user');
+        if (user) {
+            return JSON.parse(user);
+        }
+        return null;
+    }
 
     async signin(username: string, password: string) {
         try {
-            const response = await HttpService.post(config.api.routes.login, { username, password });
+            const response = await HttpService.post<{ token: string, user: Tuser }>(config.api.routes.login, { username, password });
             if (response.status === 200) {
-                console.log(response.data)
-                this.isAuthenticated = true;
-                this.username = username;
+                const { token, user } = response.data;
+                localStorage.setItem('token', token);
+                localStorage.setItem('user', JSON.stringify(user));
             } else {
                 throw new Error('Authentication failed');
             }
@@ -33,10 +39,11 @@ class AuthService implements AuthServiceProps {
 
     async signout() {
         try {
-            const response = await HttpService.post('/auth/signout');
+            const response = await HttpService.post(config.api.routes.logout);
             if (response.status === 200) {
-                this.isAuthenticated = false;
-                this.username = null;
+                console.log('data',response.data)
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
             } else {
                 throw new Error('Sign out failed');
             }

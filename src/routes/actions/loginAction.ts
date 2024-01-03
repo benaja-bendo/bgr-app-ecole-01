@@ -14,7 +14,6 @@ export const loginAction = async ({request}: ActionFunctionArgs) => {
         password: formData.get("password") as string | null,
         redirectTo: formData.get("redirectTo") as string | null,
     };
-    console.log(formDataValues)
     // Validate the form data.
     if (!formDataValues.username || !formDataValues.password) {
         // TODO: translate this error message

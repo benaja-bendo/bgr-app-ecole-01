@@ -1,5 +1,5 @@
 import {
-    createBrowserRouter, redirect,
+    createBrowserRouter,
     RouteObject,
 } from "react-router-dom";
 import {MainLayout} from "@/layouts/MainLayout";
@@ -10,8 +10,8 @@ import {Error404} from "@/pages/Error404.tsx";
 import Login from "@/pages/Login.tsx";
 import {authenticateLoader} from "@/routes/loaders/AuthenticateLoader.ts";
 import {GuestLoader} from "@/routes/loaders/GuestLoader.ts";
-import AuthService from "@/services/authService.ts";
 import {loginAction} from "@/routes/actions/loginAction.ts";
+import {LogoutAction} from "@/routes/actions/logoutAction.ts";
 
 const routes: RouteObject[] = [
     {
@@ -50,10 +50,7 @@ const routes: RouteObject[] = [
             },
             {
                 path: "logout",
-                action: async () => {
-                    await AuthService.signout();
-                    redirect("/auth/login");
-                },
+                action: LogoutAction,
             }
         ]
     },

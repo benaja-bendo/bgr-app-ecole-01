@@ -15,6 +15,16 @@ class HttpService {
                 'X-App-Version': config.app.version,
             }
         });
+
+        this.axiosInstance.interceptors.request.use((config) => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                config.headers.Authorization = `Bearer ${token}`;
+            }
+            return config;
+        }, (error) => {
+            return Promise.reject(error);
+        });
     }
 
     public async get<T, R = AxiosResponse<T>>(url: string, config?: AxiosRequestConfig): Promise<R> {
