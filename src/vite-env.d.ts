@@ -6,7 +6,10 @@ interface ImportMetaEnv {
     readonly VITE_APP_VERSION: string
     readonly VITE_FACEBOOK_API_KEY: string
     readonly VITE_GOOGLE_API_KEY: string
+
+    // routes api...
     readonly VITE_API_ROUTE_LOGIN: string
+    readonly VITE_API_ROUTE_LOGOUT: string
 
     // more env variables...
 }
