@@ -1,6 +1,8 @@
 import {ActionFunctionArgs} from "@remix-run/router/utils.ts";
 import AuthService from "@/services/authService.ts";
-import {redirect} from "react-router-dom";
+import {json, redirect} from "react-router-dom";
+import {TResponseThrow} from "@/types/TResponseThrow.ts";
+import {AxiosError} from "axios";
 
 interface FormDataValues {
     username: string | null;
@@ -26,9 +28,10 @@ export const loginAction = async ({request}: ActionFunctionArgs) => {
         await AuthService.signin(formDataValues.username,formDataValues.password);
     } catch (error) {
         // TODO: translate this error message
-        return {
-            error: "Invalid login attempt",
-        };
+        const err = error as AxiosError;
+        throw json<TResponseThrow>({
+            message: err.message,
+        }, 401);
     }
     return redirect(formDataValues.redirectTo || "/");
 }

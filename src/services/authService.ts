@@ -29,7 +29,7 @@ class AuthService implements AuthServiceProps {
                 localStorage.setItem('token', token);
                 localStorage.setItem('user', JSON.stringify(user));
             } else {
-                throw new Error('Authentication failed');
+                console.error('Authentication failed');
             }
         } catch (error) {
             console.error(error);
@@ -44,7 +44,7 @@ class AuthService implements AuthServiceProps {
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
             } else {
-                throw new Error('Sign out failed');
+                console.error('Sign out failed');
             }
         } catch (error) {
             console.error(error);
