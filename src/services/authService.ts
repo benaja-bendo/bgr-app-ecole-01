@@ -41,7 +41,6 @@ class AuthService implements AuthServiceProps {
         try {
             const response = await HttpService.post(config.api.routes.logout);
             if (response.status === 200) {
-                console.log('data',response.data)
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
             } else {
