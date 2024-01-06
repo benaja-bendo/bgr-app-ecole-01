@@ -75,6 +75,7 @@ export const Login: FC = () => {
                                     label="Email Address"
                                     name="username"
                                     type="email"
+                                    required
                                 />
                                 <TextField
                                     fullWidth
@@ -82,6 +83,7 @@ export const Login: FC = () => {
                                     label="Password"
                                     name="password"
                                     type="password"
+                                    required
                                 />
                             </Stack>
                             {actionData && actionData.error ? (

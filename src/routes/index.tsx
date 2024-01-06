@@ -7,7 +7,7 @@ import {AuthLayout} from "@/layouts/AuthLayout";
 import {Customers} from "@/pages/customers.tsx";
 import {Dashboard} from "@/pages/dashboard.tsx";
 import {Error404} from "@/pages/Error404.tsx";
-import Login from "@/pages/Login.tsx";
+import Login from "@/pages/Login/Login.tsx";
 import {authenticateLoader} from "@/routes/loaders/AuthenticateLoader.ts";
 import {GuestLoader} from "@/routes/loaders/GuestLoader.ts";
 import {loginAction} from "@/routes/actions/loginAction.ts";
