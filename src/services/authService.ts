@@ -1,6 +1,7 @@
 import HttpService from '@/services/HttpService.ts';
 import {Tuser} from "@/types/Tuser.ts";
 import config from "@/utils/config.ts";
+import {R_loginAction} from "@/types/TRequests.ts";
 
 interface AuthServiceProps {
     isAuthenticated: boolean;
@@ -23,11 +24,12 @@ class AuthService implements AuthServiceProps {
 
     async signin(username: string, password: string) {
         try {
-            const response = await HttpService.post<{ token: string, user: Tuser }>(config.api.routes.login, { username, password });
+            const response = await HttpService.post<R_loginAction>(config.api.routes.login, { username, password });
             if (response.status === 200) {
-                const { token, user } = response.data;
+                const { token, user,tenant_id } = response.data;
                 localStorage.setItem('token', token);
                 localStorage.setItem('user', JSON.stringify(user));
+                localStorage.setItem('tenant_id', tenant_id || '');
             } else {
                 console.error('Authentication failed');
             }
@@ -43,6 +45,7 @@ class AuthService implements AuthServiceProps {
             if (response.status === 200) {
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
+                localStorage.removeItem('tenant_id');
             } else {
                 console.error('Sign out failed');
             }
