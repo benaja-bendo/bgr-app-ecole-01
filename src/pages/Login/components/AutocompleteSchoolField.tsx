@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {Fragment, useEffect, useState} from "react";
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -6,12 +6,13 @@ import schoolService from '@/services/schoolService.ts';
 import {Tschool} from "@/types/Tschool.ts";
 
 
+
 export default function AutocompleteSchoolField() {
-    const [open, setOpen] = React.useState(false);
-    const [options, setOptions] = React.useState<readonly Tschool[]>([]);
+    const [open, setOpen] =useState(false);
+    const [options, setOptions] = useState<readonly Tschool[]>([]);
     const loading = open && options.length === 0;
 
-    React.useEffect(() => {
+    useEffect(() => {
         let active = true;
 
         if (!loading) {
@@ -31,7 +32,7 @@ export default function AutocompleteSchoolField() {
         };
     }, [loading]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (!open) {
             setOptions([]);
         }
@@ -60,10 +61,10 @@ export default function AutocompleteSchoolField() {
                     InputProps={{
                         ...params.InputProps,
                         endAdornment: (
-                            <React.Fragment>
+                            <Fragment>
                                 {loading ? <CircularProgress color="inherit" size={20} /> : null}
                                 {params.InputProps.endAdornment}
-                            </React.Fragment>
+                            </Fragment>
                         ),
                     }}
                 />
