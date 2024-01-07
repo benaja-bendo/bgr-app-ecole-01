@@ -1,12 +1,13 @@
 import HttpService from '@/services/HttpService.ts';
 import {Tuser} from "@/types/Tuser.ts";
 import config from "@/utils/config.ts";
-import {R_loginAction} from "@/types/TRequests.ts";
+import {ResponseLoginAction} from "@/types/ResponseLoginAction.ts";
+import {ResponseApi} from "@/types/ResponseApi.ts";
 
 interface AuthServiceProps {
     isAuthenticated: boolean;
     user: object | Tuser;
-    signin(username: string, password: string): Promise<void>;
+    signin(username: string, password: string,school_name: string): Promise<void>;
     signout(): Promise<void>;
 }
 
@@ -22,11 +23,11 @@ class AuthService implements AuthServiceProps {
         return null;
     }
 
-    async signin(username: string, password: string) {
+    async signin(username: string, password: string, school_name: string) {
         try {
-            const response = await HttpService.post<R_loginAction>(config.api.routes.login, { username, password });
+            const response = await HttpService.post<ResponseApi<ResponseLoginAction>>(config.api.routes.login, { username, password, school_name });
             if (response.status === 200) {
-                const { token, user,tenant_id } = response.data;
+                const { token, user,tenant_id } = response.data.data;
                 localStorage.setItem('token', token);
                 localStorage.setItem('user', JSON.stringify(user));
                 localStorage.setItem('tenant_id', tenant_id || '');
@@ -41,7 +42,7 @@ class AuthService implements AuthServiceProps {
 
     async signout() {
         try {
-            const response = await HttpService.post(config.api.routes.logout);
+            const response = await HttpService.post<ResponseApi<ResponseLoginAction>>(config.api.routes.logout);
             if (response.status === 200) {
                 localStorage.removeItem('token');
                 localStorage.removeItem('user');
