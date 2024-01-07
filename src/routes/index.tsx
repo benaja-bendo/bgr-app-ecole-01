@@ -7,11 +7,12 @@ import {AuthLayout} from "@/layouts/AuthLayout";
 import {Customers} from "@/pages/customers.tsx";
 import {Dashboard} from "@/pages/dashboard.tsx";
 import {Error404} from "@/pages/Error404.tsx";
-import Login from "@/pages/Login.tsx";
+import Login from "@/pages/Login/Login.tsx";
 import {authenticateLoader} from "@/routes/loaders/AuthenticateLoader.ts";
 import {GuestLoader} from "@/routes/loaders/GuestLoader.ts";
 import {loginAction} from "@/routes/actions/loginAction.ts";
 import {LogoutAction} from "@/routes/actions/logoutAction.ts";
+import {CustomErrorBoundary} from "@/components/CustomErrorBoundary.tsx";
 
 const routes: RouteObject[] = [
     {
@@ -19,6 +20,8 @@ const routes: RouteObject[] = [
         path: "",
         loader: authenticateLoader,
         element: <MainLayout/>,
+        hasErrorBoundary: true,
+        errorElement: <CustomErrorBoundary/>,
         children: [
             {
                 index: true,
@@ -33,6 +36,7 @@ const routes: RouteObject[] = [
         path: "/auth",
         element: <AuthLayout/>,
         loader: GuestLoader,
+        errorElement: <CustomErrorBoundary/>,
         children: [
             {
                 path: "login",
