@@ -1,6 +1,6 @@
 import AuthService from "@/services/authService.ts";
 import {json, redirect} from "react-router-dom";
-import {TResponseThrow} from "@/types/TResponseThrow.ts";
+import {ResponseThrow} from "@/types/ResponseThrow.ts";
 import {AxiosError} from "axios";
 
 export const LogoutAction = async () => {
@@ -9,7 +9,7 @@ export const LogoutAction = async () => {
         return redirect('/');
     } catch (error) {
         const err = error as AxiosError;
-        throw json<TResponseThrow>({
+        throw json<ResponseThrow>({
             message: err.message,
         }, 401);
     }

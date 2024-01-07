@@ -1,6 +1,7 @@
 import {ChangeEvent, FC, useCallback, useState} from 'react';
 import {Form, useActionData, useLocation, useNavigation} from "react-router-dom";
 import {Alert, Box, Button, FormHelperText, Stack, Tab, Tabs, TextField, Typography} from "@mui/material";
+import AutocompleteSchoolField from "@/pages/Login/components/AutocompleteSchoolField.tsx";
 
 export const Login: FC = () => {
     const [method, setMethod] = useState('email');
@@ -75,6 +76,7 @@ export const Login: FC = () => {
                                     label="Email Address"
                                     name="username"
                                     type="email"
+                                    required
                                 />
                                 <TextField
                                     fullWidth
@@ -82,7 +84,9 @@ export const Login: FC = () => {
                                     label="Password"
                                     name="password"
                                     type="password"
+                                    required
                                 />
+                                <AutocompleteSchoolField/>
                             </Stack>
                             {actionData && actionData.error ? (
                                 <FormHelperText sx={{mt: 3}} color="error">
