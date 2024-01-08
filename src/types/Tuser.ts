@@ -1,3 +1,5 @@
+import {Role} from "@/types/Role.ts";
+
 export type Tuser = {
     id: string;
     address: {
@@ -11,4 +13,5 @@ export type Tuser = {
     email: string;
     name: string;
     phone: string;
+    roles: Role
 }
