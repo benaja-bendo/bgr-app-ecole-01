@@ -13,5 +13,5 @@ export type Tuser = {
     email: string;
     name: string;
     phone: string;
-    roles: Role
+    role: Role
 }
