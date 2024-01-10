@@ -4,7 +4,7 @@ import {
 } from "react-router-dom";
 import {MainLayout} from "@/layouts/MainLayout";
 import {AuthLayout} from "@/layouts/AuthLayout";
-import {Customers} from "@/pages/customers.tsx";
+import {Students} from "@/pages/Students/Students.tsx";
 import {Dashboard} from "@/pages/dashboard.tsx";
 import {Error404} from "@/pages/Error404.tsx";
 import Login from "@/pages/Login/Login.tsx";
@@ -28,7 +28,7 @@ const routes: RouteObject[] = [
                 path: "/",
                 Component: Dashboard,
             },
-            {path: "/customers", element: <Customers/>},
+            {path: "/students", element: <Students/>},
             {path: "/about", element: <div>About</div>},
         ]
     },
