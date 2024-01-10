@@ -13,6 +13,7 @@ import {GuestLoader} from "@/routes/loaders/GuestLoader.ts";
 import {loginAction} from "@/routes/actions/loginAction.ts";
 import {LogoutAction} from "@/routes/actions/logoutAction.ts";
 import {CustomErrorBoundary} from "@/components/CustomErrorBoundary.tsx";
+import {Teachers} from "@/pages/Teachers/Teachers.tsx";
 
 const routes: RouteObject[] = [
     {
@@ -29,6 +30,7 @@ const routes: RouteObject[] = [
                 Component: Dashboard,
             },
             {path: "/students", element: <Students/>},
+            {path: "/teachers", element: <Teachers/>},
             {path: "/about", element: <div>About</div>},
         ]
     },
