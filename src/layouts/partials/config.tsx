@@ -1,7 +1,8 @@
 import {SvgIcon} from "@mui/material";
-import {UsersIcon} from "@heroicons/react/24/solid";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import {NavItem} from "@/types/NavItem";
+import TeacherIcon from "@/components/svg/TeacherIcon.tsx";
+import StudentIcon from "@/components/svg/StudentIcon.tsx";
 
 export const items: NavItem[] = [
     {
@@ -21,7 +22,19 @@ export const items: NavItem[] = [
         path: '/students',
         icon: (
             <SvgIcon fontSize="small">
-                <UsersIcon />
+                <StudentIcon />
+            </SvgIcon>
+        ),
+        active: false,
+        disabled: false,
+        external: false,
+    },
+    {
+        title: 'Gestion des professeurs',
+        path: '/teachers',
+        icon: (
+            <SvgIcon fontSize="small">
+                <TeacherIcon />
             </SvgIcon>
         ),
         active: false,
