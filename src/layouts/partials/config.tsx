@@ -17,8 +17,8 @@ export const items: NavItem[] = [
         external: false,
     },
     {
-        title: 'Customers',
-        path: '/customers',
+        title: 'Gestion des étudiants',
+        path: '/students',
         icon: (
             <SvgIcon fontSize="small">
                 <UsersIcon />
