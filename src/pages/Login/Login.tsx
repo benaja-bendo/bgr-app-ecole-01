@@ -72,7 +72,7 @@ export const Login: FC = () => {
                                 />
                                 <TextField
                                     fullWidth
-                                    value={"demo@devias.io"}
+                                    value={"root@gmail.com"}
                                     label="Email Address"
                                     name="username"
                                     type="email"
@@ -80,7 +80,7 @@ export const Login: FC = () => {
                                 />
                                 <TextField
                                     fullWidth
-                                    value={"Password123!"}
+                                    value={"password"}
                                     label="Password"
                                     name="password"
                                     type="password"
@@ -108,7 +108,7 @@ export const Login: FC = () => {
                                 sx={{mt: 3}}
                             >
                                 <div>
-                                    You can use <b>demo@devias.io</b> and password <b>Password123!</b>
+                                    You can use <b>root@gmail.com</b> and password <b>password</b>
                                 </div>
                             </Alert>
                         </Form>
