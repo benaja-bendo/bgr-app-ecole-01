@@ -13,7 +13,7 @@ export function useRequireRole(requiredRole: RoleType) {
             return;
         }
 
-        const userRoles = Array.isArray(currentUser.roles.type) ? currentUser.roles.type : [currentUser.roles.type];
+        const userRoles = Array.isArray(currentUser.role.type) ? currentUser.role.type : [currentUser.role.type];
 
         if (!userRoles.includes(requiredRole)) {
             navigate('/');

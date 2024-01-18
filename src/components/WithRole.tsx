@@ -3,7 +3,7 @@ import { useCurrentUser } from '@/hooks/use-current-user';
 import { RoleType} from "@/types/Role.ts";
 
 interface WithRoleProps {
-  role: RoleType;
+  role: RoleType | RoleType[];
   children: ReactNode;
 }
 
@@ -14,10 +14,16 @@ export const WithRole: FC<WithRoleProps> = ({ role, children }) => {
     return null;
   }
 
-  const userRoles = Array.isArray(currentUser.roles.type) ? currentUser.roles.type : [currentUser.roles.type];
+  const userRoles = Array.isArray(currentUser.role.type) ? currentUser.role.type : [currentUser.role.type];
 
-  if (!userRoles.includes(role)) {
-    return null;
+  if (Array.isArray(role)) {
+    if (!userRoles.some(userRole => role.includes(userRole))) {
+      return null;
+    }
+  } else {
+    if (!userRoles.includes(role)) {
+      return null;
+    }
   }
 
   return <>{children}</>;
