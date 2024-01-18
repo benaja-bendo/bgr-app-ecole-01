@@ -1,12 +1,10 @@
+import configRoutes, {Route} from "@/utils/config-routes.ts";
 
-interface Config {
+interface ConfigApp {
     api: {
         baseUrl: string;
         timeout: number;
-        routes: {
-            login: string;
-            logout: string;
-        }
+        routes: Route;
     };
     app: {
         name: string;
@@ -17,15 +15,11 @@ interface Config {
         };
     };
 }
-
-const config: Config = {
+const config: ConfigApp = {
     api: {
-        baseUrl: import.meta.env.VITE_API_BASE_URL || 'https://api.example.com',
+        baseUrl: import.meta.env.VITE_API_BASE_URL || 'https://api.example.com/api/v1',
         timeout: Number(import.meta.env.VITE_API_TIMEOUT) || 3000,
-        routes: {
-            login: import.meta.env.VITE_API_ROUTE_LOGIN || '/login',
-            logout: import.meta.env.VITE_API_ROUTE_LOGOUT || '/logout'
-        }
+        routes: configRoutes
     },
     app: {
         name: import.meta.env.VITE_APP_TITLE|| 'My App',
@@ -35,6 +29,5 @@ const config: Config = {
             facebook: import.meta.env.VITE_FACEBOOK_API_KEY || 'xxx'
         }
     }
-}
-
+};
 export default config;
