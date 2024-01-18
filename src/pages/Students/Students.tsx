@@ -12,6 +12,7 @@ import ModalAddStudent from "@/components/ModalAddStudent.tsx";
 import {useCustomers} from "@/hooks/use-customers.ts";
 import {useCustomerIds} from "@/hooks/use-customer-ids.ts";
 import {CreateStudent} from "@/pages/Students/components/CreateStudent.tsx";
+import {useRequireRole} from "@/hooks/use-require-role.ts";
 
 const now = new Date();
 
@@ -159,6 +160,7 @@ const data: Customer[] = [
 ];
 
 export const Students: React.FC = () => {
+    useRequireRole(['root']);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const customers = useCustomers(data, page, rowsPerPage);
