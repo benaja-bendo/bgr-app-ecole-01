@@ -7,13 +7,13 @@ import configRoutes from "@/utils/config-routes.ts";
 export const Dashboard: React.FC = () => {
     const { currentUser } = useCurrentUser();
     const [loading, setLoading] = React.useState<boolean>(false);
-    const [data, setData] = React.useState(null);
+    const [data, setData] = React.useState<null|[{email:string,id:number}]>(null);
 
     const handleGetData = async () => {
         setLoading(true);
         const response = await HttpService.get(configRoutes.test) as AxiosResponse;
-        console.log(response.data);
-        setData(response.data);
+        console.log(response.data.data);
+        setData(response.data.data);
         setLoading(false);
     }
 
@@ -23,7 +23,9 @@ export const Dashboard: React.FC = () => {
             <p>Current user: {currentUser?.email}</p>
             <button onClick={handleGetData}>charger les données</button>
             {loading && <p>Chargement...</p>}
-            {data && <p>{data}</p>}
+            {data && data.map((item) => (
+                <p key={item?.id}>{item?.email}</p>
+            ))}
         </div>
     )
 }
