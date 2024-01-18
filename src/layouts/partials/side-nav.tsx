@@ -13,6 +13,7 @@ import {Scrollbar} from '@/layouts/partials/scrollbar';
 import {items} from '@/layouts/partials/config';
 import {SideNavItem} from '@/layouts/partials/side-nav-item';
 import {NavItem} from "@/types/NavItem";
+import {WithRole} from "@/components/WithRole.tsx";
 
 type SideNavProps = {
     onClose?: () => void;
@@ -79,16 +80,19 @@ export const SideNav: React.FC<SideNavProps> = ({onClose, open}) => {
                         }}
                     >
                         {items.map((item: NavItem) => {
+                            if(typeof item.role === 'undefined' || item.role.length === 0) return null;
                             return (
-                                <SideNavItem
-                                    active={location.pathname === item.path}
-                                    disabled={item.disabled}
-                                    external={item.external}
-                                    icon={item.icon}
-                                    key={item.title}
-                                    path={item.path}
-                                    title={item.title}
-                                />
+                                <WithRole role={item.role} key={item.title}>
+                                    <SideNavItem
+                                        active={location.pathname === item.path}
+                                        disabled={item.disabled}
+                                        external={item.external}
+                                        icon={item.icon}
+                                        key={item.title}
+                                        path={item.path}
+                                        title={item.title}
+                                    />
+                                </WithRole>
                             );
                         })}
                     </Stack>

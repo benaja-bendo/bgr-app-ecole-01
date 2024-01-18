@@ -4,13 +4,14 @@ import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 import {Box, Button, Container, Stack, SvgIcon, TextField, Typography} from '@mui/material';
 import {subDays, subHours} from 'date-fns';
-import {CustomersTable} from '@/components/customer/customers-table';
+import {CustomersTable} from '@/components/customer/customers-table.tsx';
 import {CustomersSearch} from '@/components/customer/customers-search.tsx';
-import {useSelection} from '@/hooks/use-selection';
+import {useSelection} from '@/hooks/use-selection.ts';
 import {Customer} from "@/types/Customer.ts";
 import ModalAddStudent from "@/components/ModalAddStudent.tsx";
 import {useCustomers} from "@/hooks/use-customers.ts";
 import {useCustomerIds} from "@/hooks/use-customer-ids.ts";
+import {useRequireRole} from "@/hooks/use-require-role.ts";
 
 const now = new Date();
 
@@ -157,7 +158,8 @@ const data: Customer[] = [
     }
 ];
 
-export const Customers: React.FC = () => {
+export const Teachers: React.FC = () => {
+    useRequireRole(['root']);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const customers = useCustomers(data, page, rowsPerPage);

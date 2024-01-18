@@ -1,6 +1,6 @@
-export type RoleType = 'root' | 'admin' | 'student' | 'teacher' | 'parent' | 'guest';
+export type RoleType = 'root' | 'admin_school' | 'student' | 'teacher' | 'parent' | 'guest';
 
 export type Role = {
-    type: RoleType | RoleType[];
+    type: RoleType;
     permissions?: string[];
 }
