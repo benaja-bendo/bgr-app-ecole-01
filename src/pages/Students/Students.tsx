@@ -1,8 +1,8 @@
-import React, {FormEvent, useCallback, useState} from "react";
+import React, {useCallback, useState} from "react";
 import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
 import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
-import {Box, Button, Container, Stack, SvgIcon, TextField, Typography} from '@mui/material';
+import {Box, Button, Container, Stack, SvgIcon, Typography} from '@mui/material';
 import {subDays, subHours} from 'date-fns';
 import {CustomersTable} from '@/components/customer/customers-table.tsx';
 import {CustomersSearch} from '@/components/customer/customers-search.tsx';
@@ -11,6 +11,7 @@ import {Customer} from "@/types/Customer.ts";
 import ModalAddStudent from "@/components/ModalAddStudent.tsx";
 import {useCustomers} from "@/hooks/use-customers.ts";
 import {useCustomerIds} from "@/hooks/use-customer-ids.ts";
+import {CreateStudent} from "@/pages/Students/components/CreateStudent.tsx";
 
 const now = new Date();
 
@@ -184,10 +185,6 @@ export const Students: React.FC = () => {
     const handleCloseAddStudent = () => {
         setOpenModalAddStudent(false);
     }
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-        console.log(e);
-        handleCloseAddStudent();
-    }
 
     return (<>
         <Box
@@ -267,30 +264,7 @@ export const Students: React.FC = () => {
             </Container>
         </Box>
         {openModalAddStudent && (<ModalAddStudent isOpen={openModalAddStudent} onClose={handleCloseAddStudent}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-                Text in a modal
-            </Typography>
-            <form onSubmit={handleSubmit}>
-                <TextField
-                    label="Nom"
-                    type="text"
-                    required
-                    fullWidth
-                />
-                <TextField
-                    label="Prénom"
-                    type="text"
-                    required
-                    fullWidth
-                />
-                <TextField
-                    label="Email"
-                    type="email"
-                    required
-                    fullWidth
-                />
-                <button type="submit">Ajouter</button>
-            </form>
+            <CreateStudent handleCloseAddStudent={handleCloseAddStudent}/>
         </ModalAddStudent>)}
     </>)
 }
