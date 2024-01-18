@@ -16,6 +16,7 @@ export const items: NavItem[] = [
         active: true,
         disabled: false,
         external: false,
+        role: ['root','student', 'teacher', 'admin_school'],
     },
     {
         title: 'Gestion des étudiants',
@@ -28,6 +29,7 @@ export const items: NavItem[] = [
         active: false,
         disabled: false,
         external: false,
+        role: ['root','admin_school'],
     },
     {
         title: 'Gestion des professeurs',
@@ -40,5 +42,6 @@ export const items: NavItem[] = [
         active: false,
         disabled: false,
         external: false,
+        role: ['root','admin_school'],
     },
 ];

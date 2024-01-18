@@ -1,13 +1,13 @@
 import HttpService from '@/services/HttpService.ts';
 import {Tuser} from "@/types/Tuser.ts";
-import config from "@/utils/config.ts";
+import config from "@/utils/config-app.ts";
 import {ResponseLoginAction} from "@/types/ResponseLoginAction.ts";
 import {ResponseApi} from "@/types/ResponseApi.ts";
 
 interface AuthServiceProps {
     isAuthenticated: boolean;
     user: object | Tuser;
-    signin(username: string, password: string,school_name: string): Promise<void>;
+    signin(email: string, password: string,school_name: string): Promise<void>;
     signout(): Promise<void>;
 }
 
@@ -23,9 +23,9 @@ class AuthService implements AuthServiceProps {
         return null;
     }
 
-    async signin(username: string, password: string, school_name: string) {
+    async signin(email: string, password: string, school_name: string) {
         try {
-            const response = await HttpService.post<ResponseApi<ResponseLoginAction>>(config.api.routes.login, { username, password, school_name });
+            const response = await HttpService.post<ResponseApi<ResponseLoginAction>>(config.api.routes.login, { email, password, school_name });
             if (response.status === 200) {
                 const { token, user,tenant_id } = response.data.data;
                 localStorage.setItem('token', token);

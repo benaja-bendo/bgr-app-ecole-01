@@ -1,4 +1,5 @@
 import React from "react";
+import {RoleType} from "@/types/Role.ts";
 
 export type NavItem = {
     title: string;
@@ -7,4 +8,5 @@ export type NavItem = {
     active?: boolean;
     disabled?: boolean;
     external?: boolean;
+    role?: RoleType | RoleType[];
 }

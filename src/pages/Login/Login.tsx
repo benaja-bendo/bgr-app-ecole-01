@@ -11,7 +11,7 @@ export const Login: FC = () => {
     const from = params.get("from") || "/";
     const navigation = useNavigation();
 
-    const isLoggingIn = navigation.formData?.get("username") != null;
+    const isLoggingIn = navigation.formData?.get("email") != null;
 
     const actionData = useActionData() as { error: string } | undefined;
     const handleMethodChange = useCallback(
@@ -72,9 +72,9 @@ export const Login: FC = () => {
                                 />
                                 <TextField
                                     fullWidth
-                                    value={"root@gmail.com"}
+                                    autoFocus
                                     label="Email Address"
-                                    name="username"
+                                    name="email"
                                     type="email"
                                     required
                                 />
@@ -108,7 +108,7 @@ export const Login: FC = () => {
                                 sx={{mt: 3}}
                             >
                                 <div>
-                                    You can use <b>root@gmail.com</b> and password <b>password</b>
+                                    You can use <b>root@example.com</b> and password <b>password</b>
                                 </div>
                             </Alert>
                         </Form>
