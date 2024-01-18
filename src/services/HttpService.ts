@@ -1,5 +1,5 @@
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
-import config from "@/utils/config.ts";
+import config from "@/utils/config-app.ts";
 
 class HttpService {
     private axiosInstance: AxiosInstance;
