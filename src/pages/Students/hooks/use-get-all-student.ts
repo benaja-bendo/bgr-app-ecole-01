@@ -1,27 +1,27 @@
 import {useEffect,useState} from 'react';
+import { useQuery } from 'react-query';
 import StudentService from "@/services/studentService.ts";
 import {Student} from "@/types/Student.ts";
 
 export function useGetAllStudent() {
-    const [loading, setLoading] = useState(true)
-    const [dataStudent, setDataStudent] = useState<Student[]>([] as Student[])
-    const [errors, setErrors] = useState(null)
+const [students, setStudents] = useState<Student[]>([]);
 
-    useEffect(() => {
-        setLoading(true)
-        StudentService.getAllStudents()
-            .then((res) => {
-                setDataStudent(res)
-                setLoading(false)
-            })
-            .catch((err) => {
-                console.error('err', err)
-                setErrors(err)
-                setLoading(false)
-            })
-    }, []);
-
-    return {
-        loading, dataStudent, errors
+  const { data, isLoading } = useQuery<Student[]>(
+    "students",
+    () => StudentService.getAllStudents(),
+    {
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => {
+        setStudents(data);
+      },
     }
+  );
+
+  useEffect(() => {
+    if (data) {
+      setStudents(data);
+    }
+  }, [data]);
+
+  return { students, isLoading };
 }

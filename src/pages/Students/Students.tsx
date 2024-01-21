@@ -17,10 +17,10 @@ import {useStudents} from "@/pages/Students/hooks/use-students.ts";
 
 export const Students: React.FC = () => {
     useRequireRole(['root']);
-    const { dataStudent} = useGetAllStudent();
+    const { students:rawStudents} = useGetAllStudent();
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const students = useStudents(dataStudent , currentPageNumber, rowsPerPage);
+    const students = useStudents(rawStudents , currentPageNumber, rowsPerPage);
     const studentIds = useStudentIds(students);
     const studentsSelection = useSelection(studentIds);
     const [openModalAddStudent, setOpenModalAddStudent] = useState(false);
@@ -54,6 +54,7 @@ export const Students: React.FC = () => {
             }}
         >
             <Container maxWidth="xl">
+                <BasicBreadcrumbs/>
                 <Stack spacing={3}>
                     <Stack
                         direction="row"
@@ -107,7 +108,7 @@ export const Students: React.FC = () => {
                     </Stack>
                     <CustomersSearch/>
                     <StudentsTable
-                        count={dataStudent?.length}
+                        count={rawStudents?.length}
                         items={students}
                         onDeselectAll={studentsSelection.handleDeselectAll}
                         onDeselectOne={studentsSelection.handleDeselectOne}
