@@ -9,7 +9,6 @@ export function useRequireRole(requiredRole: RoleType|RoleType[]) {
 
     useEffect(() => {
         if (!currentUser) {
-            navigate('/');
             return;
         }
 
