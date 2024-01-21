@@ -6,6 +6,9 @@ export interface Route {
         profile: string;
         settings: string;
     };
+    students: {
+        getAll: string;
+    };
 }
 
 const configRoutes: Route = {
@@ -15,6 +18,9 @@ const configRoutes: Route = {
     user: {
         profile: '/user/profile',
         settings: '/user/settings'
+    },
+    students: {
+        getAll: '/students',
     },
 };
 
