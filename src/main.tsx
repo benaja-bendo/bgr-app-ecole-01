@@ -6,14 +6,20 @@ import {CssBaseline} from '@mui/material';
 
 import {Router} from '@/routes';
 import {createTheme} from '@/theme';
+import {QueryClient, QueryClientProvider} from "react-query";
+import {ReactQueryDevtools} from "react-query/devtools";
 
 const theme = createTheme();
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
+        <QueryClientProvider client={queryClient}>
+            <ReactQueryDevtools initialIsOpen={false}/>
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
                 <RouterProvider router={Router} fallbackElement={<div>Loading...</div>}/>
             </ThemeProvider>
+        </QueryClientProvider>
     </React.StrictMode>,
 )
