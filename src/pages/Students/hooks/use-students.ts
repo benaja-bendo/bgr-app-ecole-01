@@ -10,6 +10,6 @@ export function useStudents  (data: Student[], page: number, rowsPerPage: number
     );
 }
 
-function applyPagination(documents: Student[], page: number, rowsPerPage: number): Student[] {
-    return documents.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+function applyPagination(data: Student[], page: number, rowsPerPage: number): Student[] {
+    return data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 }
