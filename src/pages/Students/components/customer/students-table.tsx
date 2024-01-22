@@ -1,9 +1,9 @@
-import { FC,MouseEvent,ChangeEvent } from 'react';
-import { format } from 'date-fns';
+import {FC, MouseEvent, ChangeEvent} from 'react';
+import {format} from 'date-fns';
 import {
     Avatar,
     Box,
-    Card,
+    Button,
     Checkbox,
     Stack,
     Table,
@@ -14,15 +14,14 @@ import {
     TableRow,
     Typography
 } from '@mui/material';
-import { Scrollbar } from '@/components/scrollbar';
-import { getInitials } from '@/utils/get-initials';
+import {getInitials} from '@/utils/get-initials';
 import {Student} from "@/types/Student.ts";
-
+import {Form} from "react-router-dom";
 
 
 type StudentsTableProps<T = unknown> = {
     count?: number;
-    items?: T[];
+    students?: T[];
     onDeselectAll?: () => void;
     onDeselectOne?: (id: string) => void;
     onPageChange?: (event: MouseEvent<HTMLButtonElement> | null, page: number) => void;
@@ -34,13 +33,14 @@ type StudentsTableProps<T = unknown> = {
     selected?: string[];
 }
 
-export const StudentsTable : FC<StudentsTableProps<Student>> = (props) => {
+export const StudentsTable: FC<StudentsTableProps<Student>> = (props) => {
     const {
         count = 0,
-        items = [],
+        students = [],
         onDeselectAll,
         onDeselectOne,
-        onPageChange = () => {},
+        onPageChange = () => {
+        },
         onRowsPerPageChange,
         onSelectAll,
         onSelectOne,
@@ -48,110 +48,124 @@ export const StudentsTable : FC<StudentsTableProps<Student>> = (props) => {
         rowsPerPage = 0,
         selected = []
     } = props;
-    const selectedSome = (selected.length > 0) && (selected.length < items.length);
-    const selectedAll = (items.length > 0) && (selected.length === items.length);
-    return (
-        <Card>
-            <Scrollbar>
-                <Box sx={{ minWidth: 800 }}>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
+    const selectedSome = (selected.length > 0) && (selected.length < students.length);
+    const selectedAll = (students.length > 0) && (selected.length === students.length);
+    return (<>
+        <Box sx={{minWidth: 800}}>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell padding="checkbox">
+                            <Checkbox
+                                checked={selectedAll}
+                                indeterminate={selectedSome}
+                                onChange={(event) => {
+                                    if (event.target.checked) {
+                                        onSelectAll?.();
+                                    } else {
+                                        onDeselectAll?.();
+                                    }
+                                }}
+                            />
+                        </TableCell>
+                        {selected.length > 0 ? (<TableCellHasSelected selected={selected}/>) : (
+                            <TableCellHasNotSelected/>)}
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {students.map((student) => {
+                        const isSelected = selected.includes(student.id);
+                        const createdAt = format(student.created_at, 'dd/MM/yyyy');
+
+                        return (
+                            <TableRow
+                                hover
+                                key={student.id}
+                                selected={isSelected}
+                            >
                                 <TableCell padding="checkbox">
                                     <Checkbox
-                                        checked={selectedAll}
-                                        indeterminate={selectedSome}
+                                        checked={isSelected}
                                         onChange={(event) => {
                                             if (event.target.checked) {
-                                                onSelectAll?.();
+                                                onSelectOne?.(student.id);
                                             } else {
-                                                onDeselectAll?.();
+                                                onDeselectOne?.(student.id);
                                             }
                                         }}
                                     />
                                 </TableCell>
                                 <TableCell>
-                                    Name
+                                    <Stack
+                                        alignItems="center"
+                                        direction="row"
+                                        spacing={2}
+                                    >
+                                        <Avatar src={student.avatar}>
+                                            {getInitials(student.last_name)}
+                                        </Avatar>
+                                        <Typography variant="subtitle2">
+                                            {student.last_name} {student.first_name}
+                                        </Typography>
+                                    </Stack>
                                 </TableCell>
                                 <TableCell>
-                                    Email
+                                    {student.email}
                                 </TableCell>
                                 <TableCell>
-                                    Location
+                                    {student.address.city}, {student.address.state}, {student.address.country}
                                 </TableCell>
                                 <TableCell>
-                                    Phone
+                                    {student.phone.number}
                                 </TableCell>
                                 <TableCell>
-                                    Signed Up
+                                    {createdAt}
                                 </TableCell>
                             </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {items.map((customer) => {
-                                const isSelected = selected.includes(customer.id);
-                                const createdAt = format(customer.created_at, 'dd/MM/yyyy');
+                        );
+                    })}
+                </TableBody>
+            </Table>
+        </Box>
+        <TablePagination
+            component="div"
+            count={count}
+            onPageChange={onPageChange}
+            onRowsPerPageChange={onRowsPerPageChange}
+            page={page}
+            rowsPerPage={rowsPerPage}
+            rowsPerPageOptions={[5, 10, 25]}
+        />
+    </>);
+}
 
-                                return (
-                                    <TableRow
-                                        hover
-                                        key={customer.id}
-                                        selected={isSelected}
-                                    >
-                                        <TableCell padding="checkbox">
-                                            <Checkbox
-                                                checked={isSelected}
-                                                onChange={(event) => {
-                                                    if (event.target.checked) {
-                                                        onSelectOne?.(customer.id);
-                                                    } else {
-                                                        onDeselectOne?.(customer.id);
-                                                    }
-                                                }}
-                                            />
-                                        </TableCell>
-                                        <TableCell>
-                                            <Stack
-                                                alignItems="center"
-                                                direction="row"
-                                                spacing={2}
-                                            >
-                                                <Avatar src={customer.avatar}>
-                                                    {getInitials(customer.last_name)}
-                                                </Avatar>
-                                                <Typography variant="subtitle2">
-                                                    {customer.last_name} {customer.first_name}
-                                                </Typography>
-                                            </Stack>
-                                        </TableCell>
-                                        <TableCell>
-                                            {customer.email}
-                                        </TableCell>
-                                        <TableCell>
-                                            {customer.address.city}, {customer.address.state}, {customer.address.country}
-                                        </TableCell>
-                                        <TableCell>
-                                            {customer.phone.number}
-                                        </TableCell>
-                                        <TableCell>
-                                            {createdAt}
-                                        </TableCell>
-                                    </TableRow>
-                                );
-                            })}
-                        </TableBody>
-                    </Table>
-                </Box>
-            </Scrollbar>
-            <TablePagination
-                component="div"
-                count={count}
-                onPageChange={onPageChange}
-                onRowsPerPageChange={onRowsPerPageChange}
-                page={page}
-                rowsPerPage={rowsPerPage}
-                rowsPerPageOptions={[5, 10, 25]}
-            />
-        </Card>
-    );
+function TableCellHasNotSelected() {
+    return (<>
+        <TableCell>
+            Name
+        </TableCell>
+        <TableCell>
+            Email
+        </TableCell>
+        <TableCell>
+            Location
+        </TableCell>
+        <TableCell>
+            Phone
+        </TableCell>
+        <TableCell>
+            Signed Up
+        </TableCell>
+    </>);
+}
+
+function TableCellHasSelected({selected}: { selected: string[] }) {
+    const method = selected.length == 1 ? 'delete' : 'post';
+    return (<TableCell>
+        <Box sx={{display: 'block'}}>
+            <Form method={method} action="/students">
+                <Button name={"ids"} value={selected} type="submit">Delete</Button>
+            </Form>
+        </Box>
+    </TableCell>);
 }

@@ -14,6 +14,7 @@ import {loginAction} from "@/routes/actions/loginAction.ts";
 import {LogoutAction} from "@/routes/actions/logoutAction.ts";
 import {CustomErrorBoundary} from "@/components/CustomErrorBoundary.tsx";
 import {Teachers} from "@/pages/Teachers/Teachers.tsx";
+import {studentAction} from "@/routes/actions/studentAction.ts";
 
 const routes: RouteObject[] = [
     {
@@ -29,7 +30,11 @@ const routes: RouteObject[] = [
                 path: "/",
                 Component: Dashboard,
             },
-            {path: "/students", element: <Students/>},
+            {
+                path: "/students",
+                Component: Students,
+                action: studentAction,
+            },
             {path: "/teachers", element: <Teachers/>},
             {path: "/about", element: <div>About</div>},
         ]

@@ -1,26 +1,23 @@
 import React, {useCallback, useState} from "react";
-import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
-import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
-import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
-import {Box, Button, Container, Stack, SvgIcon, Typography} from '@mui/material';
+import {Box, Card, Container, Stack} from '@mui/material';
 import {StudentsTable} from '@/pages/Students/components/customer/students-table.tsx';
 import {CustomersSearch} from '@/components/customer/customers-search.tsx';
 import {useSelection} from '@/hooks/use-selection.ts';
 import ModalAddStudent from "@/components/ModalAddStudent.tsx";
 import {CreateStudent} from "@/pages/Students/components/CreateStudent.tsx";
 import {useRequireRole} from "@/hooks/use-require-role.ts";
-
 import {useGetAllStudent} from "@/pages/Students/hooks/use-get-all-student.ts";
 import {useStudentIds} from "@/pages/Students/hooks/use-student-ids.ts";
 import {useStudents} from "@/pages/Students/hooks/use-students.ts";
+import {HeaderPage01} from "@/components/HeaderPage01.tsx";
 
 
 export const Students: React.FC = () => {
     useRequireRole(['root']);
-    const { students:rawStudents} = useGetAllStudent();
+    const {students: rawStudents} = useGetAllStudent();
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const students = useStudents(rawStudents , currentPageNumber, rowsPerPage);
+    const students = useStudents(rawStudents, currentPageNumber, rowsPerPage);
     const studentIds = useStudentIds(students);
     const studentsSelection = useSelection(studentIds);
     const [openModalAddStudent, setOpenModalAddStudent] = useState(false);
@@ -46,85 +43,31 @@ export const Students: React.FC = () => {
     }
 
     return (<>
-        <Box
-            component="main"
-            sx={{
-                flexGrow: 1,
-                py: 8
-            }}
-        >
+        <Box component="main" sx={{flexGrow: 1, py: 8}}>
             <Container maxWidth="xl">
-                <BasicBreadcrumbs/>
                 <Stack spacing={3}>
-                    <Stack
-                        direction="row"
-                        justifyContent="space-between"
-                        spacing={4}
-                    >
-                        <Stack spacing={1}>
-                            <Typography variant="h4">
-                                Customers
-                            </Typography>
-                            <Stack
-                                alignItems="center"
-                                direction="row"
-                                spacing={1}
-                            >
-                                <Button
-                                    color="inherit"
-                                    startIcon={(
-                                        <SvgIcon fontSize="small">
-                                            <ArrowUpOnSquareIcon/>
-                                        </SvgIcon>
-                                    )}
-                                >
-                                    Import
-                                </Button>
-                                <Button
-                                    color="inherit"
-                                    startIcon={(
-                                        <SvgIcon fontSize="small">
-                                            <ArrowDownOnSquareIcon/>
-                                        </SvgIcon>
-                                    )}
-                                >
-                                    Export
-                                </Button>
-                            </Stack>
-                        </Stack>
-                        <div>
-                            <Button
-                                startIcon={(
-                                    <SvgIcon fontSize="small">
-                                        <PlusIcon/>
-                                    </SvgIcon>
-                                )}
-                                variant="contained"
-                                onClick={handleOpenAddStudent}
-                            >
-                                Ajouter un étudiant
-                            </Button>
-                        </div>
-                    </Stack>
-                    <CustomersSearch/>
-                    <StudentsTable
-                        count={rawStudents?.length}
-                        items={students}
-                        onDeselectAll={studentsSelection.handleDeselectAll}
-                        onDeselectOne={studentsSelection.handleDeselectOne}
-                        onPageChange={handlePageChange}
-                        onRowsPerPageChange={handleRowsPerPageChange}
-                        onSelectAll={studentsSelection.handleSelectAll}
-                        onSelectOne={studentsSelection.handleSelectOne}
-                        page={currentPageNumber}
-                        rowsPerPage={rowsPerPage}
-                        selected={studentsSelection.selected}
-                    />
+                    <HeaderPage01 handleOpenAddStudent={handleOpenAddStudent}/>
+                    <Card>
+                        <CustomersSearch/>
+                        <StudentsTable
+                            count={rawStudents?.length}
+                            students={students}
+                            onDeselectAll={studentsSelection.handleDeselectAll}
+                            onDeselectOne={studentsSelection.handleDeselectOne}
+                            onPageChange={handlePageChange}
+                            onRowsPerPageChange={handleRowsPerPageChange}
+                            onSelectAll={studentsSelection.handleSelectAll}
+                            onSelectOne={studentsSelection.handleSelectOne}
+                            page={currentPageNumber}
+                            rowsPerPage={rowsPerPage}
+                            selected={studentsSelection.selected}
+                        />
+                    </Card>
                 </Stack>
             </Container>
         </Box>
         {openModalAddStudent && (<ModalAddStudent isOpen={openModalAddStudent} onClose={handleCloseAddStudent}>
-            <CreateStudent handleCloseAddStudent={handleCloseAddStudent}/>
+            <CreateStudent/>
         </ModalAddStudent>)}
     </>)
 }
