@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link,useLocation} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 import {
     Box,
     Divider,
@@ -8,12 +8,12 @@ import {
     useMediaQuery,
     Theme
 } from '@mui/material';
-import {Logo} from '@/components/svg/logo';
 import {Scrollbar} from '@/layouts/partials/scrollbar';
 import {items} from '@/layouts/partials/config';
 import {SideNavItem} from '@/layouts/partials/side-nav-item';
 import {NavItem} from "@/types/NavItem";
 import {WithRole} from "@/components/WithRole.tsx";
+import {LogoTenant} from "@/components/LogoTenant.tsx";
 
 type SideNavProps = {
     onClose?: () => void;
@@ -49,17 +49,9 @@ export const SideNav: React.FC<SideNavProps> = ({onClose, open}) => {
                     height: '100%'
                 }}
             >
-                <Box sx={{p: 3}}>
-                    <Box
-                        component={Link}
-                        sx={{
-                            display: 'inline-flex',
-                            height: 45,
-                            width: 45
-                        }}
-                    >
-                        <Logo/>
-                    </Box>
+                <Box sx={{p: 2,display: 'flex',justifyContent: 'center',alignItems: 'center',gap: 2}}>
+                    <LogoTenant/>
+                    <span>-</span>
                 </Box>
                 <Divider sx={{borderColor: 'neutral.700'}}/>
                 <Box
