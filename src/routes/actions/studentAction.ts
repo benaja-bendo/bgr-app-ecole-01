@@ -1,5 +1,5 @@
 import {ActionFunctionArgs} from "@remix-run/router/utils.ts";
-import {json} from "react-router-dom";
+import {json, redirect} from "react-router-dom";
 import {ResponseThrow} from "@/types/ResponseThrow.ts";
 import {convertFormDataToObject} from "@/utils/convert-formData-to-object.ts";
 import {AxiosError} from "axios";
@@ -8,7 +8,7 @@ import StudentService from "@/services/studentService.ts";
 export const studentAction = async ({request}: ActionFunctionArgs) => {
     switch (request.method) {
         case "GET": {
-            console.log("GET");
+            console.info("GET");
             return {};
         }
         case "POST": {
@@ -39,8 +39,9 @@ async function PostController(promiseFormData: Promise<FormData>) {
             email: dataObject.email as string,
             first_name: dataObject.first_name as string,
             last_name: dataObject.last_name as string,
-            birth_date: null,
+            birth_date: dataObject.birth_date as string,
         });
+        return redirect("/");
     } catch (error) {
         // TODO: translate this error message
         const err = error as AxiosError;
@@ -48,7 +49,6 @@ async function PostController(promiseFormData: Promise<FormData>) {
             message: err.message,
         }, 401);
     }
-    return {};
 }
 
 async function DeleteController(promiseFormData: Promise<FormData>) {

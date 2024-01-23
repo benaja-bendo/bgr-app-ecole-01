@@ -10,10 +10,15 @@ import {useGetAllStudent} from "@/pages/Students/hooks/use-get-all-student.ts";
 import {useStudentIds} from "@/pages/Students/hooks/use-student-ids.ts";
 import {useStudents} from "@/pages/Students/hooks/use-students.ts";
 import {HeaderPage01} from "@/components/HeaderPage01.tsx";
+import {useActionData, useLoaderData} from "react-router-dom";
 
 
 export const Students: React.FC = () => {
     useRequireRole(['root']);
+    const loaderData = useLoaderData();
+    const actionsData = useActionData();
+    console.log('loaderData :>> ', loaderData);
+    console.log('actionsData :>> ', actionsData);
     const {students: rawStudents} = useGetAllStudent();
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);

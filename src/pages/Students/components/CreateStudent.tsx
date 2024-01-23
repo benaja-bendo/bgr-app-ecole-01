@@ -17,7 +17,7 @@ interface CreateStudentProps {
 export const CreateStudent: FC<CreateStudentProps> = () => {
     return (<>
         <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
+            Formulaire de création d'un étudiant
         </Typography>
         <Form method="post" action="/students">
             <TextField
@@ -42,8 +42,7 @@ export const CreateStudent: FC<CreateStudentProps> = () => {
                 fullWidth
             />
             <TextField
-                label="birth_date"
-                type="text"
+                type="date"
                 name={'birth_date'}
                 fullWidth
             />
