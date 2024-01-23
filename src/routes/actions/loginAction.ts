@@ -12,9 +12,6 @@ interface FormDataValues {
 }
 export const loginAction = async ({request}: ActionFunctionArgs) => {
     const formData = await request.formData();
-    // const data = Object.fromEntries(formData.entries());
-    // console.log(data);
-
     const {password, redirectTo, school_name, email}: FormDataValues = {
         email: formData.get("email") as string | null,
         password: formData.get("password") as string | null,

@@ -7,11 +7,21 @@ export type Tuser = {
         country: string;
         state: string;
         street: string;
+        postal_code: string;
     };
     avatar: string;
-    createdAt: number;
+    created_at: string;
+    updated_at: string;
     email: string;
-    name: string;
-    phone: string;
+    gender: string;
+    birth_date: string;
+    email_verified_at: string;
+    last_name: string;
+    first_name: string;
+    middle_names: string;
+    phone: {
+        number: string;
+        type: string;
+    };
     role: Role
 }

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC,MouseEvent,ChangeEvent } from 'react';
 import { format } from 'date-fns';
 import {
     Avatar,
@@ -25,8 +25,8 @@ type CustomersTableProps = {
     items?: Customer[];
     onDeselectAll?: () => void;
     onDeselectOne?: (id: string) => void;
-    onPageChange?: (event: React.MouseEvent<HTMLButtonElement> | null, page: number) => void;
-    onRowsPerPageChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    onPageChange?: (event: MouseEvent<HTMLButtonElement> | null, page: number) => void;
+    onRowsPerPageChange?: (event: ChangeEvent<HTMLInputElement>) => void;
     onSelectAll?: () => void;
     onSelectOne?: (id: string) => void;
     page?: number;
