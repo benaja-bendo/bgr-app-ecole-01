@@ -1,6 +1,6 @@
 import {FC, ReactNode} from 'react';
-import {Modal, Box, Fade, Backdrop} from "@mui/material";
-
+import {Modal, Fade, Backdrop, Stack, IconButton} from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 
 interface IModalAddStudentProps {
     isOpen: boolean;
@@ -8,7 +8,7 @@ interface IModalAddStudentProps {
     children?: ReactNode | ReactNode[];
 }
 
-const style = {
+const styleModal = {
     position: 'absolute',
     top: '50%',
     left: '50%',
@@ -23,12 +23,13 @@ const style = {
 const ModalAddStudent: FC<IModalAddStudentProps> = ({isOpen, onClose, children}) => {
     return (
         <Modal
+            disableEnforceFocus
             keepMounted
+            closeAfterTransition
             open={isOpen}
-            onClose={onClose}
+            // onClose={onClose}
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
-            closeAfterTransition
             slots={{backdrop: Backdrop}}
             slotProps={{
                 backdrop: {
@@ -37,9 +38,16 @@ const ModalAddStudent: FC<IModalAddStudentProps> = ({isOpen, onClose, children})
             }}
         >
             <Fade in={isOpen}>
-                <Box sx={style}>
-                    {children}
-                </Box>
+                <Stack sx={styleModal} spacing={2}>
+                    <Stack direction="row">
+                        <IconButton aria-label="close" color="success" sx={{marginLeft:'auto'}} onClick={onClose}>
+                            <CloseIcon />
+                        </IconButton>
+                    </Stack>
+                    <Stack>
+                        {children}
+                    </Stack>
+                </Stack>
             </Fade>
         </Modal>
     );
