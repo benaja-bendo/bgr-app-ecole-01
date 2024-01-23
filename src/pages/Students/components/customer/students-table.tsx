@@ -4,19 +4,21 @@ import {
     Avatar,
     Box,
     Button,
-    Checkbox,
+    Checkbox, IconButton,
     Stack,
     Table,
     TableBody,
     TableCell,
     TableHead,
     TablePagination,
-    TableRow,
+    TableRow, Tooltip,
     Typography
 } from '@mui/material';
 import {getInitials} from '@/utils/get-initials';
 import {Student} from "@/types/Student.ts";
-import {Form} from "react-router-dom";
+import {Form, Link} from "react-router-dom";
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import EastOutlinedIcon from '@mui/icons-material/EastOutlined';
 
 
 type StudentsTableProps<T = unknown> = {
@@ -121,6 +123,26 @@ export const StudentsTable: FC<StudentsTableProps<Student>> = (props) => {
                                 <TableCell>
                                     {createdAt}
                                 </TableCell>
+                                <TableCell>
+                                    <Stack alignItems="center"
+                                           direction="row"
+                                           spacing={2}>
+                                        <Tooltip title="modifier" >
+                                        <Link to={`/students/${student.id}/edit`}>
+                                            <IconButton aria-label="delete">
+                                                <EditOutlinedIcon/>
+                                            </IconButton>
+                                        </Link>
+                                        </Tooltip>
+                                        <Tooltip title="profile">
+                                        <Link to={`/students/${student.id}`}>
+                                            <IconButton aria-label="delete">
+                                                <EastOutlinedIcon/>
+                                            </IconButton>
+                                        </Link>
+                                        </Tooltip>
+                                    </Stack>
+                                </TableCell>
                             </TableRow>
                         );
                     })}
@@ -155,6 +177,9 @@ function TableCellHasNotSelected() {
         </TableCell>
         <TableCell>
             Signed Up
+        </TableCell>
+        <TableCell>
+            Actions
         </TableCell>
     </>);
 }
