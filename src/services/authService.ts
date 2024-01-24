@@ -13,7 +13,7 @@ interface AuthServiceProps {
 
 class AuthService implements AuthServiceProps {
     get isAuthenticated() {
-        return localStorage.getItem('token') !== null;
+        return localStorage.getItem('token') !== null && localStorage.getItem('user') !== null;
     }
     get user() {
         const user = localStorage.getItem('user');
