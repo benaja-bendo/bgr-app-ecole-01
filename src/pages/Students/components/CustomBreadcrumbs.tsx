@@ -1,31 +1,44 @@
-import {Link, useLocation} from "react-router-dom";
+import {FC} from "react";
+import {Link} from "react-router-dom";
 import {Breadcrumbs} from "@mui/material";
-import React from "react";
+import useReactRouterBreadcrumbs from "use-react-router-breadcrumbs";
 
-export default function CustomBreadcrumbs() {
-    const location = useLocation();
-    const pathnames = location.pathname.split('/').filter((x) => x);
+const styleInactiveLink = {
+    color: '#757575',
+    textDecoration: 'none',
+    fontSize: '16px',
+    padding: '5px',
+    borderRadius: '5px',
+    fontWeight: 'bold',
+}
+const styleActiveLink = {
+    color: '#1976d2',
+    textDecoration: 'none',
+    fontSize: '16px',
+    padding: '5px',
+    borderRadius: '5px',
+    transition: 'background-color 0.3s',
+    ':hover': {
+        backgroundColor: '#1976d2',
+        color: '#fff',
+    },
+}
 
-    function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-        event.preventDefault();
-        console.info('You clicked a breadcrumb.');
-    }
-
-    return (<div role="presentation" onClick={handleClick}>
+export const CustomBreadcrumbs: FC = () => {
+    const breadcrumbs = useReactRouterBreadcrumbs();
+    return (<>
         <Breadcrumbs aria-label="breadcrumb" separator="›" maxItems={3}>
-            <Link color="inherit" to="/">
-                Home
-            </Link>
-            {pathnames.map((value, index) => {
-                const last = index === pathnames.length - 1;
-                const to = `/${pathnames.slice(0, index + 1).join('/')}`;
-
-                return last ? (
-                    <Link color="inherit" to={to} key={to}>
-                        {value}
+            {breadcrumbs.map(({breadcrumb, match}, index) => {
+                if (index === breadcrumbs.length - 1) {
+                    return <span key={index} style={styleInactiveLink}>
+            {breadcrumb}
+        </span>
+                } else {
+                    return <Link key={index} to={match?.pathname} style={styleActiveLink}>
+                        {breadcrumb}
                     </Link>
-                ) : null;
+                }
             })}
         </Breadcrumbs>
-    </div>);
+    </>)
 }

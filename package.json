@@ -28,7 +28,8 @@
     "react-dom": "^18.2.0",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.21.1",
-    "simplebar-react": "^3.2.4"
+    "simplebar-react": "^3.2.4",
+    "use-react-router-breadcrumbs": "^4.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

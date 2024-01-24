@@ -3,7 +3,7 @@ import {Outlet} from 'react-router-dom';
 import {styled} from "@mui/system";
 import {TopNav} from "@/layouts/partials/top-nav.tsx";
 import {SideNav} from "@/layouts/partials/side-nav.tsx";
-import CustomBreadcrumbs from "@/pages/Students/components/CustomBreadcrumbs.tsx";
+import {CustomBreadcrumbs} from "@/pages/Students/components/CustomBreadcrumbs.tsx";
 import {Box, Container} from "@mui/material";
 
 const SIDE_NAV_WIDTH = 280;
