@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from "react";
-import {Box, Card, Container, Stack} from '@mui/material';
+import { Card, Stack} from '@mui/material';
 import {StudentsTable} from '@/pages/Students/components/customer/students-table.tsx';
 import {CustomersSearch} from '@/components/customer/customers-search.tsx';
 import {useSelection} from '@/hooks/use-selection.ts';
@@ -48,29 +48,26 @@ export const Students: React.FC = () => {
     }
 
     return (<>
-        <Box component="main" sx={{flexGrow: 1}}>
-            <Container maxWidth="xl">
-                <Stack spacing={3}>
-                    <HeaderPage01 handleOpenAddStudent={handleOpenAddStudent}/>
-                    <Card>
-                        <CustomersSearch/>
-                        <StudentsTable
-                            count={rawStudents?.length}
-                            students={students}
-                            onDeselectAll={studentsSelection.handleDeselectAll}
-                            onDeselectOne={studentsSelection.handleDeselectOne}
-                            onPageChange={handlePageChange}
-                            onRowsPerPageChange={handleRowsPerPageChange}
-                            onSelectAll={studentsSelection.handleSelectAll}
-                            onSelectOne={studentsSelection.handleSelectOne}
-                            page={currentPageNumber}
-                            rowsPerPage={rowsPerPage}
-                            selected={studentsSelection.selected}
-                        />
-                    </Card>
-                </Stack>
-            </Container>
-        </Box>
+        <Stack spacing={3}>
+            <HeaderPage01 handleOpenAddStudent={handleOpenAddStudent}/>
+            <Card>
+                <CustomersSearch/>
+                <StudentsTable
+                    count={rawStudents?.length}
+                    students={students}
+                    onDeselectAll={studentsSelection.handleDeselectAll}
+                    onDeselectOne={studentsSelection.handleDeselectOne}
+                    onPageChange={handlePageChange}
+                    onRowsPerPageChange={handleRowsPerPageChange}
+                    onSelectAll={studentsSelection.handleSelectAll}
+                    onSelectOne={studentsSelection.handleSelectOne}
+                    page={currentPageNumber}
+                    rowsPerPage={rowsPerPage}
+                    selected={studentsSelection.selected}
+                />
+            </Card>
+        </Stack>
+
         {openModalAddStudent && (<ModalAddStudent isOpen={openModalAddStudent} onClose={handleCloseAddStudent}>
             <CreateStudent/>
         </ModalAddStudent>)}
