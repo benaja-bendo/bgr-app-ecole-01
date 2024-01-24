@@ -31,7 +31,7 @@ export const MainLayout: React.FC = () => {
             open={openNav}
         />
         <LayoutRoot>
-            <LayoutContainer>
+            <LayoutContainer sx={{py: 8}}>
                 <Outlet/>
             </LayoutContainer>
         </LayoutRoot>

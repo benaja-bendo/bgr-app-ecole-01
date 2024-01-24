@@ -48,7 +48,7 @@ export const Students: React.FC = () => {
     }
 
     return (<>
-        <Box component="main" sx={{flexGrow: 1, py: 8}}>
+        <Box component="main" sx={{flexGrow: 1}}>
             <Container maxWidth="xl">
                 <Stack spacing={3}>
                     <HeaderPage01 handleOpenAddStudent={handleOpenAddStudent}/>
