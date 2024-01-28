@@ -6,8 +6,8 @@ import {CssBaseline} from '@mui/material';
 
 import {Router} from '@/routes';
 import {createTheme} from '@/theme';
-import {QueryClient, QueryClientProvider} from "react-query";
-import {ReactQueryDevtools} from "react-query/devtools";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 
 const theme = createTheme();
 const queryClient = new QueryClient();
