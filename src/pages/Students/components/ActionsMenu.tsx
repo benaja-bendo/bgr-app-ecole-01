@@ -35,8 +35,8 @@ export default function ActionsMenu() {
                 }}
             >
                 <MenuItem onClick={handleClose}>Supprimer</MenuItem>
-                <MenuItem onClick={handleClose}>Banir</MenuItem>
-                <MenuItem onClick={handleClose}>Activer</MenuItem>
+                <MenuItem onClick={handleClose}>Bloquer</MenuItem>
+                <MenuItem onClick={handleClose}>Reset Password</MenuItem>
             </Menu>
         </>
     );

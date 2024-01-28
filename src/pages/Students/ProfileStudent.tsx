@@ -1,4 +1,4 @@
-import React, {FC, SyntheticEvent, useState} from 'react';
+import React, {FC, SyntheticEvent, useState,useEffect} from 'react';
 import {Avatar, Box, Button, Stack, Tab, Tabs, Typography} from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import {Invoices} from "@/pages/Students/components/tabs/Invoices.tsx";
@@ -8,6 +8,7 @@ import {NotesAndRatings} from "@/pages/Students/components/tabs/NotesAndRatings.
 import {AttendanceTracking} from "@/pages/Students/components/tabs/AttendanceTracking.tsx";
 import {InternshipsAndProjects} from "@/pages/Students/components/tabs/InternshipsAndProjects.tsx";
 import ActionsMenu from "@/pages/Students/components/ActionsMenu.tsx";
+import { useParams, useNavigate } from 'react-router-dom';
 
 const tabs = [
     {
@@ -43,6 +44,14 @@ const tabs = [
 ];
 export const ProfileStudent: FC = () => {
     const [value, setValue] = useState(tabs[0].value);
+    const { id } = useParams();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!/\d+/.test(id as string)) {
+            navigate(-1);
+        }
+    }, [id, navigate]);
 
     const handleChange = (_: SyntheticEvent, newValue: number) => {
         setValue(newValue);
