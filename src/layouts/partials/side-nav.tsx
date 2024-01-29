@@ -1,5 +1,5 @@
 import React from 'react';
-import {useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import {
     Box,
     Divider,
@@ -8,12 +8,13 @@ import {
     useMediaQuery,
     Theme
 } from '@mui/material';
-import {Scrollbar} from '@/layouts/partials/scrollbar';
-import {items} from '@/layouts/partials/config';
-import {SideNavItem} from '@/layouts/partials/side-nav-item';
-import {NavItem} from "@/types/NavItem";
-import {WithRole} from "@/components/WithRole.tsx";
-import {LogoTenant} from "@/components/LogoTenant.tsx";
+import { Scrollbar } from '@/layouts/partials/scrollbar';
+import { items } from '@/layouts/partials/config';
+import { SideNavItem } from '@/layouts/partials/side-nav-item';
+import { NavItem } from "@/types/NavItem";
+import { WithRole } from "@/components/WithRole.tsx";
+import { LogoTenant } from "@/components/LogoTenant.tsx";
+import { useTranslation } from 'react-i18next';
 
 type SideNavProps = {
     onClose?: () => void;
@@ -26,7 +27,8 @@ type SideNavProps = {
         };
     };
 }
-export const SideNav: React.FC<SideNavProps> = ({onClose, open}) => {
+export const SideNav: React.FC<SideNavProps> = ({ onClose, open }) => {
+    const { t } = useTranslation();
     const location = useLocation();
     const lgUp = useMediaQuery<Theme>((theme: Theme) => theme.breakpoints.up('lg'));
 
@@ -49,11 +51,11 @@ export const SideNav: React.FC<SideNavProps> = ({onClose, open}) => {
                     height: '100%'
                 }}
             >
-                <Box sx={{p: 2,display: 'flex',justifyContent: 'center',alignItems: 'center',gap: 2}}>
-                    <LogoTenant/>
+                <Box sx={{ p: 2, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2 }}>
+                    <LogoTenant />
                     <span>-</span>
                 </Box>
-                <Divider sx={{borderColor: 'neutral.700'}}/>
+                <Divider sx={{ borderColor: 'neutral.700' }} />
                 <Box
                     component="nav"
                     sx={{
@@ -71,25 +73,25 @@ export const SideNav: React.FC<SideNavProps> = ({onClose, open}) => {
                             m: 0
                         }}
                     >
-                        {items.map((item: NavItem) => {
-                            if(typeof item.role === 'undefined' || item.role.length === 0) return null;
+                        {items.map((item: NavItem, index: number) => {
+                            if (typeof item.role === 'undefined' || item.role.length === 0) return null;
                             return (
-                                <WithRole role={item.role} key={item.title}>
+                                <WithRole role={item.role} key={index}>
                                     <SideNavItem
                                         active={location.pathname === item.path}
                                         disabled={item.disabled}
                                         external={item.external}
                                         icon={item.icon}
-                                        key={item.title}
+                                        key={index}
                                         path={item.path}
-                                        title={item.title}
+                                        title={t(item.title)}
                                     />
                                 </WithRole>
                             );
                         })}
                     </Stack>
                 </Box>
-                <Divider sx={{borderColor: 'neutral.700'}}/>
+                <Divider sx={{ borderColor: 'neutral.700' }} />
             </Box>
         </Scrollbar>
     );
@@ -125,7 +127,7 @@ export const SideNav: React.FC<SideNavProps> = ({onClose, open}) => {
                     width: 280
                 }
             }}
-            sx={{zIndex: (theme) => theme.zIndex.appBar + 100}}
+            sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}
             variant="temporary"
         >
             {content}
