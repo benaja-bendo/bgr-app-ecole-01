@@ -1,3 +1,8 @@
 {
-    "greeting": "Bonjour, le monde !"
+  "greeting": "Bonjour, le monde !",
+  "slide_bar": {
+    "dashboard": "Tableau de bord",
+    "student_management": "Gestion des étudiants",
+    "teacher_management": "Gestion des enseignants"
+  }
 }
