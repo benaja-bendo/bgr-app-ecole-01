@@ -15,10 +15,11 @@ import {
     useMediaQuery,
     Theme,
 } from '@mui/material';
-import {alpha} from '@mui/material/styles';
-import {usePopover} from '@/hooks/use-popover';
-import {AccountPopover} from '@/layouts/partials/account-popover';
-import {UsersIcon} from "@heroicons/react/24/solid";
+import { alpha } from '@mui/material/styles';
+import { usePopover } from '@/hooks/use-popover';
+import { AccountPopover } from '@/layouts/partials/account-popover';
+import { UsersIcon } from "@heroicons/react/24/solid";
+import { ChangeLang } from '@/components/ChangeLang.tsx';
 
 const SIDE_NAV_WIDTH = 280;
 const TOP_NAV_HEIGHT = 64;
@@ -27,7 +28,7 @@ type TopNavProps = {
     onNavOpen?: () => void;
 }
 
-export const TopNav: React.FC<TopNavProps> = ({onNavOpen}) => {
+export const TopNav: React.FC<TopNavProps> = ({ onNavOpen }) => {
     const lgUp: boolean = useMediaQuery<Theme>((theme: Theme) => theme.breakpoints.up('lg'));
     const accountPopover = usePopover();
 
@@ -68,7 +69,7 @@ export const TopNav: React.FC<TopNavProps> = ({onNavOpen}) => {
                         {!lgUp && (
                             <IconButton onClick={onNavOpen}>
                                 <SvgIcon fontSize="small">
-                                    <Bars3Icon/>
+                                    <Bars3Icon />
                                 </SvgIcon>
                             </IconButton>
                         )}
@@ -86,7 +87,7 @@ export const TopNav: React.FC<TopNavProps> = ({onNavOpen}) => {
                                     </SvgIcon>
                                 </InputAdornment>
                             )}
-                            sx={{ maxWidth: 500,height: '40px', padding: '10px'}}
+                            sx={{ maxWidth: 500, height: '40px', padding: '10px' }}
                         />
                     </Stack>
                     <Stack
@@ -94,10 +95,13 @@ export const TopNav: React.FC<TopNavProps> = ({onNavOpen}) => {
                         direction="row"
                         spacing={2}
                     >
+                        <Tooltip title="change de langue">
+                            <ChangeLang />
+                        </Tooltip>
                         <Tooltip title="utilisateurs en ligne">
                             <IconButton>
                                 <SvgIcon fontSize="small">
-                                    <UsersIcon/>
+                                    <UsersIcon />
                                 </SvgIcon>
                             </IconButton>
                         </Tooltip>
@@ -109,7 +113,7 @@ export const TopNav: React.FC<TopNavProps> = ({onNavOpen}) => {
                                     variant="dot"
                                 >
                                     <SvgIcon fontSize="small">
-                                        <BellIcon/>
+                                        <BellIcon />
                                     </SvgIcon>
                                 </Badge>
                             </IconButton>
