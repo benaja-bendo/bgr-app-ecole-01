@@ -3,6 +3,8 @@ import {Outlet} from 'react-router-dom';
 import {styled} from "@mui/system";
 import {TopNav} from "@/layouts/partials/top-nav.tsx";
 import {SideNav} from "@/layouts/partials/side-nav.tsx";
+import {CustomBreadcrumbs} from "@/components/CustomBreadcrumbs.tsx";
+import {Box, Container} from "@mui/material";
 
 const SIDE_NAV_WIDTH = 280;
 
@@ -31,8 +33,15 @@ export const MainLayout: React.FC = () => {
             open={openNav}
         />
         <LayoutRoot>
-            <LayoutContainer>
-                <Outlet/>
+            <LayoutContainer sx={{py: 3}}>
+                <Box component="main" sx={{flexGrow: 1}}>
+                    <Container maxWidth="xl">
+                        <Box sx={{pb: 2}}>
+                            <CustomBreadcrumbs/>
+                        </Box>
+                        <Outlet/>
+                    </Container>
+                </Box>
             </LayoutContainer>
         </LayoutRoot>
     </>);

@@ -1,38 +1,53 @@
+import React from "react";
 import {Container, Typography, Button} from '@mui/material';
-import {useRouteError, isRouteErrorResponse, redirect} from "react-router-dom";
+import {useRouteError, isRouteErrorResponse, useNavigate} from "react-router-dom";
 import {ErrorResponse} from "@remix-run/router/utils.ts";
+import {Player} from '@lottiefiles/react-lottie-player';
+import Error404 from "@/assets/json/404.json";
 
-export function DefaultErrorFallback({message, resetErrorBoundary}: {
-    message: string,
-    resetErrorBoundary: () => void
-}) {
-    return (
-        <Container sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100vh',
-            textAlign: 'center',
-        }}>
-            <Typography variant="h1" sx={{fontSize: '3rem', fontWeight: 'bold', marginBottom: 3}}>
-                Something went wrong
-            </Typography>
-            <Typography variant="subtitle1">
-                {message}
-            </Typography>
-            <Button variant="contained" color="primary" onClick={resetErrorBoundary}>
-                Try again
-            </Button>
-        </Container>
-    );
+export function CustomErrorBoundary() {
+    const navigate = useNavigate();
+    const error = useRouteError() as ErrorResponse;
+    console.log('error CustomErrorBoundary :>>', error);
+    if (isRouteErrorResponse(error)) {
+        switch (error.status) {
+            case 401:
+                return (<CustomErrorFallback
+                    error={error}
+                    resetErrorBoundary={() => navigate('/')}/>);
+            case 404:
+                return (<CustomErrorFallback
+                    error={error}
+                    resetErrorBoundary={() => navigate('/')}/>);
+            case 500:
+                return (<CustomErrorFallback
+                    error={error}
+                    resetErrorBoundary={() => navigate('/')}/>);
+            case 405:
+                return (<CustomErrorFallback
+                    error={error}
+                    resetErrorBoundary={() => navigate('/')}/>);
+            default:
+                return (<CustomErrorFallback
+                    error={error}
+                    resetErrorBoundary={() => {
+                        console.log('resetErrorBoundary')
+                        navigate('/')
+                    }}/>);
+
+        }
+    } else {
+        return <div>Oops</div>;
+    }
 }
 
-export function CustomErrorFallback({error}: { error: ErrorResponse }) {
-    const resetErrorBoundary = () => {
-        console.log('resetErrorBoundary')
-        return redirect('/')
-    }
+interface CustomErrorFallbackProps {
+    error: ErrorResponse
+    cover?: React.ReactNode
+    resetErrorBoundary?: () => void
+}
+
+export function CustomErrorFallback({error, resetErrorBoundary}: CustomErrorFallbackProps) {
     return (
         <Container sx={{
             display: 'flex',
@@ -41,11 +56,17 @@ export function CustomErrorFallback({error}: { error: ErrorResponse }) {
             alignItems: 'center',
             height: '100vh',
             textAlign: 'center',
+            p: 3,
         }}>
-            <Typography variant="h1" sx={{fontSize: '3rem', fontWeight: 'bold', marginBottom: 3}}>
+            <Player
+                src={Error404}
+                autoplay={true}
+                loop={true}
+                style={{height: '300px', width: '300px'}}/>
+            <Typography variant="h1" sx={{fontSize: '3rem', fontWeight: 'bold', p: 1}}>
                 {error.status}
             </Typography>
-            <Typography variant="subtitle1">
+            <Typography variant="subtitle1" sx={{p: 3}}>
                 {error.data.message}
             </Typography>
             <Button variant="contained" color="primary" onClick={resetErrorBoundary}>
@@ -53,18 +74,4 @@ export function CustomErrorFallback({error}: { error: ErrorResponse }) {
             </Button>
         </Container>
     );
-}
-
-export function CustomErrorBoundary() {
-    const error = useRouteError() as ErrorResponse;
-
-    if (isRouteErrorResponse(error) && error.status === 401) {
-        return (<CustomErrorFallback error={error}/>);
-    }
-    return <DefaultErrorFallback
-        message={error?.data?.message || 'An error occurred'}
-        resetErrorBoundary={() => {
-            console.log('resetErrorBoundary')
-            return redirect('/')
-        }}/>;
 }

@@ -1,0 +1,8 @@
+{
+  "greeting": "Hello, world!",
+  "slide_bar": {
+    "dashboard": "Dashboard",
+    "student_management": "Student Management",
+    "teacher_management": "Teacher Management"
+  }
+}
