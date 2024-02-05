@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { Button, Menu, MenuItem } from '@mui/material';
+import React, {useState} from 'react';
+import {Button, Menu, MenuItem} from '@mui/material';
 import useChangeLanguage from '@/hooks/use-change-language.ts';
 
 export const ChangeLang = React.forwardRef(() => {
-    const { language, changeLanguage } = useChangeLanguage();
+    const {language, changeLanguage} = useChangeLanguage();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -34,10 +34,17 @@ export const ChangeLang = React.forwardRef(() => {
                     'aria-labelledby': 'change-lang',
                 }}
             >
-                <MenuItem onClick={() => handleChange('fr')}>Fr</MenuItem>
-                <MenuItem onClick={() => handleChange('en')}>En</MenuItem>
+                <MenuItem onClick={() => handleChange('fr')}>
+                    <>
+                        <img src={'https://api.iconify.design/openmoji:flag-france.svg'} alt={'fr'}/>
+                    </>
+                </MenuItem>
+                <MenuItem onClick={() => handleChange('en')}>
+                    <>
+                        <img src={'https://api.iconify.design/openmoji:flag-england.svg'} alt={'en'}/>
+                    </>
+                </MenuItem>
             </Menu>
         </>
     );
 });
-

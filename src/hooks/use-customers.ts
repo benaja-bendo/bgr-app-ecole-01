@@ -7,6 +7,6 @@ export function useCustomers  (data: Customer[], page: number, rowsPerPage: numb
         () => {
             return applyPagination(data, page, rowsPerPage);
         },
-        [page, rowsPerPage]
+        [data, page, rowsPerPage]
     );
 }
