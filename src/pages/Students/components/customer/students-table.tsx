@@ -115,10 +115,14 @@ export const StudentsTable: FC<StudentsTableProps<Student>> = (props) => {
                                     {student.email}
                                 </TableCell>
                                 <TableCell>
-                                    {student.address.city}, {student.address.state}, {student.address.country}
+                                    {student.addresses && student.addresses.length > 0
+                                        ? `${student.addresses[0].city}, ${student.addresses[0].street}, ${student.addresses[0].country}`
+                                        : 'N/A'}
                                 </TableCell>
                                 <TableCell>
-                                    {student.phone.number}
+                                    {student.number_phones && student.number_phones.length > 0
+                                        ? student.number_phones[0].number_phone
+                                        : 'N/A'}
                                 </TableCell>
                                 <TableCell>
                                     {createdAt}
@@ -127,19 +131,19 @@ export const StudentsTable: FC<StudentsTableProps<Student>> = (props) => {
                                     <Stack alignItems="center"
                                            direction="row"
                                            spacing={2}>
-                                        <Tooltip title="modifier" >
-                                        <Link to={`/students/${student.id}/edit`}>
-                                            <IconButton aria-label="delete">
-                                                <EditOutlinedIcon/>
-                                            </IconButton>
-                                        </Link>
+                                        <Tooltip title="modifier">
+                                            <Link to={`/students/${student.id}/edit`}>
+                                                <IconButton aria-label="delete">
+                                                    <EditOutlinedIcon/>
+                                                </IconButton>
+                                            </Link>
                                         </Tooltip>
                                         <Tooltip title="profile">
-                                        <Link to={`/students/${student.id}`}>
-                                            <IconButton aria-label="delete">
-                                                <EastOutlinedIcon/>
-                                            </IconButton>
-                                        </Link>
+                                            <Link to={`/students/${student.id}`}>
+                                                <IconButton aria-label="delete">
+                                                    <EastOutlinedIcon/>
+                                                </IconButton>
+                                            </Link>
                                         </Tooltip>
                                     </Stack>
                                 </TableCell>
