@@ -11,9 +11,11 @@ import {useStudentIds} from "@/pages/Students/hooks/use-student-ids.ts";
 import {useStudents} from "@/pages/Students/hooks/use-students.ts";
 import {HeaderPage01} from "@/components/HeaderPage01.tsx";
 import {useActionData, useLoaderData} from "react-router-dom";
+import {useChangeDocumentTitle} from "@/hooks/use-change-document-title.ts";
 
 
 export const Students: React.FC = () => {
+    useChangeDocumentTitle('Liste des étudiants');
     useRequireRole(['root']);
     const loaderData = useLoaderData();
     const actionsData = useActionData();

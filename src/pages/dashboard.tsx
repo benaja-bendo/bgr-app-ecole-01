@@ -4,8 +4,10 @@ import HttpService from "@/services/HttpService.ts";
 import { AxiosResponse } from "axios";
 import configRoutes from "@/utils/config-routes.ts";
 import { useTranslation } from 'react-i18next';
+import {useChangeDocumentTitle} from "@/hooks/use-change-document-title.ts";
 
 export const Dashboard: React.FC = () => {
+    useChangeDocumentTitle('Dashboard');
     const { t } = useTranslation();
     const { currentUser } = useCurrentUser();
     const [loading, setLoading] = React.useState<boolean>(false);

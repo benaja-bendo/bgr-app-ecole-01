@@ -2,8 +2,10 @@ import {ChangeEvent, FC, useCallback, useState} from 'react';
 import {Form, useActionData, useLocation, useNavigation} from "react-router-dom";
 import {Alert, Box, Button, FormHelperText, Stack, Tab, Tabs, TextField, Typography} from "@mui/material";
 import AutocompleteSchoolField from "@/pages/Login/components/AutocompleteSchoolField.tsx";
+import {useChangeDocumentTitle} from "@/hooks/use-change-document-title.ts";
 
 export const Login: FC = () => {
+    useChangeDocumentTitle('Login');
     const [method, setMethod] = useState('email');
     const location = useLocation();
     const params = new URLSearchParams(location.search);

@@ -9,6 +9,7 @@ import {AttendanceTracking} from "@/pages/Students/components/tabs/AttendanceTra
 import {InternshipsAndProjects} from "@/pages/Students/components/tabs/InternshipsAndProjects.tsx";
 import ActionsMenu from "@/pages/Students/components/ActionsMenu.tsx";
 import { useParams, useNavigate } from 'react-router-dom';
+import {useChangeDocumentTitle} from "@/hooks/use-change-document-title.ts";
 
 const tabs = [
     {
@@ -43,6 +44,7 @@ const tabs = [
     },
 ];
 export const ProfileStudent: FC = () => {
+    useChangeDocumentTitle('Profil de l\'étudiant');
     const [value, setValue] = useState(tabs[0].value);
     const { id } = useParams();
     const navigate = useNavigate();
