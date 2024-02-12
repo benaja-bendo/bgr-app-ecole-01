@@ -192,7 +192,7 @@ function TableCellHasSelected({selected}: { selected: string[] }) {
     const method = selected.length == 1 ? 'delete' : 'post';
     return (<TableCell>
         <Box sx={{display: 'block'}}>
-            <Form method={method} action="/students">
+            <Form method={method} action={"/students"}>
                 <Button name={"ids"} value={selected} type="submit">Delete</Button>
             </Form>
         </Box>
