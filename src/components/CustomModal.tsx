@@ -15,7 +15,7 @@ const styleModal = (size: 'small' | 'medium' | 'large') => ({
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: size === 'small' ? 300 : size === 'medium' ? 400 : 600,
+    width: size === 'small' ? '30%' : size === 'medium' ? '40%' : '60%',
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
