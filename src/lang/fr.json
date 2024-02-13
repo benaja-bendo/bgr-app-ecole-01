@@ -4,5 +4,21 @@
     "dashboard": "Tableau de bord",
     "student_management": "Gestion des étudiants",
     "teacher_management": "Gestion des enseignants"
+  },
+  "student": {
+    "student": "étudiant",
+    "student_management": "Gestion des étudiants",
+    "add_student": "Créer un nouvel étudiant",
+    "edit_student": "Modifier l'étudiant",
+    "delete_student": "Supprimer l'étudiant",
+    "student_list": "Liste des étudiants",
+    "student_name": "Nom de l'étudiant",
+    "student_email": "Email de l'étudiant",
+    "student_phone": "Téléphone de l'étudiant",
+    "student_address": "Adresse de l'étudiant",
+    "student_dob": "Date de naissance de l'étudiant",
+    "create_student": "Créer un étudiant",
+    "import_student": "Importer d'étudiant",
+    "export_student": "Exporter d'étudiant"
   }
 }

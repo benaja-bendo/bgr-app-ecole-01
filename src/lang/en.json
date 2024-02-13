@@ -4,5 +4,21 @@
     "dashboard": "Dashboard",
     "student_management": "Student Management",
     "teacher_management": "Teacher Management"
+  },
+  "student": {
+    "student": "Student",
+    "student_management": "Student Management",
+    "add_student": "Add New Student",
+    "edit_student": "Edit Student",
+    "delete_student": "Delete Student",
+    "student_list": "Student List",
+    "student_name": "Student Name",
+    "student_email": "Student Email",
+    "student_phone": "Student Phone",
+    "student_address": "Student Address",
+    "student_dob": "Student Date of Birth",
+    "create_student": "Create Student",
+    "import_student": "Import Student",
+    "export_student": "Export Student"
   }
 }
