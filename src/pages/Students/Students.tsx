@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from "react";
-import { Card, Stack} from '@mui/material';
+import {Card, Stack} from '@mui/material';
 import {StudentsTable} from '@/pages/Students/components/customer/students-table.tsx';
 import {CustomersSearch} from '@/components/customer/customers-search.tsx';
 import {useSelection} from '@/hooks/use-selection.ts';
@@ -8,13 +8,17 @@ import {useRequireRole} from "@/hooks/use-require-role.ts";
 import {useGetAllStudent} from "@/pages/Students/hooks/use-get-all-student.ts";
 import {useStudentIds} from "@/pages/Students/hooks/use-student-ids.ts";
 import {useStudents} from "@/pages/Students/hooks/use-students.ts";
-import {HeaderPage01} from "@/components/HeaderPage01.tsx";
+import {HeaderStudentPage} from "@/pages/Students/components/HeaderStudentPage.tsx";
 import {useActionData, useLoaderData} from "react-router-dom";
 import {useChangeDocumentTitle} from "@/hooks/use-change-document-title.ts";
+import {ExportStudentModal} from "@/pages/Students/components/ExportStudentModal.tsx";
+import {ImportStudentsModal} from "@/pages/Students/components/ImportStudentsModal.tsx";
+import {useTranslation} from "react-i18next";
 
 
 export const Students: React.FC = () => {
     useChangeDocumentTitle('Liste des étudiants');
+    const {t} = useTranslation();
     useRequireRole(['root']);
     const loaderData = useLoaderData();
     const actionsData = useActionData();
@@ -26,7 +30,8 @@ export const Students: React.FC = () => {
     const students = useStudents(rawStudents, currentPageNumber, rowsPerPage);
     const studentIds = useStudentIds(students);
     const studentsSelection = useSelection(studentIds);
-    const [openModalAddStudent, setOpenModalAddStudent] = useState(false);
+    const [openModalImport, setOpenModalImport] = useState(false);
+    const [openModalExport, setOpenModalExport] = useState(false);
 
     const handlePageChange = useCallback(
         (_: React.MouseEvent<HTMLButtonElement> | null, value: number) => {
@@ -41,16 +46,17 @@ export const Students: React.FC = () => {
         },
         []
     );
-    const handleOpenAddStudent = () => {
-        setOpenModalAddStudent(true);
+    const handleCloseImportStudent = () => {
+        setOpenModalImport(false);
     }
-    const handleCloseAddStudent = () => {
-        setOpenModalAddStudent(false);
+    const handleCloseExportStudent = () => {
+        setOpenModalExport(false);
     }
 
     return (<>
         <Stack spacing={3}>
-            <HeaderPage01 handleOpenAddStudent={handleOpenAddStudent}/>
+            <HeaderStudentPage handleOpenImportStudent={() => setOpenModalImport(true)}
+                               handleOpenExportStudent={() => setOpenModalExport(true)}/>
             <Card>
                 <CustomersSearch/>
                 <StudentsTable

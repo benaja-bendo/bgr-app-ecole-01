@@ -17,6 +17,7 @@ import { Teachers } from "@/pages/Teachers/Teachers.tsx";
 import { studentAction } from "@/routes/actions/studentAction.ts";
 import { EditStudent } from "@/pages/Students/EditStudent.tsx";
 import { ProfileStudent } from "@/pages/Students/ProfileStudent.tsx";
+import {CreateStudent} from "@/pages/Students/CreateStudent.tsx";
 
 const routes: RouteObject[] = [
     {
@@ -35,6 +36,11 @@ const routes: RouteObject[] = [
             {
                 path: "/students",
                 Component: Students,
+                action: studentAction,
+            },
+            {
+                path: "/students/create",
+                Component: CreateStudent,
                 action: studentAction,
             },
             {
