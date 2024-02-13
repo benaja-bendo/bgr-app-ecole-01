@@ -8,7 +8,7 @@ import {CustomersTable} from '@/components/customer/customers-table.tsx';
 import {CustomersSearch} from '@/components/customer/customers-search.tsx';
 import {useSelection} from '@/hooks/use-selection.ts';
 import {Customer} from "@/types/Customer.ts";
-import ModalAddStudent from "@/components/ModalAddStudent.tsx";
+import CustomModal from "@/components/CustomModal.tsx";
 import {useCustomers} from "@/hooks/use-customers.ts";
 import {useCustomerIds} from "@/hooks/use-customer-ids.ts";
 import {useRequireRole} from "@/hooks/use-require-role.ts";
@@ -268,7 +268,7 @@ export const Teachers: React.FC = () => {
                 </Stack>
             </Container>
         </Box>
-        {openModalAddStudent && (<ModalAddStudent isOpen={openModalAddStudent} onClose={handleCloseAddStudent}>
+        {openModalAddStudent && (<CustomModal isOpen={openModalAddStudent} onClose={handleCloseAddStudent}>
             <Typography id="modal-modal-title" variant="h6" component="h2">
                 Text in a modal
             </Typography>
@@ -293,6 +293,6 @@ export const Teachers: React.FC = () => {
                 />
                 <button type="submit">Ajouter</button>
             </form>
-        </ModalAddStudent>)}
+        </CustomModal>)}
     </>)
 }

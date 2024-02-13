@@ -3,8 +3,7 @@ import { Card, Stack} from '@mui/material';
 import {StudentsTable} from '@/pages/Students/components/customer/students-table.tsx';
 import {CustomersSearch} from '@/components/customer/customers-search.tsx';
 import {useSelection} from '@/hooks/use-selection.ts';
-import ModalAddStudent from "@/components/ModalAddStudent.tsx";
-import {CreateStudent} from "@/pages/Students/components/CreateStudent.tsx";
+import CustomModal from "@/components/CustomModal.tsx";
 import {useRequireRole} from "@/hooks/use-require-role.ts";
 import {useGetAllStudent} from "@/pages/Students/hooks/use-get-all-student.ts";
 import {useStudentIds} from "@/pages/Students/hooks/use-student-ids.ts";
@@ -70,8 +69,12 @@ export const Students: React.FC = () => {
             </Card>
         </Stack>
 
-        {openModalAddStudent && (<ModalAddStudent isOpen={openModalAddStudent} onClose={handleCloseAddStudent}>
-            <CreateStudent/>
-        </ModalAddStudent>)}
+        {openModalImport && (<CustomModal isOpen={openModalImport} onClose={handleCloseImportStudent} size={"large"} title={t('student.import_student')}>
+            <ImportStudentsModal onClose={handleCloseImportStudent} />
+        </CustomModal>)}
+
+        {openModalExport && (<CustomModal isOpen={openModalExport} onClose={handleCloseExportStudent} size={"large"} title={t('student.export_student')}>
+            <ExportStudentModal onClose={handleCloseExportStudent}  />
+        </CustomModal>)}
     </>)
 }
