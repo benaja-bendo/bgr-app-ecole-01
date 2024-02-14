@@ -11,6 +11,7 @@ export interface Route {
         create: string;
         delete: (id: number) => string;
         deletes: string;
+        export: string;
     };
 }
 
@@ -27,6 +28,7 @@ const configRoutes: Route = {
         create: '/students',
         delete: (id: number) => `/students/${id}`,
         deletes: '/students/deletes',
+        export: '/students/export',
     },
 };
 

@@ -2,11 +2,16 @@ import HttpService from '@/services/HttpService.ts';
 import {ResponseApi} from "@/types/ResponseApi.ts";
 import {Student, StudentCreateType} from "@/types/Student.ts";
 import configRoutes from "@/utils/config-routes.ts";
+import FileSaver from 'file-saver';
 
 interface StudentServiceProps {
     getAllStudents(): Promise<Student[]>;
+
     createStudent(t: StudentCreateType): Promise<string | undefined>;
+
     deleteStudent(t: number | number[]): Promise<string | undefined>;
+
+    exportStudents(): void;
 }
 
 class StudentService implements StudentServiceProps {
@@ -50,6 +55,21 @@ class StudentService implements StudentServiceProps {
             }
             if (response.status === 200) {
                 return response.data.message;
+            }
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    async exportStudents() {
+        try {
+            const response = await HttpService.get<Blob>(configRoutes.students.export, {
+                responseType: "blob"
+            });
+            if (response.status === 200) {
+                const filename = 'students.xlsx';
+                FileSaver.saveAs(new Blob([response.data]), filename);
             }
         } catch (error) {
             console.error(error);

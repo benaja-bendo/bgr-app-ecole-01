@@ -1,5 +1,6 @@
 import React from "react";
 import {Typography, Button, Box} from "@mui/material";
+import StudentService from "@/services/studentService.ts";
 
 interface IExportStudentsModalProps {
     onClose?: () => void;
@@ -8,9 +9,10 @@ interface IExportStudentsModalProps {
 export const ExportStudentModal: React.FC<IExportStudentsModalProps> = (props) => {
     const {onClose} = props;
 
-    const handleExport = () => {
-        console.log("Exporting students data...");
-        // Ici, vous pouvez ajouter la logique pour exporter les données des étudiants.
+    const handleExport = async () => {
+        console.info("Exporting students data...");
+        await StudentService.exportStudents()
+        onClose && onClose();
     };
 
     return (
