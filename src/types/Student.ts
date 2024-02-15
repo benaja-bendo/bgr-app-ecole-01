@@ -11,3 +11,11 @@ export type StudentCreateType = {
     gender: string;
     birth_date: string | null;
 }
+
+export type StudentCreateTypeExtended = StudentCreateType & {
+    [key: number]: null | string;
+}
+
+export type StudentImportType = {
+    students: StudentCreateTypeExtended[][];
+}

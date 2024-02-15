@@ -1,17 +1,21 @@
 import HttpService from '@/services/HttpService.ts';
 import {ResponseApi} from "@/types/ResponseApi.ts";
-import {Student, StudentCreateType} from "@/types/Student.ts";
+import {Student, StudentCreateType, StudentImportType} from "@/types/Student.ts";
 import configRoutes from "@/utils/config-routes.ts";
 import FileSaver from 'file-saver';
 
 interface StudentServiceProps {
     getAllStudents(): Promise<Student[]>;
 
-    createStudent(t: StudentCreateType): Promise<string | undefined>;
+    createStudent(t: StudentCreateType): Promise<ResponseApi<Student> | undefined>;
 
     deleteStudent(t: number | number[]): Promise<string | undefined>;
 
     exportStudents(): void;
+
+    exportTemplateStudents(): void;
+
+    importStudents(file: File): Promise<StudentImportType | undefined>;
 }
 
 class StudentService implements StudentServiceProps {
@@ -35,7 +39,7 @@ class StudentService implements StudentServiceProps {
                 birth_date
             });
             if (response.status === 201) {
-                return response.data.message;
+                return response.data;
             }
         } catch (error) {
             console.error(error);
@@ -64,12 +68,45 @@ class StudentService implements StudentServiceProps {
 
     async exportStudents() {
         try {
-            const response = await HttpService.get<Blob>(configRoutes.students.export, {
+            const response = await HttpService.get<Blob>(configRoutes.students.exportStudent, {
                 responseType: "blob"
             });
             if (response.status === 200) {
                 const filename = 'students.xlsx';
                 FileSaver.saveAs(new Blob([response.data]), filename);
+            }
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    async exportTemplateStudents() {
+        try {
+            const response = await HttpService.get<Blob>(configRoutes.students.exportTemplate, {
+                responseType: "blob"
+            });
+            if (response.status === 200) {
+                const filename = 'students_template.xlsx';
+                FileSaver.saveAs(new Blob([response.data]), filename);
+            }
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    async importStudents(file: File) {
+        try {
+            const formData = new FormData();
+            formData.append('file', file);
+            const response = await HttpService.post<ResponseApi<StudentImportType>>(configRoutes.students.importStudent, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            if (response.status === 200) {
+                return response.data.data;
             }
         } catch (error) {
             console.error(error);
