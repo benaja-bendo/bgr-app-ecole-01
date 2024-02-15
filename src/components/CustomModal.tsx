@@ -16,10 +16,15 @@ const styleModal = (size: 'small' | 'medium' | 'large') => ({
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: size === 'small' ? '30%' : size === 'medium' ? '40%' : '60%',
+    maxHeight: '80%',
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
+    overflowY: 'auto',
+    '@media (max-width:600px)': {
+        width: '80%',
+    },
 });
 
 const CustomModal: FC<IModalAddStudentProps> = ({isOpen, onClose, children, size = 'medium', title}) => {

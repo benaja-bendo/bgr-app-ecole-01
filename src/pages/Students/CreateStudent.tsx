@@ -12,8 +12,10 @@ import {
 } from "@mui/material";
 import {useForm} from "react-hook-form";
 import {Form} from "react-router-dom";
+import {useChangeDocumentTitle} from "@/hooks/use-change-document-title.ts";
 
 export const CreateStudent: React.FC = () => {
+    useChangeDocumentTitle('Création d\'un étudiant');
     const {register, formState: {errors}} = useForm();
     return (
         <Form method="post" action="/students">

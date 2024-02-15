@@ -8,7 +8,7 @@ import {
     Stack,
     Table,
     TableBody,
-    TableCell,
+    TableCell, TableContainer,
     TableHead,
     TablePagination,
     TableRow, Tooltip,
@@ -54,104 +54,106 @@ export const StudentsTable: FC<StudentsTableProps<Student>> = (props) => {
     const selectedAll = (students.length > 0) && (selected.length === students.length);
     return (<>
         <Box sx={{minWidth: 800}}>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell padding="checkbox">
-                            <Checkbox
-                                checked={selectedAll}
-                                indeterminate={selectedSome}
-                                onChange={(event) => {
-                                    if (event.target.checked) {
-                                        onSelectAll?.();
-                                    } else {
-                                        onDeselectAll?.();
-                                    }
-                                }}
-                            />
-                        </TableCell>
-                        {selected.length > 0 ? (<TableCellHasSelected selected={selected}/>) : (
-                            <TableCellHasNotSelected/>)}
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {students.map((student) => {
-                        const isSelected = selected.includes(student.id);
-                        const createdAt = format(student.created_at, 'dd/MM/yyyy');
+            <TableContainer style={{maxWidth: '100%', overflowX: 'auto'}}>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell padding="checkbox">
+                                <Checkbox
+                                    checked={selectedAll}
+                                    indeterminate={selectedSome}
+                                    onChange={(event) => {
+                                        if (event.target.checked) {
+                                            onSelectAll?.();
+                                        } else {
+                                            onDeselectAll?.();
+                                        }
+                                    }}
+                                />
+                            </TableCell>
+                            {selected.length > 0 ? (<TableCellHasSelected selected={selected}/>) : (
+                                <TableCellHasNotSelected/>)}
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {students.map((student) => {
+                            const isSelected = selected.includes(student.id);
+                            const createdAt = format(student.created_at, 'dd/MM/yyyy');
 
-                        return (
-                            <TableRow
-                                hover
-                                key={student.id}
-                                selected={isSelected}
-                            >
-                                <TableCell padding="checkbox">
-                                    <Checkbox
-                                        checked={isSelected}
-                                        onChange={(event) => {
-                                            if (event.target.checked) {
-                                                onSelectOne?.(student.id);
-                                            } else {
-                                                onDeselectOne?.(student.id);
-                                            }
-                                        }}
-                                    />
-                                </TableCell>
-                                <TableCell>
-                                    <Stack
-                                        alignItems="center"
-                                        direction="row"
-                                        spacing={2}
-                                    >
-                                        <Avatar src={student.avatar}>
-                                            {getInitials(student.last_name)}
-                                        </Avatar>
-                                        <Typography variant="subtitle2">
-                                            {student.last_name} {student.first_name}
-                                        </Typography>
-                                    </Stack>
-                                </TableCell>
-                                <TableCell>
-                                    {student.email}
-                                </TableCell>
-                                <TableCell>
-                                    {student.addresses && student.addresses.length > 0
-                                        ? `${student.addresses[0].city}, ${student.addresses[0].street}, ${student.addresses[0].country}`
-                                        : 'N/A'}
-                                </TableCell>
-                                <TableCell>
-                                    {student.number_phones && student.number_phones.length > 0
-                                        ? student.number_phones[0].number_phone
-                                        : 'N/A'}
-                                </TableCell>
-                                <TableCell>
-                                    {createdAt}
-                                </TableCell>
-                                <TableCell>
-                                    <Stack alignItems="center"
-                                           direction="row"
-                                           spacing={2}>
-                                        <Tooltip title="modifier">
-                                            <Link to={`/students/${student.id}/edit`}>
-                                                <IconButton aria-label="delete">
-                                                    <EditOutlinedIcon/>
-                                                </IconButton>
-                                            </Link>
-                                        </Tooltip>
-                                        <Tooltip title="profile">
-                                            <Link to={`/students/${student.id}`}>
-                                                <IconButton aria-label="delete">
-                                                    <EastOutlinedIcon/>
-                                                </IconButton>
-                                            </Link>
-                                        </Tooltip>
-                                    </Stack>
-                                </TableCell>
-                            </TableRow>
-                        );
-                    })}
-                </TableBody>
-            </Table>
+                            return (
+                                <TableRow
+                                    hover
+                                    key={student.id}
+                                    selected={isSelected}
+                                >
+                                    <TableCell padding="checkbox">
+                                        <Checkbox
+                                            checked={isSelected}
+                                            onChange={(event) => {
+                                                if (event.target.checked) {
+                                                    onSelectOne?.(student.id);
+                                                } else {
+                                                    onDeselectOne?.(student.id);
+                                                }
+                                            }}
+                                        />
+                                    </TableCell>
+                                    <TableCell>
+                                        <Stack
+                                            alignItems="center"
+                                            direction="row"
+                                            spacing={2}
+                                        >
+                                            <Avatar src={student.avatar}>
+                                                {getInitials(student.last_name)}
+                                            </Avatar>
+                                            <Typography variant="subtitle2">
+                                                {student.last_name} {student.first_name}
+                                            </Typography>
+                                        </Stack>
+                                    </TableCell>
+                                    <TableCell>
+                                        {student.email}
+                                    </TableCell>
+                                    <TableCell>
+                                        {student.addresses && student.addresses.length > 0
+                                            ? `${student.addresses[0].city}, ${student.addresses[0].street}, ${student.addresses[0].country}`
+                                            : 'N/A'}
+                                    </TableCell>
+                                    <TableCell>
+                                        {student.number_phones && student.number_phones.length > 0
+                                            ? student.number_phones[0].number_phone
+                                            : 'N/A'}
+                                    </TableCell>
+                                    <TableCell>
+                                        {createdAt}
+                                    </TableCell>
+                                    <TableCell>
+                                        <Stack alignItems="center"
+                                               direction="row"
+                                               spacing={2}>
+                                            <Tooltip title="modifier">
+                                                <Link to={`/students/${student.id}/edit`}>
+                                                    <IconButton aria-label="delete">
+                                                        <EditOutlinedIcon/>
+                                                    </IconButton>
+                                                </Link>
+                                            </Tooltip>
+                                            <Tooltip title="profile">
+                                                <Link to={`/students/${student.id}`}>
+                                                    <IconButton aria-label="delete">
+                                                        <EastOutlinedIcon/>
+                                                    </IconButton>
+                                                </Link>
+                                            </Tooltip>
+                                        </Stack>
+                                    </TableCell>
+                                </TableRow>
+                            );
+                        })}
+                    </TableBody>
+                </Table>
+            </TableContainer>
         </Box>
         <TablePagination
             component="div"

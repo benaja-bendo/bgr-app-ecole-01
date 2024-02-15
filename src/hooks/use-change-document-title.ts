@@ -26,7 +26,7 @@ export function useChangeDocumentTitle(title: string, options: Options = {}): vo
     }, [])
 
     useIsomorphicLayoutEffect(() => {
-        window.document.title = APP_NAME ? `${APP_NAME} - ${title}` : title
+        window.document.title = APP_NAME ? `${title} - ${APP_NAME}` : title
     }, [title])
 
     useUnmount(() => {
