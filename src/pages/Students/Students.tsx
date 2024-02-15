@@ -14,6 +14,7 @@ import {useChangeDocumentTitle} from "@/hooks/use-change-document-title.ts";
 import {ExportStudentModal} from "@/pages/Students/components/ExportStudentModal.tsx";
 import {ImportStudentsModal} from "@/pages/Students/components/ImportStudentsModal.tsx";
 import {useTranslation} from "react-i18next";
+import {Toaster} from "@/components/ui/sonner.tsx";
 
 
 export const Students: React.FC = () => {
@@ -82,5 +83,6 @@ export const Students: React.FC = () => {
         {openModalExport && (<CustomModal isOpen={openModalExport} onClose={handleCloseExportStudent} size={"medium"} title={t('student.export_student')}>
             <ExportStudentModal onClose={handleCloseExportStudent}  />
         </CustomModal>)}
+        <Toaster />
     </>)
 }
