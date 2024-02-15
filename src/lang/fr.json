@@ -19,6 +19,8 @@
     "student_dob": "Date de naissance de l'étudiant",
     "create_student": "Créer un étudiant",
     "import_student": "Importer d'étudiant",
-    "export_student": "Exporter d'étudiant"
+    "export_student": "Exporter d'étudiant",
+    "student_create_collection": "Sauvegarder la collection d'étudiants",
+    "student_create_single": "Sauvegarder cet étudiant"
   }
 }
