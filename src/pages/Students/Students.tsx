@@ -76,7 +76,7 @@ export const Students: React.FC = () => {
             </Card>
         </Stack>
 
-        {openModalImport && (<CustomModal isOpen={openModalImport} onClose={handleCloseImportStudent} size={"medium"} title={t('student.import_student')}>
+        {openModalImport && (<CustomModal isOpen={openModalImport} onClose={handleCloseImportStudent} size={"large"} title={t('student.import_student')}>
             <ImportStudentsModal onClose={handleCloseImportStudent} />
         </CustomModal>)}
 

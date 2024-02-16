@@ -16,6 +16,8 @@ import {AddStudent} from "@/components/svg/SvgIcon/add-student.tsx";
 import {useTranslation} from "react-i18next";
 import StudentService from "@/services/studentService.ts";
 import {toast} from "sonner";
+import {AxiosError} from "axios";
+import {useQueryClient} from "@tanstack/react-query";
 
 interface ITableStudentImportProps {
     data: StudentCreateTypeExtended[];
@@ -23,52 +25,43 @@ interface ITableStudentImportProps {
 }
 
 export const TableStudentImport: React.FC<ITableStudentImportProps> = (props) => {
+    const queryClient = useQueryClient();
     const {t} = useTranslation();
-    const {data,onClosed} = props;
+    const {data, onClosed} = props;
     const handleCreateAllCollection = async () => {
-    try {
-        await Promise.all(data.map(async (row) => {
+        try {
+            await Promise.all(data.map(async (row, index) => {
+                // Attendre index * 1000 millisecondes avant d'exécuter la requête
+                await new Promise(resolve => setTimeout(resolve, index * 1000));
+                const res = await StudentService.createStudent(row);
+                if (res) {
+                    toast.success(res.message)
+                }
+            }));
+            await queryClient.invalidateQueries({queryKey: ['students']});
+            toast.success("All students created successfully");
+            onClosed && onClosed();
+        } catch (error) {
+            const err = error as AxiosError;
+            toast.warning(`Error creating students ${err.message}`);
+        }
+    }
+    const handleCreateSingleCollection = async (row: StudentCreateTypeExtended) => {
+        try {
             const res = await StudentService.createStudent(row);
             if (res) {
-                toast(res.message, {
-                    description: "Student created",
-                    action: {
-                        label: "Undo",
-                        onClick: () => console.log("Undo"),
-                    },
-                })
+                await queryClient.invalidateQueries({queryKey: ['students']});
+                toast.success(res.message)
+                // onClosed && onClosed();
             }
-        }));
-        toast("All students created successfully", {
-            description: "All students have been created",
-            action: {
-                label: "Undo",
-                onClick: () => console.log("Undo"),
-            },
-        });
-        onClosed && onClosed();
-    } catch (error) {
-        console.error('Error creating students', error);
-        toast("Error creating students", {
-            description: "An error occurred while creating students",
-            action: {
-                label: "Retry",
-                onClick: () => handleCreateAllCollection(),
-            },
-        });
-    }
-}
-    const handleCreateSingleCollection = async (row: StudentCreateTypeExtended) => {
-        const res = await StudentService.createStudent(row);
-        if (res) {
-            toast(res.message, {
-                description: "Student created",
+        } catch (error) {
+            const err = error as AxiosError;
+            toast.warning(`Error creating student ${err.message}`, {
                 action: {
-                    label: "Undo",
-                    onClick: () => console.log("Undo"),
-                },
-            })
-            onClosed && onClosed();
+                    label: "Retry",
+                    onClick: () => handleCreateSingleCollection(row),
+                }
+            });
         }
 
     }

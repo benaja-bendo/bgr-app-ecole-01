@@ -14,6 +14,8 @@ import StudentService from "@/services/studentService.ts";
 import {AttachFile} from "@/components/svg/SvgIcon/attach-file.tsx";
 import {TableStudentImport} from "@/pages/Students/components/TableStudentImport.tsx";
 import {StudentCreateTypeExtended} from "@/types/Student.ts";
+import {toast} from "sonner";
+import {AxiosError} from "axios";
 
 
 interface IImportStudentsModalProps {
@@ -23,22 +25,26 @@ interface IImportStudentsModalProps {
 
 export const ImportStudentsModal: React.FC<IImportStudentsModalProps> = (props) => {
     const {onClose} = props;
-    const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [data, setData] = useState<StudentCreateTypeExtended[]>([]);
     const [loading, setLoading] = useState<'start' | 'end' | 'loading'>('start');
 
 
-    const handleChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedFile(event.target.files?.[0] ?? null);
-    };
-
-    const handleImport = async () => {
-        if (selectedFile) {
+    const handleChangeFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files?.[0]) {
             setLoading('loading');
-            const response = await StudentService.importStudents(selectedFile);
-            if (response) {
-                setLoading('end');
-                setData(response.students[0]);
+            try {
+                const response = await StudentService.importStudents(event.target.files[0]);
+                if (response !== undefined && response.students.length > 0) {
+                    setLoading('end');
+                    setData(response.students[0]);
+                } else {
+                    console.log('Error importing students');
+                    setLoading('start');
+                }
+            } catch (error) {
+                const err = error as AxiosError;
+                toast.warning(`${err.message}`);
+                setLoading('start');
             }
         }
     };
@@ -78,38 +84,39 @@ export const ImportStudentsModal: React.FC<IImportStudentsModalProps> = (props) 
                 />
 
                 <Box sx={{color: 'gray', fontSize: 12}}>
-                    <Typography variant="body2" sx={{textAlign: 'center'}}>
-                        <strong>Note:</strong> Le fichier doit contenir les colonnes conformes à notre modèle.
-                    </Typography>
+                    {loading === 'start' && (
+                        <Typography variant="body2" sx={{textAlign: 'center'}}>
+                            <strong>Note:</strong> Le fichier doit contenir les colonnes conformes à notre modèle.
+                            <strong> Nom, Prénom, Email, Téléphone, Date de naissance, Adresse</strong>
+                        </Typography>
+                    )}
 
-                    {
-
-                        loading === 'loading' ? (
-                            <Box sx={{display: "flex", alignItems: "center", gap: 2}}>
-                                <SvgIcon component={AttachFile}/>
-                                <Typography variant="body2">
-                                    Importation en cours...
-                                </Typography>
-                                <CircularProgress color="secondary" variant="indeterminate"/>
-                            </Box>
-                        ) : (
-                            data.length > 0 && (
-                                <TableStudentImport data={data} onClosed={onClose}/>
-                            )
-                        )
+                    {loading === 'loading' &&
+                        (<Box sx={{display: "flex", alignItems: "center", justifyContent: "center", gap: 2}}>
+                            <SvgIcon component={AttachFile}/>
+                            <Typography variant="body2">
+                                Importation en cours...
+                            </Typography>
+                            <CircularProgress color="secondary" variant="indeterminate"/>
+                        </Box>)
                     }
-
+                    {loading === 'end' &&
+                        (data.length > 0 ?
+                            (<TableStudentImport data={data} onClosed={onClose}/>) :
+                            (<Typography variant="body2" sx={{textAlign: 'center'}}>
+                                Aucun étudiant trouvé dans le fichier
+                            </Typography>))
+                    }
                 </Box>
 
             </Stack>
-            <Box sx={{mt: 4, display: "flex", justifyContent: "flex-end", gap: 2}}>
-                <Button variant="outlined" onClick={onClose}>
-                    Annuler
-                </Button>
-                <Button variant="contained" color="primary" onClick={handleImport}>
-                    Confirmer l'importation
-                </Button>
-            </Box>
+            {loading === 'start' &&
+                (<Box sx={{mt: 4, display: "flex", justifyContent: "flex-end", gap: 2}}>
+                    <Button variant="outlined" onClick={onClose} fullWidth>
+                        Annuler
+                    </Button>
+                </Box>)
+            }
         </>
     );
 };
