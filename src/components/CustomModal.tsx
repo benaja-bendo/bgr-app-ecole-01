@@ -47,8 +47,8 @@ const CustomModal: FC<IModalAddStudentProps> = ({isOpen, onClose, children, size
                 <Box sx={styleModal(size)}>
                     <Stack spacing={2}>
                         <Stack direction="row" alignItems="center">
-                            <Typography variant="h6" id="transition-modal-title">{title}</Typography>
-                            <IconButton aria-label="close" color="success" sx={{marginLeft:'auto'}} onClick={onClose}>
+                            <Typography variant="h5" id="transition-modal-title">{title}</Typography>
+                            <IconButton aria-label="close" sx={{marginLeft:'auto'}} onClick={onClose}>
                                 <CloseIcon />
                             </IconButton>
                         </Stack>
