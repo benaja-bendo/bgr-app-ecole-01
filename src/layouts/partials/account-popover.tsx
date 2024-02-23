@@ -1,6 +1,14 @@
 import React from 'react';
-import {Box, Button, Divider, Popover, Typography} from '@mui/material';
+import {
+    Avatar,
+    Button,
+    Divider, Link,
+    Popover,
+    Stack,
+    Typography
+} from '@mui/material';
 import {useFetcher} from "react-router-dom";
+import {useCurrentUser} from "@/hooks/use-current-user.ts";
 
 interface AccountPopoverProps {
     anchorEl: Element | null;
@@ -9,6 +17,7 @@ interface AccountPopoverProps {
 }
 
 export const AccountPopover: React.FC<AccountPopoverProps> = ({anchorEl, onClose, open}) => {
+    const {currentUser} = useCurrentUser();
     const fetcher = useFetcher();
 
     return (
@@ -21,25 +30,22 @@ export const AccountPopover: React.FC<AccountPopoverProps> = ({anchorEl, onClose
             onClose={onClose}
             open={open}
         >
-            <Box sx={{py: 1.5, px: 2}}>
-                <Typography variant="overline">Account</Typography>
-                <Typography color="text.secondary" variant="body2">
-                    Anika Visser
-                </Typography>
-            </Box>
-            <Divider/>
-            <fetcher.Form method="post" action={`/auth/logout`}>
-                <Button type={"submit"}
-                        fullWidth={true}
-                        sx={{
-                            p: '8px',
-                            '& > *': {
-                                borderRadius: 1
-                            }
-                        }}>
-                    Sign out
-                </Button>
-            </fetcher.Form>
+            <Stack spacing={1} sx={{width: 200, p: 2}}>
+                <Stack direction="row" spacing={1} alignItems={"center"}>
+                    <Avatar alt="Remy Sharp" src={currentUser?.avatar}/>
+                    <Link href="/account">
+                        <Typography variant="body2">
+                            {currentUser?.first_name} {currentUser?.last_name}
+                        </Typography>
+                    </Link>
+                </Stack>
+                <Divider/>
+                <fetcher.Form method="post" action={`/auth/logout`}>
+                    <Button type={"submit"} fullWidth>
+                        Sign out
+                    </Button>
+                </fetcher.Form>
+            </Stack>
         </Popover>
     );
 };
