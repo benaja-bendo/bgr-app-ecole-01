@@ -4,6 +4,7 @@ import {ResponseThrow} from "@/types/ResponseThrow.ts";
 import {convertFormDataToObject} from "@/utils/convert-formData-to-object.ts";
 import {AxiosError} from "axios";
 import StudentService from "@/services/studentService.ts";
+import {ResponseRouterSuccess} from "@/types/ResponseRouterSuccess.ts";
 
 export const studentAction = async ({request}: ActionFunctionArgs) => {
     switch (request.method) {
@@ -68,5 +69,8 @@ async function DeleteController(promiseFormData: Promise<FormData>) {
             message: err.message,
         }, err.response?.status || 401);
     }
-    return {};
+    return json<ResponseRouterSuccess>({
+        message: "Student deleted",
+        success: true,
+    });
 }

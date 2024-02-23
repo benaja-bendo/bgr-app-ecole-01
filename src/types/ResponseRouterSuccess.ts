@@ -1,4 +1,4 @@
-export type ResponseThrow = {
+export type ResponseRouterSuccess = {
     message: string;
     status?: number;
     statusText?: string;
