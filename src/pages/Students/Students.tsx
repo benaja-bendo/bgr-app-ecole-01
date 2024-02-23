@@ -9,22 +9,26 @@ import {useGetAllStudent} from "@/pages/Students/hooks/use-get-all-student.ts";
 import {useStudentIds} from "@/pages/Students/hooks/use-student-ids.ts";
 import {useStudents} from "@/pages/Students/hooks/use-students.ts";
 import {HeaderStudentPage} from "@/pages/Students/components/HeaderStudentPage.tsx";
-import {useActionData, useLoaderData} from "react-router-dom";
+import {useActionData} from "react-router-dom";
 import {useChangeDocumentTitle} from "@/hooks/use-change-document-title.ts";
 import {ExportStudentModal} from "@/pages/Students/components/ExportStudentModal.tsx";
 import {ImportStudentsModal} from "@/pages/Students/components/ImportStudentsModal.tsx";
 import {useTranslation} from "react-i18next";
 import {Toaster} from "@/components/ui/sonner.tsx";
+import {useQueryClient} from "@tanstack/react-query";
+import {ResponseRouterSuccess} from "@/types/ResponseRouterSuccess.ts";
 
 
 export const Students: React.FC = () => {
     useChangeDocumentTitle('Liste des étudiants');
-    const {t} = useTranslation();
     useRequireRole(['root']);
-    const loaderData = useLoaderData();
-    const actionsData = useActionData();
-    console.log('loaderData :>> ', loaderData);
-    console.log('actionsData :>> ', actionsData);
+
+    const queryClient = useQueryClient();
+    const data = useActionData() as ResponseRouterSuccess;
+    if (data?.success) {
+        queryClient.invalidateQueries({queryKey: ['students']}).then(r => r);
+    }
+    const {t} = useTranslation();
     const {students: rawStudents} = useGetAllStudent();
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
