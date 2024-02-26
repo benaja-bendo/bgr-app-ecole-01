@@ -19,6 +19,8 @@ import { EditStudent } from "@/pages/Students/EditStudent.tsx";
 import { ProfileStudent } from "@/pages/Students/ProfileStudent.tsx";
 import {CreateStudent} from "@/pages/Students/CreateStudent.tsx";
 import {Account} from "@/pages/Account/Account.tsx";
+import {Profile} from "@/pages/Profile/Profile.tsx";
+import {Settings} from "@/pages/Settings/Settings.tsx";
 
 const routes: RouteObject[] = [
     {
@@ -57,6 +59,14 @@ const routes: RouteObject[] = [
             {
                 path: "/account",
                 Component: Account,
+            },
+            {
+                path: "/profile",
+                Component: Profile,
+            },
+            {
+                path: "/settings",
+                Component: Settings,
             },
             { path: "/classes", element: <div>Classes</div>},
             { path: "/teachers", element: <Teachers /> },
