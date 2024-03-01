@@ -53,24 +53,25 @@ async function PostController(promiseFormData: Promise<FormData>) {
 }
 
 async function DeleteController(promiseFormData: Promise<FormData>) {
+    console.log("DELETE")
     const formData = await promiseFormData;
     const ids = formData.get("ids") as string | null;
     if (ids === null) {
-        throw json<ResponseThrow>({
+        return  json<ResponseThrow>({
             message: "Bad request",
         }, 400);
     }
     try {
         await StudentService.deleteStudent(isNaN(Number(ids)) ? ids.split(",").map(Number) : Number(ids));
+        return json<ResponseRouterSuccess>({
+            message: "Student deleted",
+            success: true,
+        });
     } catch (error) {
         // TODO: translate this error message
         const err = error as AxiosError;
-        throw json<ResponseThrow>({
+        return json<ResponseThrow>({
             message: err.message,
         }, err.response?.status || 401);
     }
-    return json<ResponseRouterSuccess>({
-        message: "Student deleted",
-        success: true,
-    });
 }

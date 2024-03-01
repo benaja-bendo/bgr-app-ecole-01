@@ -1,4 +1,4 @@
-import {FC, MouseEvent, ChangeEvent} from 'react';
+import {FC, MouseEvent, ChangeEvent, useState, FormEvent} from 'react';
 import {format} from 'date-fns';
 import {
     Avatar,
@@ -16,9 +16,14 @@ import {
 } from '@mui/material';
 import {getInitials} from '@/utils/get-initials';
 import {Student} from "@/types/Student.ts";
-import {Form, Link} from "react-router-dom";
+import {Form, Link, useFetcher} from "react-router-dom";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
-import EastOutlinedIcon from '@mui/icons-material/EastOutlined';
+import {DeleteIcon} from "@/components/svg/SvgIcon/DeleteIcon.tsx";
+import {useTranslation} from "react-i18next";
+import {AccountIcon} from "@/components/svg/SvgIcon/AccountIcon.tsx";
+import ConfirmDialog from "@/components/ConfirmDialog.tsx";
+import ConfigQueryKey from "@/utils/config-query-key.ts";
+import {useQueryClient} from "@tanstack/react-query";
 
 
 type StudentsTableProps<T = unknown> = {
@@ -50,9 +55,36 @@ export const StudentsTable: FC<StudentsTableProps<Student>> = (props) => {
         rowsPerPage = 0,
         selected = []
     } = props;
+
+    const queryClient = useQueryClient();
+    const [open, setOpen] = useState(false);
+    const [studentToDelete, setStudentToDelete] = useState<number>(0);
+    const fetcher = useFetcher();
+    const {t} = useTranslation();
     const selectedSome = (selected.length > 0) && (selected.length < students.length);
     const selectedAll = (students.length > 0) && (selected.length === students.length);
+    const handleDeleteItem = (e: FormEvent, id: number) => {
+        e.preventDefault();
+        if (id === 0) return
+        setOpen(true);
+        setStudentToDelete(id);
+    }
+    const handleConfirmDelete = async () => {
+        fetcher.submit({ids: studentToDelete}, {
+            action: `/students`,
+            method: 'delete',
+        });
+        queryClient.invalidateQueries({queryKey: [...ConfigQueryKey.STUDENTS]}).then(r => r);
+    }
     return (<>
+        <ConfirmDialog
+            title="Supprimer l'étudiant"
+            open={open}
+            setOpen={setOpen}
+            onConfirm={handleConfirmDelete}
+        >
+            Êtes-vous sûr de vouloir supprimer cet étudiant ?
+        </ConfirmDialog>
         <Box sx={{minWidth: 800}}>
             <TableContainer style={{maxWidth: '100%', overflowX: 'auto'}}>
                 <Table>
@@ -132,17 +164,24 @@ export const StudentsTable: FC<StudentsTableProps<Student>> = (props) => {
                                         <Stack alignItems="center"
                                                direction="row"
                                                spacing={2}>
-                                            <Tooltip title="modifier">
+                                            <Tooltip title={t('utils.edit')}>
                                                 <Link to={`/students/${student.id}/edit`}>
-                                                    <IconButton aria-label="delete">
-                                                        <EditOutlinedIcon/>
+                                                    <IconButton aria-label={t('utils.edit')}>
+                                                        <EditOutlinedIcon color={"info"} aria-label={t('utils.edit')}/>
                                                     </IconButton>
                                                 </Link>
                                             </Tooltip>
-                                            <Tooltip title="profile">
+                                            <Tooltip title={t('utils.delete')}>
+                                                <IconButton aria-label={t('utils.delete')}
+                                                            name={"ids"} value={Number(student.id)} type="submit"
+                                                            onClick={(e) => handleDeleteItem(e, Number(student.id))}>
+                                                    <DeleteIcon color={"error"} aria-label={t('utils.delete')}/>
+                                                </IconButton>
+                                            </Tooltip>
+                                            <Tooltip title={t('utils.profile')}>
                                                 <Link to={`/students/${student.id}`}>
-                                                    <IconButton aria-label="delete">
-                                                        <EastOutlinedIcon/>
+                                                    <IconButton aria-label={t('utils.profile')}>
+                                                        <AccountIcon color={"info"} aria-label={t('utils.profile')}/>
                                                     </IconButton>
                                                 </Link>
                                             </Tooltip>

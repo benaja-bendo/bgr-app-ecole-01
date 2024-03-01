@@ -5,7 +5,6 @@ import {CustomersSearch} from '@/components/customer/customers-search.tsx';
 import {useSelection} from '@/hooks/use-selection.ts';
 import CustomModal from "@/components/CustomModal.tsx";
 import {useRequireRole} from "@/hooks/use-require-role.ts";
-import {useGetAllStudent} from "@/pages/Students/hooks/use-get-all-student.ts";
 import {useStudentIds} from "@/pages/Students/hooks/use-student-ids.ts";
 import {useStudents} from "@/pages/Students/hooks/use-students.ts";
 import {HeaderStudentPage} from "@/pages/Students/components/HeaderStudentPage.tsx";
@@ -16,6 +15,9 @@ import {ImportStudentsModal} from "@/pages/Students/components/ImportStudentsMod
 import {useTranslation} from "react-i18next";
 import {Toaster} from "@/components/ui/sonner.tsx";
 import {useQueryClient} from "@tanstack/react-query";
+import {StudentProviderContext} from "@/providers/studentProvider.tsx";
+import {useStudentProvider} from "@/hooks/use-students-provider.ts";
+import {useDebounceValue} from "usehooks-ts";
 import {ResponseRouterSuccess} from "@/types/ResponseRouterSuccess.ts";
 
 
@@ -23,13 +25,15 @@ export const Students: React.FC = () => {
     useChangeDocumentTitle('Liste des étudiants');
     useRequireRole(['root']);
 
-    const queryClient = useQueryClient();
-    const data = useActionData() as ResponseRouterSuccess;
-    if (data?.success) {
-        queryClient.invalidateQueries({queryKey: ['students']}).then(r => r);
-    }
+    const [search, setSearch] = useDebounceValue("", 500);
+    // const queryClient = useQueryClient();
+    // const data = useActionData() as ResponseRouterSuccess;
+    // console.log("data", data)
+    // if (data?.success) {
+    //     queryClient.invalidateQueries({queryKey: ['students', search]}).then(r => r);
+    // }
     const {t} = useTranslation();
-    const {students: rawStudents} = useGetAllStudent();
+    const {data: rawStudents} = useStudentProvider(search);
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const students = useStudents(rawStudents, currentPageNumber, rowsPerPage);
@@ -57,36 +61,43 @@ export const Students: React.FC = () => {
     const handleCloseExportStudent = () => {
         setOpenModalExport(false);
     }
-
+    const handleSearch = (search: string) => {
+        setSearch(search);
+    }
     return (<>
-        <Stack spacing={3}>
-            <HeaderStudentPage handleOpenImportStudent={() => setOpenModalImport(true)}
-                               handleOpenExportStudent={() => setOpenModalExport(true)}/>
-            <Card>
-                <CustomersSearch/>
-                <StudentsTable
-                    count={rawStudents?.length}
-                    students={students}
-                    onDeselectAll={studentsSelection.handleDeselectAll}
-                    onDeselectOne={studentsSelection.handleDeselectOne}
-                    onPageChange={handlePageChange}
-                    onRowsPerPageChange={handleRowsPerPageChange}
-                    onSelectAll={studentsSelection.handleSelectAll}
-                    onSelectOne={studentsSelection.handleSelectOne}
-                    page={currentPageNumber}
-                    rowsPerPage={rowsPerPage}
-                    selected={studentsSelection.selected}
-                />
-            </Card>
-        </Stack>
+        <StudentProviderContext>
+            <Stack spacing={3}>
+                <HeaderStudentPage handleOpenImportStudent={() => setOpenModalImport(true)}
+                                   handleOpenExportStudent={() => setOpenModalExport(true)}/>
+                <Card>
+                    <CustomersSearch onSearch={handleSearch} search={search}/>
+                    <StudentsTable
+                        count={rawStudents?.length}
+                        students={students}
+                        onDeselectAll={studentsSelection.handleDeselectAll}
+                        onDeselectOne={studentsSelection.handleDeselectOne}
+                        onPageChange={handlePageChange}
+                        onRowsPerPageChange={handleRowsPerPageChange}
+                        onSelectAll={studentsSelection.handleSelectAll}
+                        onSelectOne={studentsSelection.handleSelectOne}
+                        page={currentPageNumber}
+                        rowsPerPage={rowsPerPage}
+                        selected={studentsSelection.selected}
+                    />
+                </Card>
+            </Stack>
 
-        {openModalImport && (<CustomModal isOpen={openModalImport} onClose={handleCloseImportStudent} size={"large"} title={t('student.import_student')}>
-            <ImportStudentsModal onClose={handleCloseImportStudent} />
-        </CustomModal>)}
+            {openModalImport && (<CustomModal isOpen={openModalImport} onClose={handleCloseImportStudent} size={"large"}
+                                              title={t('student.import_student')}>
+                <ImportStudentsModal onClose={handleCloseImportStudent}/>
+            </CustomModal>)}
 
-        {openModalExport && (<CustomModal isOpen={openModalExport} onClose={handleCloseExportStudent} size={"medium"} title={t('student.export_student')}>
-            <ExportStudentModal onClose={handleCloseExportStudent}  />
-        </CustomModal>)}
-        <Toaster />
+            {openModalExport && (
+                <CustomModal isOpen={openModalExport} onClose={handleCloseExportStudent} size={"medium"}
+                             title={t('student.export_student')}>
+                    <ExportStudentModal onClose={handleCloseExportStudent}/>
+                </CustomModal>)}
+            <Toaster/>
+        </StudentProviderContext>
     </>)
 }

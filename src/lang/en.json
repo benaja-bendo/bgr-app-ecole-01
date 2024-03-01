@@ -22,5 +22,29 @@
     "export_student": "Export Student",
     "student_create_collection": "Save Collection of Students",
     "student_create_single": "Save Single Student"
+  },
+  "utils": {
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "clear": "Clear",
+    "profile": "Profile",
+    "yes": "Yes",
+    "no": "No",
+    "ok": "OK",
+    "confirm": "Confirm",
+    "warning": "Warning",
+    "error": "Error",
+    "success": "Success",
+    "info": "Info",
+    "import": "Import",
+    "export": "Export",
+    "upload": "Upload",
+    "download": "Download"
   }
 }

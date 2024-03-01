@@ -22,5 +22,18 @@
     "export_student": "Exporter des étudiants",
     "student_create_collection": "Sauvegarder la collection d'étudiants",
     "student_create_single": "Sauvegarder cet étudiant"
+  },
+  "utils": {
+    "add": "Ajouter",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "save": "Sauvegarder",
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "import": "Importer",
+    "clear": "Effacer",
+    "profile": "Profil"
   }
 }

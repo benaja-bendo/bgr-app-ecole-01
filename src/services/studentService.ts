@@ -5,7 +5,7 @@ import configRoutes from "@/utils/config-routes.ts";
 import FileSaver from 'file-saver';
 
 interface StudentServiceProps {
-    getAllStudents(): Promise<Student[]>;
+    getAllStudents(search?: string): Promise<Student[]>;
 
     createStudent(t: StudentCreateType): Promise<ResponseApi<Student> | undefined>;
 
@@ -19,9 +19,10 @@ interface StudentServiceProps {
 }
 
 class StudentService implements StudentServiceProps {
-    async getAllStudents() {
+    async getAllStudents(search?: string) {
         try {
-            const response = await HttpService.get<ResponseApi<Student[]>>(configRoutes.students.getAll);
+            if (!search) search = "";
+            const response = await HttpService.get<ResponseApi<Student[]>>(configRoutes.students.getAll(search));
             return response.data.data;
         } catch (error) {
             console.error(error);
