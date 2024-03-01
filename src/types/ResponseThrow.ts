@@ -1,5 +1,6 @@
 export type ResponseThrow = {
     message: string;
+    success: boolean;
     status?: number;
     statusText?: string;
     data?: unknown;
@@ -7,5 +8,4 @@ export type ResponseThrow = {
     config?: unknown;
     request?: unknown;
     response?: unknown;
-    success?: boolean;
 }

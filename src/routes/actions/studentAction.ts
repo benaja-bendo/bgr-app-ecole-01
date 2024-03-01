@@ -10,7 +10,10 @@ export const studentAction = async ({request}: ActionFunctionArgs) => {
     switch (request.method) {
         case "GET": {
             console.info("GET");
-            return {};
+            return {
+                message: "Method not allowed",
+                success: false,
+            };
         }
         case "POST": {
             return PostController(request.formData());
@@ -21,6 +24,7 @@ export const studentAction = async ({request}: ActionFunctionArgs) => {
         default: {
             throw json<ResponseThrow>({
                 message: "Method not allowed",
+                success: false,
             }, 405);
         }
     }
@@ -44,34 +48,34 @@ async function PostController(promiseFormData: Promise<FormData>) {
         });
         return redirect("/");
     } catch (error) {
-        // TODO: translate this error message
         const err = error as AxiosError;
         throw json<ResponseThrow>({
             message: err.message,
+            success: false,
         }, 401);
     }
 }
 
 async function DeleteController(promiseFormData: Promise<FormData>) {
-    console.log("DELETE")
     const formData = await promiseFormData;
     const ids = formData.get("ids") as string | null;
     if (ids === null) {
-        return  json<ResponseThrow>({
+        return json<ResponseThrow>({
             message: "Bad request",
+            success: false,
         }, 400);
     }
     try {
         await StudentService.deleteStudent(isNaN(Number(ids)) ? ids.split(",").map(Number) : Number(ids));
-        return json<ResponseRouterSuccess>({
+        return json<ResponseThrow>({
             message: "Student deleted",
             success: true,
         });
     } catch (error) {
-        // TODO: translate this error message
         const err = error as AxiosError;
         return json<ResponseThrow>({
             message: err.message,
+            success: false,
         }, err.response?.status || 401);
     }
 }
