@@ -21,6 +21,7 @@ import {CreateStudent} from "@/pages/Students/CreateStudent.tsx";
 import {Account} from "@/pages/Account/Account.tsx";
 import {Profile} from "@/pages/Profile/Profile.tsx";
 import {Settings} from "@/pages/Settings/Settings.tsx";
+import {StudentLoader} from "@/routes/loaders/StudentLoader.ts";
 
 const routes: RouteObject[] = [
     {
@@ -40,6 +41,7 @@ const routes: RouteObject[] = [
                 path: "/students",
                 Component: Students,
                 action: studentAction,
+                loader: StudentLoader,
             },
             {
                 path: "/students/create",
@@ -50,11 +52,13 @@ const routes: RouteObject[] = [
                 path: "/students/:id",
                 Component: ProfileStudent,
                 action: studentAction,
+                loader: StudentLoader,
             },
             {
                 path: "/students/:id/edit",
                 Component: EditStudent,
                 action: studentAction,
+                loader: StudentLoader,
             },
             {
                 path: "/account",
