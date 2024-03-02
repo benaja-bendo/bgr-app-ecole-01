@@ -8,6 +8,7 @@ export interface Route {
     };
     students: {
         getAll: (search?: string) => string;
+        get: (id: number) => string;
         create: string;
         delete: (id: number) => string;
         deletes: string;
@@ -27,6 +28,7 @@ const configRoutes: Route = {
     },
     students: {
         getAll: (search?: string) => `/students?search=${search}`,
+        get: (id: number) => `/students/${id}`,
         create: '/students',
         delete: (id: number) => `/students/${id}`,
         deletes: '/students/deletes',
