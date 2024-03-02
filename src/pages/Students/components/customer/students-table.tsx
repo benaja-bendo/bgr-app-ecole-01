@@ -135,9 +135,11 @@ export const StudentsTable: FC<StudentsTableProps<Student>> = (props) => {
                                             <Avatar src={student.avatar}>
                                                 {getInitials(student.last_name)}
                                             </Avatar>
-                                            <Typography variant="subtitle2">
-                                                {student.last_name} {student.first_name}
-                                            </Typography>
+                                            <Link to={`/students/${student.id}`}>
+                                                <Typography variant="subtitle2">
+                                                    {student.last_name} {student.first_name}
+                                                </Typography>
+                                            </Link>
                                         </Stack>
                                     </TableCell>
                                     <TableCell>

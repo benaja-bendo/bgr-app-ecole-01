@@ -8,7 +8,6 @@ import Error404 from "@/assets/json/404.json";
 export function CustomErrorBoundary() {
     const navigate = useNavigate();
     const error = useRouteError() as ErrorResponse;
-    console.log('error CustomErrorBoundary :>>', error);
     if (isRouteErrorResponse(error)) {
         switch (error.status) {
             case 401:
@@ -31,7 +30,6 @@ export function CustomErrorBoundary() {
                 return (<CustomErrorFallback
                     error={error}
                     resetErrorBoundary={() => {
-                        console.log('resetErrorBoundary')
                         navigate('/')
                     }}/>);
 

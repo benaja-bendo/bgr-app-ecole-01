@@ -38,7 +38,6 @@ export const ImportStudentsModal: React.FC<IImportStudentsModalProps> = (props) 
                     setLoading('end');
                     setData(response.students[0]);
                 } else {
-                    console.log('Error importing students');
                     setLoading('start');
                 }
             } catch (error) {

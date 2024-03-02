@@ -7,6 +7,7 @@ import StudentService from "@/services/studentService.ts";
 import {ResponseRouterSuccess} from "@/types/ResponseRouterSuccess.ts";
 import {queryClient} from "@/query/queryClient.tsx";
 import ConfigQueryKey from "@/config/config-query-key.ts";
+import {toast} from "sonner";
 
 export const studentAction = async ({request}: ActionFunctionArgs) => {
     switch (request.method) {
@@ -47,6 +48,7 @@ async function GetController(promiseFormData: Promise<FormData>) {
         });
     } catch (error) {
         const err = error as AxiosError;
+        toast.error(`${err.message}`);
         return json<ResponseThrow>({
             message: err.message,
             success: false,
@@ -72,10 +74,12 @@ async function PostController(promiseFormData: Promise<FormData>) {
         });
         if (response !== undefined && response.success) {
             await queryClient.invalidateQueries({queryKey: [...ConfigQueryKey.STUDENTS]});
+            toast.success(`${response.message}`);
         }
         return redirect("/");
     } catch (error) {
         const err = error as AxiosError;
+        toast.error(`${err.message}`);
         throw json<ResponseThrow>({
             message: err.message,
             success: false,
@@ -96,6 +100,7 @@ async function DeleteController(promiseFormData: Promise<FormData>) {
         const response = await StudentService.deleteStudent(isNaN(Number(ids)) ? ids.split(",").map(Number) : Number(ids));
         if (response !== undefined && response.success) {
            await queryClient.invalidateQueries({queryKey: [...ConfigQueryKey.STUDENTS]});
+            toast.success(`${response.message}`);
         }
         return json<ResponseThrow>({
             message: "Student deleted",

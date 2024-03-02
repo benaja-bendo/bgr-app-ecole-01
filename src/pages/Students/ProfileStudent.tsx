@@ -50,7 +50,6 @@ export const ProfileStudent: FC = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const student = useLoaderData() as Student;
-    console.log("data", student);
 
     useEffect(() => {
         if (!/\d+/.test(id as string)) {
