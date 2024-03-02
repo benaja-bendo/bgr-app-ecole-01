@@ -8,31 +8,21 @@ import {useRequireRole} from "@/hooks/use-require-role.ts";
 import {useStudentIds} from "@/pages/Students/hooks/use-student-ids.ts";
 import {useStudents} from "@/pages/Students/hooks/use-students.ts";
 import {HeaderStudentPage} from "@/pages/Students/components/HeaderStudentPage.tsx";
-import {useActionData} from "react-router-dom";
 import {useChangeDocumentTitle} from "@/hooks/use-change-document-title.ts";
 import {ExportStudentModal} from "@/pages/Students/components/ExportStudentModal.tsx";
 import {ImportStudentsModal} from "@/pages/Students/components/ImportStudentsModal.tsx";
 import {useTranslation} from "react-i18next";
 import {Toaster} from "@/components/ui/sonner.tsx";
-import {useQueryClient} from "@tanstack/react-query";
 import {StudentProviderContext} from "@/providers/studentProvider.tsx";
 import {useStudentProvider} from "@/hooks/use-students-provider.ts";
 import {useDebounceValue} from "usehooks-ts";
-import {ResponseRouterSuccess} from "@/types/ResponseRouterSuccess.ts";
-
 
 export const Students: React.FC = () => {
     useChangeDocumentTitle('Liste des étudiants');
     useRequireRole(['root']);
 
-    const [search, setSearch] = useDebounceValue("", 500);
-    // const queryClient = useQueryClient();
-    // const data = useActionData() as ResponseRouterSuccess;
-    // console.log("data", data)
-    // if (data?.success) {
-    //     queryClient.invalidateQueries({queryKey: ['students', search]}).then(r => r);
-    // }
     const {t} = useTranslation();
+    const [search, setSearch] = useDebounceValue("", 500);
     const {data: rawStudents} = useStudentProvider(search);
     const [currentPageNumber, setCurrentPageNumber] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);

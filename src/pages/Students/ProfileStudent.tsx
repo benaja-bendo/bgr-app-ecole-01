@@ -8,8 +8,9 @@ import {NotesAndRatings} from "@/pages/Students/components/tabs/NotesAndRatings.
 import {AttendanceTracking} from "@/pages/Students/components/tabs/AttendanceTracking.tsx";
 import {InternshipsAndProjects} from "@/pages/Students/components/tabs/InternshipsAndProjects.tsx";
 import ActionsMenu from "@/pages/Students/components/ActionsMenu.tsx";
-import { useParams, useNavigate } from 'react-router-dom';
+import {useParams, useNavigate, useLoaderData} from 'react-router-dom';
 import {useChangeDocumentTitle} from "@/hooks/use-change-document-title.ts";
+import {Student} from "@/types/Student.ts";
 
 const tabs = [
     {
@@ -48,6 +49,8 @@ export const ProfileStudent: FC = () => {
     const [value, setValue] = useState(tabs[0].value);
     const { id } = useParams();
     const navigate = useNavigate();
+    const student = useLoaderData() as Student;
+    console.log("data", student);
 
     useEffect(() => {
         if (!/\d+/.test(id as string)) {
@@ -69,13 +72,13 @@ export const ProfileStudent: FC = () => {
                 alignItems="center"
                 spacing={2}>
                 <Avatar
-                    alt="Name student"
-                    src="https://api.dicebear.com/7.x/adventurer/svg?seed=Simon"
+                    alt={student?.first_name}
+                    src={student?.avatar}
                     sx={{width: 64, height: 64}}
                 />
                 <Stack direction="column">
                     <Typography variant="h4">
-                        Simon - 123456
+                        {student?.first_name} {student?.last_name}
                     </Typography>
                     <Typography variant="body1">
                         1ère année
