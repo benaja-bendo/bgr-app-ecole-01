@@ -6,7 +6,7 @@ import {AxiosError} from "axios";
 import StudentService from "@/services/studentService.ts";
 import {ResponseRouterSuccess} from "@/types/ResponseRouterSuccess.ts";
 import {queryClient} from "@/query/queryClient.tsx";
-import ConfigQueryKey from "@/utils/config-query-key.ts";
+import ConfigQueryKey from "@/config/config-query-key.ts";
 
 export const studentAction = async ({request}: ActionFunctionArgs) => {
     switch (request.method) {

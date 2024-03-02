@@ -22,7 +22,7 @@ import {DeleteIcon} from "@/components/svg/SvgIcon/DeleteIcon.tsx";
 import {useTranslation} from "react-i18next";
 import {AccountIcon} from "@/components/svg/SvgIcon/AccountIcon.tsx";
 import ConfirmDialog from "@/components/ConfirmDialog.tsx";
-import ConfigQueryKey from "@/utils/config-query-key.ts";
+import ConfigQueryKey from "@/config/config-query-key.ts";
 import {useQueryClient} from "@tanstack/react-query";
 
 

@@ -1,7 +1,7 @@
 import HttpService from '@/services/HttpService.ts';
 import {ResponseApi} from "@/types/ResponseApi.ts";
 import {Student, StudentCreateType, StudentImportType} from "@/types/Student.ts";
-import configRoutes from "@/utils/config-routes.ts";
+import configRoutes from "@/config/config-routes.ts";
 import FileSaver from 'file-saver';
 
 interface StudentServiceProps {

@@ -2,7 +2,7 @@ import React from 'react';
 import {useCurrentUser} from "@/hooks/use-current-user.ts";
 import HttpService from "@/services/HttpService.ts";
 import {AxiosResponse} from "axios";
-import configRoutes from "@/utils/config-routes.ts";
+import configRoutes from "@/config/config-routes.ts";
 import {useTranslation} from 'react-i18next';
 import {useChangeDocumentTitle} from "@/hooks/use-change-document-title.ts";
 import {useStoreStudent} from "@/states/useStoreStudent.ts";
