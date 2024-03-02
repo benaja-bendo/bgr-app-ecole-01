@@ -22,8 +22,6 @@ import {DeleteIcon} from "@/components/svg/SvgIcon/DeleteIcon.tsx";
 import {useTranslation} from "react-i18next";
 import {AccountIcon} from "@/components/svg/SvgIcon/AccountIcon.tsx";
 import ConfirmDialog from "@/components/ConfirmDialog.tsx";
-import ConfigQueryKey from "@/config/config-query-key.ts";
-import {useQueryClient} from "@tanstack/react-query";
 
 
 type StudentsTableProps<T = unknown> = {
@@ -56,7 +54,6 @@ export const StudentsTable: FC<StudentsTableProps<Student>> = (props) => {
         selected = []
     } = props;
 
-    const queryClient = useQueryClient();
     const [open, setOpen] = useState(false);
     const [studentToDelete, setStudentToDelete] = useState<number>(0);
     const fetcher = useFetcher();
@@ -74,7 +71,6 @@ export const StudentsTable: FC<StudentsTableProps<Student>> = (props) => {
             action: `/students`,
             method: 'delete',
         });
-        queryClient.invalidateQueries({queryKey: [...ConfigQueryKey.STUDENTS]}).then(r => r);
     }
     return (<>
         <ConfirmDialog
@@ -230,12 +226,40 @@ function TableCellHasNotSelected() {
 }
 
 function TableCellHasSelected({selected}: { selected: string[] }) {
+    const [open, setOpen] = useState(false);
+    const fetcher = useFetcher();
     const method = selected.length == 1 ? 'delete' : 'post';
-    return (<TableCell>
-        <Box sx={{display: 'block'}}>
-            <Form method={method} action={"/students"}>
-                <Button name={"ids"} value={selected} type="submit">Delete</Button>
-            </Form>
-        </Box>
-    </TableCell>);
+
+    const handleDeleteItem = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setOpen(true);
+    }
+
+    const handleConfirmDelete = () => {
+        fetcher.submit({ids: selected}, {
+            action: `/students`,
+            method: method,
+        });
+        setOpen(false);
+    }
+
+    return (
+        <>
+            <ConfirmDialog
+                title="Supprimer l'étudiant"
+                open={open}
+                setOpen={setOpen}
+                onConfirm={handleConfirmDelete}
+            >
+                Êtes-vous sûr de vouloir supprimer ces étudiants ?
+            </ConfirmDialog>
+            <TableCell>
+                <Box sx={{display: 'block'}}>
+                    <Form method={method} action={"/students"} onSubmit={handleDeleteItem}>
+                        <Button name={"ids"} value={selected} type="submit">Delete</Button>
+                    </Form>
+                </Box>
+            </TableCell>
+        </>
+    );
 }

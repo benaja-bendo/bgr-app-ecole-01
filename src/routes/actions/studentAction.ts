@@ -31,7 +31,6 @@ export const studentAction = async ({request}: ActionFunctionArgs) => {
 async function GetController(promiseFormData: Promise<FormData>) {
     const formData = await promiseFormData;
     const ids = formData.get("ids") as string | null;
-    console.log("ids", ids)
     if (ids === null) {
         return json<ResponseThrow>({
             message: "Bad request",
@@ -96,8 +95,7 @@ async function DeleteController(promiseFormData: Promise<FormData>) {
     try {
         const response = await StudentService.deleteStudent(isNaN(Number(ids)) ? ids.split(",").map(Number) : Number(ids));
         if (response !== undefined && response.success) {
-            const res = await queryClient.invalidateQueries({queryKey: [...ConfigQueryKey.STUDENTS]});
-            console.log("res", res)
+           await queryClient.invalidateQueries({queryKey: [...ConfigQueryKey.STUDENTS]});
         }
         return json<ResponseThrow>({
             message: "Student deleted",
