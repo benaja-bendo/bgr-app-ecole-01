@@ -7,9 +7,11 @@ import FileSaver from 'file-saver';
 interface StudentServiceProps {
     getAllStudents(search?: string): Promise<Student[]>;
 
+    getStudents(ids: number): Promise<Student>;
+
     createStudent(t: StudentCreateType): Promise<ResponseApi<Student> | undefined>;
 
-    deleteStudent(t: number | number[]): Promise<string | undefined>;
+    deleteStudent(t: number | number[]): Promise<ResponseApi<Student> | undefined>;
 
     exportStudents(): void;
 
@@ -23,6 +25,16 @@ class StudentService implements StudentServiceProps {
         try {
             if (!search) search = "";
             const response = await HttpService.get<ResponseApi<Student[]>>(configRoutes.students.getAll(search));
+            return response.data.data;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    async getStudents(ids: number) {
+        try {
+            const response = await HttpService.get<ResponseApi<Student>>(configRoutes.students.get(ids));
             return response.data.data;
         } catch (error) {
             console.error(error);
@@ -59,7 +71,7 @@ class StudentService implements StudentServiceProps {
                 response = await HttpService.delete<ResponseApi<Student>>(configRoutes.students.delete(student));
             }
             if (response.status === 200) {
-                return response.data.message;
+                return response.data;
             }
         } catch (error) {
             console.error(error);
