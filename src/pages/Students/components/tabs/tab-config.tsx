@@ -6,7 +6,7 @@ import {NotesAndRatings} from "@/pages/Students/components/tabs/NotesAndRatings.
 import {AttendanceTracking} from "@/pages/Students/components/tabs/AttendanceTracking.tsx";
 import {InternshipsAndProjects} from "@/pages/Students/components/tabs/InternshipsAndProjects.tsx";
 
-export const TabProfile = [
+export const TabConfig = [
     {
         value: 0,
         label: 'Détails',
