@@ -53,6 +53,7 @@ const routes: RouteObject[] = [
                 Component: ProfileStudent,
                 action: studentAction,
                 loader: StudentLoader,
+                errorElement: <CustomErrorBoundary />,
             },
             {
                 path: "/students/:id/edit",
@@ -112,6 +113,7 @@ const routes: RouteObject[] = [
 export const Router = createBrowserRouter(routes, {
     basename: "/",
     window,
+    // hydrationData: JSON.parse(document.getElementById("hydration-data")!.textContent!),
 });
 
 if (import.meta.hot) {
