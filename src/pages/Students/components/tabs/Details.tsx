@@ -12,8 +12,11 @@ import {
     Stack,
     Typography
 } from "@mui/material";
+import {useLoaderDataStudent} from "@/hooks/use-loader-data-student.ts";
+import React from 'react';
 
 export const Details: FC = () => {
+    const student = useLoaderDataStudent();
     return (<Grid container spacing={{xs: 2, md: 3}} columns={{xs: 4, sm: 8, md: 12}}>
         <Grid xs={4}>
             <Card variant="elevation" elevation={2} square>
@@ -38,7 +41,7 @@ export const Details: FC = () => {
                                     variant="body2"
                                     color="text.primary"
                                 >
-                                    user@mail.com
+                                    {student.email}
                                 </Typography>
                             </>}
                         />
@@ -63,7 +66,9 @@ export const Details: FC = () => {
                                     variant="body2"
                                     color="text.primary"
                                 >
-                                    +55 748 327 439
+                                    {student.number_phones?.map((phone, index) => {
+                                        return <React.Fragment key={index}>{phone.number_phone}<br/></React.Fragment>
+                                    })}
                                 </Typography>
                             </>}
                         />
@@ -88,7 +93,11 @@ export const Details: FC = () => {
                                     variant="body2"
                                     color="text.primary"
                                 >
-                                    New York
+                                    {student.addresses?.map((address, index) => {
+                                        return <React.Fragment key={index}>
+                                            {address.street} {address.number}, {address.zip_code} {address.city}, {address.country}
+                                            <Divider/><br/></React.Fragment>
+                                    })}
                                 </Typography>
                             </>}
                         />
