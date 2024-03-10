@@ -11,6 +11,8 @@ interface StudentServiceProps {
 
     createStudent(t: StudentCreateType): Promise<ResponseApi<Student> | undefined>;
 
+    createStudentByFormData(t: FormData): Promise<ResponseApi<Student> | undefined>;
+
     deleteStudent(t: number | number[]): Promise<ResponseApi<Student> | undefined>;
 
     exportStudents(): void;
@@ -50,6 +52,22 @@ class StudentService implements StudentServiceProps {
                 last_name,
                 first_name,
                 birth_date
+            });
+            if (response.status === 201) {
+                return response.data;
+            }
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    async createStudentByFormData(formData: FormData) {
+        try {
+            const response = await HttpService.post<ResponseApi<Student>>(configRoutes.students.create, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             });
             if (response.status === 201) {
                 return response.data;

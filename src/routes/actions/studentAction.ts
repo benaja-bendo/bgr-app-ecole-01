@@ -63,20 +63,13 @@ async function PostController(promiseFormData: Promise<FormData>) {
         return DeleteController(promiseFormData);
     }
 
-    const dataObject = convertFormDataToObject(formData);
     try {
-        const response = await StudentService.createStudent({
-            gender: dataObject.gender as string,
-            email: dataObject.email as string,
-            first_name: dataObject.first_name as string,
-            last_name: dataObject.last_name as string,
-            birth_date: dataObject.birth_date as string,
-        });
+        const response = await StudentService.createStudentByFormData(formData);
         if (response !== undefined && response.success) {
             await queryClient.invalidateQueries({queryKey: [...ConfigQueryKey.STUDENTS]});
             toast.success(`${response.message}`);
+            return redirect("/students");
         }
-        return redirect("/");
     } catch (error) {
         const err = error as AxiosError;
         toast.error(`${err.message}`);
