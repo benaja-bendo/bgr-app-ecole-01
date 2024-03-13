@@ -15,6 +15,7 @@ import {useForm} from "react-hook-form";
 import {Form} from "react-router-dom";
 import {useChangeDocumentTitle} from "@/hooks/use-change-document-title.ts";
 import {PhotoCamera} from '@mui/icons-material';
+import DatePicker from "@/pages/Students/components/DatePicker.tsx";
 
 export const CreateStudent: React.FC = () => {
     useChangeDocumentTitle('Création d\'un étudiant');
@@ -160,13 +161,7 @@ const AccountInformation = () => {
                 error={!!errors.phone}
                 helperText={errors.phone ? 'Le téléphone est obligatoire' : ''}
             />
-            <TextField
-                {...register('birth_date', {required: false})}
-                type="date"
-                fullWidth
-                error={!!errors.birth_date}
-                helperText={errors.birth_date ? 'La date de naissance est obligatoire' : ''}
-            />
+            <DatePicker/>
         </Stack>
         <Divider/>
         <FormControl sx={{mt: 3, display: 'block'}} component="fieldset">
