@@ -18,7 +18,7 @@ const theme = createTheme();
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
         <QueryClientProvider client={queryClient}>
-            <ReactQueryDevtools initialIsOpen={false} />
+            <ReactQueryDevtools initialIsOpen={false} buttonPosition={"bottom-left"}/>
             <I18nextProvider i18n={i18n}>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
