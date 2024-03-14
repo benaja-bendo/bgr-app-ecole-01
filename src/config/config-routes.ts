@@ -10,6 +10,7 @@ export interface Route {
         getAll: (search?: string) => string;
         get: (id: number) => string;
         update: (id: number) => string;
+        updateImage: (id: number) => string;
         create: string;
         delete: (id: number) => string;
         deletes: string;
@@ -31,6 +32,7 @@ const configRoutes: Route = {
         getAll: (search?: string) => `/students?search=${search}`,
         get: (id: number) => `/students/${id}`,
         update: (id: number) => `/students/${id}`,
+        updateImage: (id: number) => `/students/${id}/upload-image`,
         create: '/students',
         delete: (id: number) => `/students/${id}`,
         deletes: '/students/deletes',
