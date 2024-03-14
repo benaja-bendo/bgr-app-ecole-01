@@ -3,6 +3,7 @@ import {ResponseApi} from "@/types/ResponseApi.ts";
 import {Student, StudentCreateType, StudentImportType} from "@/types/Student.ts";
 import configRoutes from "@/config/config-routes.ts";
 import FileSaver from 'file-saver';
+import {StudentUpdateType} from "@/types/StudentUpdateType.ts";
 
 interface StudentServiceProps {
     getAllStudents(search?: string): Promise<Student[]>;
@@ -14,6 +15,8 @@ interface StudentServiceProps {
     createStudentByFormData(t: FormData): Promise<ResponseApi<Student> | undefined>;
 
     deleteStudent(t: number | number[]): Promise<ResponseApi<Student> | undefined>;
+
+    updateStudent(t: StudentUpdateType): Promise<ResponseApi<Student> | undefined>;
 
     exportStudents(): void;
 
@@ -88,6 +91,18 @@ class StudentService implements StudentServiceProps {
             } else {
                 response = await HttpService.delete<ResponseApi<Student>>(configRoutes.students.delete(student));
             }
+            if (response.status === 200) {
+                return response.data;
+            }
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    async updateStudent(student: StudentUpdateType) {
+        try {
+            const response = await HttpService.patch<ResponseApi<Student>>(configRoutes.students.update(Number(student.id)), student);
             if (response.status === 200) {
                 return response.data;
             }

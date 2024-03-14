@@ -1,13 +1,13 @@
 import {ActionFunctionArgs} from "@remix-run/router/utils.ts";
 import {json, redirect} from "react-router-dom";
 import {ResponseThrow} from "@/types/ResponseThrow.ts";
-import {convertFormDataToObject} from "@/utils/convert-formData-to-object.ts";
 import {AxiosError} from "axios";
 import StudentService from "@/services/studentService.ts";
 import {ResponseRouterSuccess} from "@/types/ResponseRouterSuccess.ts";
 import {queryClient} from "@/query/queryClient.tsx";
 import ConfigQueryKey from "@/config/config-query-key.ts";
 import {toast} from "sonner";
+import {StudentUpdateType} from "@/types/StudentUpdateType.ts";
 
 export const studentAction = async ({request}: ActionFunctionArgs) => {
     switch (request.method) {
@@ -19,6 +19,9 @@ export const studentAction = async ({request}: ActionFunctionArgs) => {
         }
         case "DELETE": {
             return DeleteController(request.formData());
+        }
+        case "PUT": {
+            return PutController(request.formData());
         }
         default: {
             throw json<ResponseThrow>({
@@ -105,5 +108,31 @@ async function DeleteController(promiseFormData: Promise<FormData>) {
             message: err.message,
             success: false,
         }, err.response?.status || 401);
+    }
+}
+
+async function PutController(promiseFormData: Promise<FormData>) {
+    const formData = await promiseFormData;
+    try {
+        const student = {
+            id: Number(formData.get("id")),
+            email: formData.get("email"),
+            first_name: formData.get("first_name"),
+            last_name: formData.get("last_name"),
+            birthDate: formData.get("birth_date"),
+        } as StudentUpdateType;
+        const response = await StudentService.updateStudent(student);
+        if (response !== undefined && response.success) {
+            await queryClient.invalidateQueries({queryKey: [...ConfigQueryKey.STUDENTS]});
+            toast.success(`${response.message}`);
+            return redirect("/students");
+        }
+    } catch (error) {
+        const err = error as AxiosError;
+        toast.error(`${err.message}`);
+        throw json<ResponseThrow>({
+            message: err.message,
+            success: false,
+        }, 401);
     }
 }
