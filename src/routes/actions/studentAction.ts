@@ -95,7 +95,7 @@ async function DeleteController(promiseFormData: Promise<FormData>) {
     try {
         const response = await StudentService.deleteStudent(isNaN(Number(ids)) ? ids.split(",").map(Number) : Number(ids));
         if (response !== undefined && response.success) {
-           await queryClient.invalidateQueries({queryKey: [...ConfigQueryKey.STUDENTS]});
+            await queryClient.invalidateQueries({queryKey: [...ConfigQueryKey.STUDENTS]});
             toast.success(`${response.message}`);
         }
         return json<ResponseThrow>({
@@ -114,12 +114,21 @@ async function DeleteController(promiseFormData: Promise<FormData>) {
 async function PutController(promiseFormData: Promise<FormData>) {
     const formData = await promiseFormData;
     try {
+        const avatar = formData.get("avatar") as File | null;
+        if (avatar !== null && avatar.name !== "") {
+            const response = await StudentService.updateImageStudent(avatar, Number(formData.get("id")));
+            if (response !== undefined && response.success) {
+                toast.success(`${response.message}`);
+            }
+        }
+
         const student = {
             id: Number(formData.get("id")),
             email: formData.get("email"),
             first_name: formData.get("first_name"),
             last_name: formData.get("last_name"),
             birthDate: formData.get("birth_date"),
+            phone_number: formData.get("phone_number"),
         } as StudentUpdateType;
         const response = await StudentService.updateStudent(student);
         if (response !== undefined && response.success) {

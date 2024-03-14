@@ -197,7 +197,7 @@ const AccountInformation: FC = () => {
                 helperText={errors.email ? 'L\'email est obligatoire' : ''}
             />
             <TextField
-                {...register('phone', {required: true})}
+                {...register('phone_number', {required: true})}
                 label="Téléphone"
                 variant="outlined"
                 fullWidth

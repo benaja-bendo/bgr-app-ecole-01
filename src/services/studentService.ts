@@ -20,6 +20,8 @@ interface StudentServiceProps {
 
     exportStudents(): void;
 
+    updateImageStudent(avatar: File, idStudent: number): Promise<ResponseApi<Student> | undefined>;
+
     exportTemplateStudents(): void;
 
     importStudents(file: File): Promise<StudentImportType | undefined>;
@@ -120,6 +122,24 @@ class StudentService implements StudentServiceProps {
             if (response.status === 200) {
                 const filename = 'students.xlsx';
                 FileSaver.saveAs(new Blob([response.data]), filename);
+            }
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    async updateImageStudent(avatar: File, idStudent: number) {
+        try {
+            const formData = new FormData();
+            formData.append('avatar', avatar);
+            const response = await HttpService.post<ResponseApi<Student>>(configRoutes.students.updateImage(idStudent), formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            if (response.status === 200) {
+                return response.data;
             }
         } catch (error) {
             console.error(error);

@@ -5,5 +5,6 @@ export type StudentUpdateType = {
     lastName?: string;
     email?: string;
     birthDate?: string;
+    phone_number?: string;
     avatar?: File;
 }
