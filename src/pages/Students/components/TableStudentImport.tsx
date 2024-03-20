@@ -31,7 +31,7 @@ export const TableStudentImport: React.FC<ITableStudentImportProps> = (props) =>
     const handleCreateAllCollection = async () => {
         try {
             await Promise.all(data.map(async (row, index) => {
-                // Attendre index * 1000 millisecondes avant d'exécuter la requête
+                // index * 1000 millisecondes avant d'exécuter la requête
                 await new Promise(resolve => setTimeout(resolve, index * 1000));
                 const res = await StudentService.createStudent(row);
                 if (res) {
