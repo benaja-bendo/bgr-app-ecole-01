@@ -1,4 +1,4 @@
-import configRoutes, {Route} from "@/utils/config-routes.ts";
+import configRoutes, {Route} from "@/config/config-routes.ts";
 
 interface ConfigApp {
     api: {

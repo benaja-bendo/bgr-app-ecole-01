@@ -1,6 +1,6 @@
 import {FC, useState} from 'react'
 import {Box, IconButton} from "@mui/material";
-import ModalAddStudent from "@/components/ModalAddStudent.tsx";
+import CustomModal from "@/components/CustomModal.tsx";
 import {useCurrentUser} from "@/hooks/use-current-user.ts";
 import {RoleType} from "@/types/Role.ts";
 
@@ -27,10 +27,10 @@ export const LogoTenant: FC = () => {
                     height="100%"/>
             </Box>
 
-        {openModal && (<ModalAddStudent isOpen={openModal} onClose={handleCloseModel}>
+        {openModal && (<CustomModal isOpen={openModal} onClose={handleCloseModel}>
             <div>
                 modifier le logo
             </div>
-        </ModalAddStudent>)}
+        </CustomModal>)}
     </>);
 }

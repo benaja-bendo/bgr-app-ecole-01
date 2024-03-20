@@ -20,6 +20,7 @@ import { usePopover } from '@/hooks/use-popover';
 import { AccountPopover } from '@/layouts/partials/account-popover';
 import { UsersIcon } from "@heroicons/react/24/solid";
 import { ChangeLang } from '@/components/ChangeLang.tsx';
+import {useCurrentUser} from "@/hooks/use-current-user.ts";
 
 const SIDE_NAV_WIDTH = 280;
 const TOP_NAV_HEIGHT = 64;
@@ -29,6 +30,7 @@ type TopNavProps = {
 }
 
 export const TopNav: React.FC<TopNavProps> = ({ onNavOpen }) => {
+    const { currentUser } = useCurrentUser();
     const lgUp: boolean = useMediaQuery<Theme>((theme: Theme) => theme.breakpoints.up('lg'));
     const accountPopover = usePopover();
 
@@ -126,7 +128,7 @@ export const TopNav: React.FC<TopNavProps> = ({ onNavOpen }) => {
                                 height: 40,
                                 width: 40
                             }}
-                            src="https://www.gravatar.com/avatar/78e731027d8fd50ed642340b7c9a63b3"
+                            src={currentUser?.avatar}
                         />
                     </Stack>
                 </Stack>

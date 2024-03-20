@@ -20,19 +20,17 @@ export const loginAction = async ({request}: ActionFunctionArgs) => {
     };
     // Validate the form data.
     if (!email || !password || !school_name) {
-        // TODO: translate this error message
         return {
             error: "You must provide a email to log in",
         };
     }
-    // Sign in and redirect to the proper destination if successful.
     try {
         await AuthService.signin(email,password,school_name);
     } catch (error) {
-        // TODO: translate this error message
         const err = error as AxiosError;
         throw json<ResponseThrow>({
-            message: err.message,
+            success: false,
+            message: err.message
         }, 401);
     }
     return redirect(redirectTo || "/");

@@ -1,6 +1,18 @@
 import React from 'react';
-import {Box, Button, Divider, Popover, Typography} from '@mui/material';
-import {useFetcher} from "react-router-dom";
+import {
+    Avatar,
+    Button,
+    Divider,
+    List, ListItem, ListItemButton, ListItemIcon, ListItemText,
+    Popover,
+    Stack,
+    Typography
+} from '@mui/material';
+import {useFetcher,Link} from "react-router-dom";
+import {useCurrentUser} from "@/hooks/use-current-user.ts";
+import {ParamIcon} from "@/components/svg/SvgIcon/ParamIcon.tsx";
+import {AccountIcon} from "@/components/svg/SvgIcon/AccountIcon.tsx";
+
 
 interface AccountPopoverProps {
     anchorEl: Element | null;
@@ -9,7 +21,7 @@ interface AccountPopoverProps {
 }
 
 export const AccountPopover: React.FC<AccountPopoverProps> = ({anchorEl, onClose, open}) => {
-    const fetcher = useFetcher();
+    const {currentUser} = useCurrentUser();
 
     return (
         <Popover
@@ -21,25 +33,55 @@ export const AccountPopover: React.FC<AccountPopoverProps> = ({anchorEl, onClose
             onClose={onClose}
             open={open}
         >
-            <Box sx={{py: 1.5, px: 2}}>
-                <Typography variant="overline">Account</Typography>
-                <Typography color="text.secondary" variant="body2">
-                    Anika Visser
-                </Typography>
-            </Box>
-            <Divider/>
-            <fetcher.Form method="post" action={`/auth/logout`}>
-                <Button type={"submit"}
-                        fullWidth={true}
-                        sx={{
-                            p: '8px',
-                            '& > *': {
-                                borderRadius: 1
-                            }
-                        }}>
-                    Sign out
-                </Button>
-            </fetcher.Form>
+            <Stack spacing={1} sx={{width: 200}}>
+                <Stack direction="row" spacing={1} alignItems={"center"} justifyContent={"center"}>
+                    <Avatar alt="User Avatar" src={currentUser?.avatar}/>
+                    <Stack direction="column">
+                        <Typography variant="caption">
+                            {currentUser?.email}
+                        </Typography>
+                        <Typography variant="caption">
+                            {currentUser?.first_name} {currentUser?.last_name}
+                        </Typography>
+                    </Stack>
+                </Stack>
+                <Divider/>
+                <AccountActions/>
+                <Divider/>
+                <LogoutForm/>
+            </Stack>
         </Popover>
+    );
+};
+
+const AccountActions = () => {
+    return (<List>
+        <ListItem disablePadding>
+            <ListItemButton component={Link} to="/profile">
+                <ListItemIcon>
+                    <AccountIcon />
+                </ListItemIcon>
+                <ListItemText primary="Profile"/>
+            </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+            <ListItemButton component={Link} to="/settings">
+                <ListItemIcon>
+                    <ParamIcon/>
+                </ListItemIcon>
+                <ListItemText primary="Parametre"/>
+            </ListItemButton>
+        </ListItem>
+    </List>);
+};
+
+const LogoutForm = () => {
+    const fetcher = useFetcher();
+    return (
+        <fetcher.Form method="post" action={`/auth/logout`}>
+            <Button type="submit" fullWidth>
+                Sign out
+            </Button>
+        </fetcher.Form>
     );
 };

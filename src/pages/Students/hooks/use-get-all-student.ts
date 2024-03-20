@@ -12,7 +12,6 @@ export function useGetAllStudent() {
         refetchOnWindowFocus: false,
     });
 
-
     useEffect(() => {
         if (data) {
             setStudents(data);

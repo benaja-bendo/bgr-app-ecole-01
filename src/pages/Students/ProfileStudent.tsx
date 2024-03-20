@@ -1,96 +1,45 @@
-import React, {FC, SyntheticEvent, useState,useEffect} from 'react';
-import {Avatar, Box, Button, Stack, Tab, Tabs, Typography} from "@mui/material";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import {Invoices} from "@/pages/Students/components/tabs/Invoices.tsx";
-import {Details} from "@/pages/Students/components/tabs/Details.tsx";
-import {Schedule} from "@/pages/Students/components/tabs/Schedule.tsx";
-import {NotesAndRatings} from "@/pages/Students/components/tabs/NotesAndRatings.tsx";
-import {AttendanceTracking} from "@/pages/Students/components/tabs/AttendanceTracking.tsx";
-import {InternshipsAndProjects} from "@/pages/Students/components/tabs/InternshipsAndProjects.tsx";
-import ActionsMenu from "@/pages/Students/components/ActionsMenu.tsx";
-import { useParams, useNavigate } from 'react-router-dom';
+import React, {FC, SyntheticEvent, useEffect, useState} from 'react';
+import {Box, Tab, Tabs} from "@mui/material";
+import {useChangeDocumentTitle} from "@/hooks/use-change-document-title.ts";
+import {TabConfig} from "@/pages/Students/components/tabs/tab-config.tsx";
+import {HeaderProfilePage} from "@/pages/Students/components/HeaderProfilePage.tsx";
+import {useLocation, useSearchParams} from "react-router-dom";
 
-const tabs = [
-    {
-        value: 0,
-        label: 'Détails du profil',
-        component: <Details/>,
-    },
-    {
-        value: 1,
-        label: 'Factures et paiements',
-        component: <Invoices/>,
-    },
-    {
-        value: 2,
-        label: 'Emploi du temps',
-        component: <Schedule/>,
-    },
-    {
-        value: 3,
-        label: 'Notes et Évaluations',
-        component: <NotesAndRatings/>,
-    },
-    {
-        value: 4,
-        label: 'Suivi de la présence',
-        component: <AttendanceTracking/>,
-    },
-    {
-        value: 5,
-        label: 'Stages et Projets',
-        component: <InternshipsAndProjects/>,
-    },
-];
+function getAllParams<T extends Record<string, string>>(location: { search: string }): T {
+    const searchParams = new URLSearchParams(location.search);
+    const params: { [key: string]: string } = {};
+    for (const [key, value] of searchParams.entries()) {
+        params[key] = value;
+    }
+    return params as T;
+}
+
+type ProfileStudentParams = {
+    tab?: string
+}
+
 export const ProfileStudent: FC = () => {
-    const [value, setValue] = useState(tabs[0].value);
-    const { id } = useParams();
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (!/\d+/.test(id as string)) {
-            navigate(-1);
-        }
-    }, [id, navigate]);
-
+    useChangeDocumentTitle('Profil de l\'étudiant');
+    const location = useLocation();
+    const paramsUrl = getAllParams<ProfileStudentParams>(location);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const tabs = parseInt(searchParams.get("tab") ?? "0");
+    const validTabs = tabs >= 0 && tabs < TabConfig.length ? tabs : 0;
+    const tabConfig = TabConfig[validTabs];
+    const [value, setValue] = useState(tabConfig.value);
     const handleChange = (_: SyntheticEvent, newValue: number) => {
         setValue(newValue);
+        setSearchParams({tab: newValue.toString()})
     };
+    useEffect(() => {
+            const tabs = parseInt(paramsUrl.tab ?? "0");
+            const validTabs = tabs >= 0 && tabs < TabConfig.length ? tabs : 0;
+            const tabConfig = TabConfig[validTabs];
+            setValue(tabConfig ? tabConfig.value : TabConfig[0].value);        }
+        , [paramsUrl.tab]);
+
     return (<>
-        <Stack
-            direction="row"
-            justifyContent="space-between"
-            spacing={4}>
-            <Stack
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
-                spacing={2}>
-                <Avatar
-                    alt="Name student"
-                    src="https://api.dicebear.com/7.x/adventurer/svg?seed=Simon"
-                    sx={{width: 64, height: 64}}
-                />
-                <Stack direction="column">
-                    <Typography variant="h4">
-                        Simon - 123456
-                    </Typography>
-                    <Typography variant="body1">
-                        1ère année
-                    </Typography>
-                </Stack>
-            </Stack>
-            <Stack
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
-                spacing={3}>
-                <Button role={'button'} variant="text" startIcon={<EditOutlinedIcon/>}>
-                    Modifier
-                </Button>
-                <ActionsMenu/>
-            </Stack>
-        </Stack>
+        <HeaderProfilePage/>
         <Box sx={{width: '100%'}}>
             <Tabs
                 value={value}
@@ -99,12 +48,12 @@ export const ProfileStudent: FC = () => {
                 indicatorColor="primary"
                 aria-label="secondary tabs example"
             >
-                {tabs.map((tab, index) => (
+                {TabConfig.map((tab, index) => (
                     <Tab key={index} value={tab.value} label={tab.label}/>
                 ))}
             </Tabs>
             <Box sx={{width: '100%', py: 2}}>
-                {tabs.map((tab, index) => {
+                {TabConfig.map((tab, index) => {
                     if (tab.value === value) {
                         return <React.Fragment key={index}>{tab.component}</React.Fragment>
                     }

@@ -52,8 +52,8 @@ export const SideNav: React.FC<SideNavProps> = ({ onClose, open }) => {
                 }}
             >
                 <Box sx={{ p: 2, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2 }}>
-                    <LogoTenant />
-                    <span>-</span>
+                    {/*<LogoTenant />*/}
+                    {/*<span>-</span>*/}
                 </Box>
                 <Divider sx={{ borderColor: 'neutral.700' }} />
                 <Box

@@ -2,8 +2,12 @@ import {ChangeEvent, FC, useCallback, useState} from 'react';
 import {Form, useActionData, useLocation, useNavigation} from "react-router-dom";
 import {Alert, Box, Button, FormHelperText, Stack, Tab, Tabs, TextField, Typography} from "@mui/material";
 import AutocompleteSchoolField from "@/pages/Login/components/AutocompleteSchoolField.tsx";
+import {useChangeDocumentTitle} from "@/hooks/use-change-document-title.ts";
+import {useForm} from "react-hook-form";
 
 export const Login: FC = () => {
+    useChangeDocumentTitle('Login');
+    const {register, formState: {errors}} = useForm();
     const [method, setMethod] = useState('email');
     const location = useLocation();
     const params = new URLSearchParams(location.search);
@@ -71,25 +75,27 @@ export const Login: FC = () => {
                                     value={from}
                                 />
                                 <TextField
+                                    {...register('email', {required: true})}
                                     fullWidth
-                                    autoFocus
-                                    label="Email Address"
-                                    name="email"
+                                    label="Email"
                                     type="email"
-                                    required
+                                    error={!!errors.email}
+                                    helperText={errors.email ? 'Email is required' : ''}
                                 />
                                 <TextField
+                                    {...register('password', {required: true})}
                                     fullWidth
                                     value={"password"}
                                     label="Password"
-                                    name="password"
                                     type="password"
                                     required
+                                    error={!!errors.password}
+                                    helperText={errors.password ? 'Password is required' : ''}
                                 />
                                 <AutocompleteSchoolField/>
                             </Stack>
                             {actionData && actionData.error ? (
-                                <FormHelperText sx={{mt: 3}} color="error">
+                                <FormHelperText sx={{mt: 3}} error>
                                     {actionData.error}
                                 </FormHelperText>
                             ) : null}

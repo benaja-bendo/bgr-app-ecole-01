@@ -10,7 +10,8 @@ export const LogoutAction = async () => {
     } catch (error) {
         const err = error as AxiosError;
         throw json<ResponseThrow>({
-            message: err.message,
+            success: false,
+            message: err.message
         }, 401);
     }
 }
