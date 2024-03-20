@@ -17,6 +17,11 @@ import { Teachers } from "@/pages/Teachers/Teachers.tsx";
 import { studentAction } from "@/routes/actions/studentAction.ts";
 import { EditStudent } from "@/pages/Students/EditStudent.tsx";
 import { ProfileStudent } from "@/pages/Students/ProfileStudent.tsx";
+import {CreateStudent} from "@/pages/Students/CreateStudent.tsx";
+import {Account} from "@/pages/Account/Account.tsx";
+import {Profile} from "@/pages/Profile/Profile.tsx";
+import {Settings} from "@/pages/Settings/Settings.tsx";
+import {StudentLoader} from "@/routes/loaders/StudentLoader.ts";
 
 const routes: RouteObject[] = [
     {
@@ -36,17 +41,39 @@ const routes: RouteObject[] = [
                 path: "/students",
                 Component: Students,
                 action: studentAction,
+                loader: StudentLoader,
+            },
+            {
+                path: "/students/create",
+                Component: CreateStudent,
+                action: studentAction,
             },
             {
                 path: "/students/:id",
                 Component: ProfileStudent,
                 action: studentAction,
+                loader: StudentLoader,
+                errorElement: <CustomErrorBoundary />,
             },
             {
                 path: "/students/:id/edit",
                 Component: EditStudent,
                 action: studentAction,
+                loader: StudentLoader,
             },
+            {
+                path: "/account",
+                Component: Account,
+            },
+            {
+                path: "/profile",
+                Component: Profile,
+            },
+            {
+                path: "/settings",
+                Component: Settings,
+            },
+            { path: "/classes", element: <div>Classes</div>},
             { path: "/teachers", element: <Teachers /> },
             { path: "/about", element: <div>About</div> },
         ]
@@ -86,6 +113,7 @@ const routes: RouteObject[] = [
 export const Router = createBrowserRouter(routes, {
     basename: "/",
     window,
+    // hydrationData: JSON.parse(document.getElementById("hydration-data")!.textContent!),
 });
 
 if (import.meta.hot) {

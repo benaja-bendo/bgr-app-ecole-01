@@ -1,14 +1,11 @@
 import {Role} from "@/types/Role.ts";
+import {Address} from "@/types/Address.ts";
+import {NumberPhone} from "@/types/NumberPhone.ts";
 
 export type Tuser = {
     id: string;
-    address: {
-        city: string;
-        country: string;
-        state: string;
-        street: string;
-        postal_code: string;
-    };
+    addresses: Address[] | null;
+    number_phones: NumberPhone[] | null;
     avatar: string;
     created_at: string;
     updated_at: string;
@@ -19,9 +16,5 @@ export type Tuser = {
     last_name: string;
     first_name: string;
     middle_names: string;
-    phone: {
-        number: string;
-        type: string;
-    };
     role: Role
 }
