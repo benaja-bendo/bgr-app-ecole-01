@@ -27,14 +27,14 @@ export const TabConfig = [
         label: 'Notes et Évaluations',
         component: <NotesAndRatings/>,
     },
-    {
-        value: 4,
-        label: 'Suivi de la présence',
-        component: <AttendanceTracking/>,
-    },
-    {
-        value: 5,
-        label: 'Stages et Projets',
-        component: <InternshipsAndProjects/>,
-    },
+    // {
+    //     value: 4,
+    //     label: 'Suivi de la présence',
+    //     component: <AttendanceTracking/>,
+    // },
+    // {
+    //     value: 5,
+    //     label: 'Stages et Projets',
+    //     component: <InternshipsAndProjects/>,
+    // },
 ];
