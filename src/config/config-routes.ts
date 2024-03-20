@@ -18,6 +18,14 @@ export interface Route {
         exportTemplate: string;
         importStudent: string;
     };
+    calendarEvents:{
+        getAll: (search?: string) => string;
+        get: (id: number) => string;
+        update: (id: number) => string;
+        create: string;
+        delete: (id: number) => string;
+        deletes: string;
+    }
 }
 
 const configRoutes: Route = {
@@ -40,6 +48,14 @@ const configRoutes: Route = {
         exportTemplate: '/students/export-template',
         importStudent: '/students/import',
     },
+    calendarEvents:{
+        getAll: (search?: string) => `/calendar-events?search=${search}`,
+        get: (id: number) => `/calendar-events/${id}`,
+        update: (id: number) => `/calendar-events/${id}`,
+        create: '/calendar-events',
+        delete: (id: number) => `/calendar-events/${id}`,
+        deletes: '/calendar-events/deletes',
+    }
 };
 
 export default configRoutes;
