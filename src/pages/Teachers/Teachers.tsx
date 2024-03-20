@@ -251,7 +251,7 @@ export const Teachers: React.FC = () => {
                             </Button>
                         </div>
                     </Stack>
-                    <CustomersSearch/>
+                    {/*<CustomersSearch/>*/}
                     <CustomersTable
                         count={data.length}
                         items={customers}
