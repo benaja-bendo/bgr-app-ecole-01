@@ -32,11 +32,11 @@ export const ProfileStudent: FC = () => {
         setSearchParams({tab: newValue.toString()})
     };
     useEffect(() => {
-            const tabs = parseInt(paramsUrl.tab ?? "0");
-            const validTabs = tabs >= 0 && tabs < TabConfig.length ? tabs : 0;
-            const tabConfig = TabConfig[validTabs];
-            setValue(tabConfig ? tabConfig.value : TabConfig[0].value);        }
-        , [paramsUrl.tab]);
+        const tabs = parseInt(paramsUrl.tab ?? "0");
+        const validTabs = tabs >= 0 && tabs < TabConfig.length ? tabs : 0;
+        const tabConfig = TabConfig[validTabs];
+        setValue(tabConfig ? tabConfig.value : TabConfig[0].value);
+    }, [paramsUrl.tab]);
 
     return (<>
         <HeaderProfilePage/>
