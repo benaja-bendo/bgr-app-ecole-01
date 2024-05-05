@@ -1,9 +1,7 @@
 import {FC} from 'react';
 import {Card, CardContent, Typography} from "@mui/material";
-import { useMediaQuery } from 'usehooks-ts'
 
 export const NotesAndRatings: FC = () => {
-    const isTabletOrLarger = useMediaQuery('(min-width: 768px)')
 
     return (<>
         <div className={'h-full grid grid-cols-3 gap-4'}>
