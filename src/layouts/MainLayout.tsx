@@ -21,7 +21,8 @@ const LayoutContainer = styled('div')({
     display: 'flex',
     flex: '1 1 auto',
     flexDirection: 'column',
-    width: '100%'
+    width: '100%',
+    height: '100%'
 });
 
 export const MainLayout: React.FC = () => {
@@ -34,8 +35,8 @@ export const MainLayout: React.FC = () => {
         />
         <LayoutRoot>
             <LayoutContainer sx={{py: 3}}>
-                <Box component="main" sx={{flexGrow: 1}}>
-                    <Container maxWidth="xl">
+                <Box component="main" sx={{flexGrow: 1}} className={"h-screen flex flex-col"}>
+                    <Container maxWidth="xl" className={"h-full flex flex-col"}>
                         <Box sx={{pb: 2}}>
                             <CustomBreadcrumbs/>
                         </Box>

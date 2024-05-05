@@ -1,5 +1,5 @@
 import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
-import config from "@/utils/config-app.ts";
+import config from "@/config/config-app.ts";
 
 class HttpService {
     private axiosInstance: AxiosInstance;
@@ -41,6 +41,10 @@ class HttpService {
 
     public async put<T, B = object, R = AxiosResponse<T>>(url: string, data?: B, config?: AxiosRequestConfig): Promise<R> {
         return this.axiosInstance.put<T, R>(url, data, config);
+    }
+
+    public async patch<T, B = object, R = AxiosResponse<T>>(url: string, data?: B, config?: AxiosRequestConfig): Promise<R> {
+        return this.axiosInstance.patch<T, R>(url, data, config);
     }
 
     public async delete<T, R = AxiosResponse<T>>(url: string, config?: AxiosRequestConfig): Promise<R> {

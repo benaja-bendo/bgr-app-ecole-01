@@ -1,6 +1,6 @@
 import HttpService from '@/services/HttpService.ts';
 import {Tuser} from "@/types/Tuser.ts";
-import config from "@/utils/config-app.ts";
+import config from "@/config/config-app.ts";
 import {ResponseLoginAction} from "@/types/ResponseLoginAction.ts";
 import {ResponseApi} from "@/types/ResponseApi.ts";
 

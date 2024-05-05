@@ -1,59 +1,45 @@
-import {FC, useState} from 'react';
+import React, {FC, useState} from 'react';
 import MagnifyingGlassIcon from '@heroicons/react/24/solid/MagnifyingGlassIcon';
-import {Box, FormControl, InputAdornment, InputLabel, MenuItem, OutlinedInput, Stack, SvgIcon} from '@mui/material';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-
-export const CustomersSearch: FC = () => (
-    <Box sx={{ p: 2 }}>
-        <Stack
-            direction="row"
-            justifyContent="space-between"
-            spacing={4}>
-        <OutlinedInput
-            defaultValue=""
-            fullWidth
-            placeholder={"Search student"}
-            startAdornment={(
-                <InputAdornment position="start">
-                    <SvgIcon
-                        color="action"
-                        fontSize="small"
-                    >
-                        <MagnifyingGlassIcon />
-                    </SvgIcon>
-                </InputAdornment>
-            )}
-        />
-        <Box>
-            <BasicSelect />
-        </Box>
-        </Stack>
-    </Box>
-);
+import {Box, InputAdornment, OutlinedInput, Stack, SvgIcon} from '@mui/material';
 
 
-function BasicSelect() {
-    const [age, setAge] = useState('20');
+interface CustomersSearchProps {
+    onSearch: (search: string) => void;
+    search: string;
+}
 
-    const handleChange = (event: SelectChangeEvent) => {
-        setAge(event.target.value as string);
-    };
-
+export const CustomersSearch: FC<CustomersSearchProps> = ({onSearch, search}) => {
+    const [searchLocal, setSearchLocal] = useState<string>(search);
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        onSearch(e.target.value);
+        setSearchLocal(e.target.value);
+    }
     return (
-        <Box sx={{ minWidth: 120 }}>
-            <FormControl fullWidth>
-                <InputLabel id="select-sort-by-label">Sort By</InputLabel>
-                <Select
-                    labelId="select-sort-by-label"
-                    id="select-sort-by"
-                    value={age}
-                    label={"Sort By"}
-                    onChange={handleChange}
-                >
-                    <MenuItem value={'10'}>Last update</MenuItem>
-                    <MenuItem value={'20'}>Total orders</MenuItem>
-                </Select>
-            </FormControl>
+        <Box sx={{p: 2}}>
+            <Stack
+                direction="row"
+                justifyContent="space-between"
+                spacing={4}>
+                <OutlinedInput
+                    fullWidth
+                    value={searchLocal}
+                    onChange={handleSearch}
+                    placeholder={"Search student"}
+                    startAdornment={(
+                        <InputAdornment position="start">
+                            <SvgIcon
+                                color="action"
+                                fontSize="small"
+                            >
+                                <MagnifyingGlassIcon/>
+                            </SvgIcon>
+                        </InputAdornment>
+                    )}
+                />
+                {/*<Box>*/}
+                {/*    <FilterSelect/>*/}
+                {/*</Box>*/}
+            </Stack>
         </Box>
     );
 }

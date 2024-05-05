@@ -1,22 +1,27 @@
-import { FC } from 'react';
+import {FC} from 'react';
 import {Button, Stack, SvgIcon, Typography} from "@mui/material";
 import ArrowUpOnSquareIcon from "@heroicons/react/24/solid/ArrowUpOnSquareIcon";
 import ArrowDownOnSquareIcon from "@heroicons/react/24/solid/ArrowDownOnSquareIcon";
 import PlusIcon from "@heroicons/react/24/solid/PlusIcon";
+import {useTranslation} from "react-i18next";
+import {Link} from "react-router-dom";
 
 interface HeaderPage01Props {
-    handleOpenAddStudent: () => void;
+    handleOpenImportStudent?: () => void;
+    handleOpenExportStudent?: () => void;
 }
-export const HeaderPage01: FC<HeaderPage01Props> = (props) => {
-    const {handleOpenAddStudent} = props;
-    return(<>
+
+export const HeaderStudentPage: FC<HeaderPage01Props> = (props) => {
+    const {handleOpenImportStudent, handleOpenExportStudent} = props;
+    const {t} = useTranslation();
+    return (<>
         <Stack
             direction="row"
             justifyContent="space-between"
             spacing={4}>
             <Stack spacing={1}>
                 <Typography variant="h4">
-                    Gestion des étudiants
+                    {t('student.student_management')}
                 </Typography>
                 <Stack
                     alignItems="center"
@@ -30,8 +35,10 @@ export const HeaderPage01: FC<HeaderPage01Props> = (props) => {
                                 <ArrowUpOnSquareIcon/>
                             </SvgIcon>
                         )}
+                        onClick={handleOpenImportStudent}
+
                     >
-                        Import
+                        {t('student.import_student')}
                     </Button>
                     <Button
                         color="inherit"
@@ -40,23 +47,25 @@ export const HeaderPage01: FC<HeaderPage01Props> = (props) => {
                                 <ArrowDownOnSquareIcon/>
                             </SvgIcon>
                         )}
+                        onClick={handleOpenExportStudent}
                     >
-                        Export
+                        {t('student.export_student')}
                     </Button>
                 </Stack>
             </Stack>
             <div>
-                <Button
-                    startIcon={(
-                        <SvgIcon fontSize="small">
-                            <PlusIcon/>
-                        </SvgIcon>
-                    )}
-                    variant="contained"
-                    onClick={handleOpenAddStudent}
-                >
-                    Ajouter un étudiant
-                </Button>
+                <Link to="/students/create">
+                    <Button
+                        startIcon={(
+                            <SvgIcon fontSize="small">
+                                <PlusIcon/>
+                            </SvgIcon>
+                        )}
+                        variant="contained"
+                    >
+                        {t('student.add_student')}
+                    </Button>
+                </Link>
             </div>
         </Stack>
     </>);
