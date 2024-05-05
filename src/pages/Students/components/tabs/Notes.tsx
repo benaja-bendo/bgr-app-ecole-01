@@ -1,7 +1,7 @@
 import {FC} from 'react';
 import {Card, CardContent, Typography} from "@mui/material";
 
-export const NotesAndRatings: FC = () => {
+export const Notes: FC = () => {
 
     return (<>
         <div className={'h-full grid grid-cols-3 gap-4'}>
