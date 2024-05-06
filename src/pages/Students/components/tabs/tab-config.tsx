@@ -2,14 +2,13 @@ import React from "react";
 import {Details} from "@/pages/Students/components/tabs/Details.tsx";
 import {Invoices} from "@/pages/Students/components/tabs/Invoices.tsx";
 import {Schedule} from "@/pages/Students/components/tabs/Schedule.tsx";
-import {NotesAndRatings} from "@/pages/Students/components/tabs/NotesAndRatings.tsx";
-import {AttendanceTracking} from "@/pages/Students/components/tabs/AttendanceTracking.tsx";
-import {InternshipsAndProjects} from "@/pages/Students/components/tabs/InternshipsAndProjects.tsx";
+import {Notes} from "@/pages/Students/components/tabs/Notes.tsx";
+import {ReportCard} from "@/pages/Students/components/tabs/ReportCard.tsx";
 
 export const TabConfig = [
     {
         value: 0,
-        label: 'Détails',
+        label: 'Informations générales',
         component: <Details/>,
     },
     {
@@ -24,8 +23,13 @@ export const TabConfig = [
     },
     {
         value: 3,
-        label: 'Notes et Évaluations',
-        component: <NotesAndRatings/>,
+        label: 'Notes et évaluations',
+        component: <Notes/>,
+    },
+    {
+        value: 4,
+        label: 'Rapport de notes',
+        component: <ReportCard/>,
     },
     // {
     //     value: 4,
@@ -34,7 +38,7 @@ export const TabConfig = [
     // },
     // {
     //     value: 5,
-    //     label: 'Stages et Projets',
+    //     label: 'Stages et Projects',
     //     component: <InternshipsAndProjects/>,
     // },
 ];
