@@ -8,7 +8,7 @@ import {ReportCard} from "@/pages/Students/components/tabs/ReportCard.tsx";
 export const TabConfig = [
     {
         value: 0,
-        label: 'Détails',
+        label: 'Informations générales',
         component: <Details/>,
     },
     {
@@ -23,12 +23,12 @@ export const TabConfig = [
     },
     {
         value: 3,
-        label: 'Notes',
+        label: 'Notes et évaluations',
         component: <Notes/>,
     },
     {
         value: 4,
-        label: 'Rapport',
+        label: 'Rapport de notes',
         component: <ReportCard/>,
     },
     // {
@@ -38,7 +38,7 @@ export const TabConfig = [
     // },
     // {
     //     value: 5,
-    //     label: 'Stages et Projets',
+    //     label: 'Stages et Projects',
     //     component: <InternshipsAndProjects/>,
     // },
 ];
