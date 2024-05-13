@@ -52,7 +52,7 @@ export const ProfileStudent: FC = () => {
                     <Tab key={index} value={tab.value} label={tab.label}/>
                 ))}
             </Tabs>
-            <Box sx={{width: '100%', py: 2}}>
+            <Box sx={{width: '100%',height: '100%', py: 2}}>
                 {TabConfig.map((tab, index) => {
                     if (tab.value === value) {
                         return <React.Fragment key={index}>{tab.component}</React.Fragment>
