@@ -1,5 +1,6 @@
-import {Box, Card, CardContent, Chip, Typography} from "@mui/material";
 import {FC} from "react";
+import {Box, Button, ButtonGroup, Chip, Typography} from "@mui/material";
+import PdfViewer from "@/pages/Students/components/PdfViewer.tsx";
 
 export const ReportCard: FC = () => {
     return (<>
@@ -24,7 +25,8 @@ export const ReportCard: FC = () => {
                                     color="primary"
                                     variant="outlined"
                                     key={year}
-                                    onClick={() => {}}
+                                    onClick={() => {
+                                    }}
                                     sx={{marginRight: '0.5rem'}}/>
                             ))
                         }
@@ -32,20 +34,19 @@ export const ReportCard: FC = () => {
                 </div>
             </div>
             <div className="col-span-3 md:col-span-2" color={'primary'}>
-                <div className={'h-9 flex justify-end items-center mb-4'}>
-                    Recharger le rapport
+                <div className={'text-card-header text-center p-2 border border-gray-200 rounded-md mb-4'}>
+                    <Typography variant={'h5'}>
+                      Buletin de notes
+                    </Typography>
                 </div>
                 <Box sx={{
                     height: '100%',
                     width: '100%',
                     overflowY: 'auto',
-                    display: 'grid',
-                    placeItems: 'center',
 
                 }}>
-                    <p>
-                        chargement du rapport de notes ...
-                    </p>
+                    <PdfViewer
+                        url={'https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf'}/>
                 </Box>
             </div>
         </div>
