@@ -87,7 +87,7 @@ export const Students: React.FC = () => {
                              title={t('student.export_student')}>
                     <ExportStudentModal onClose={handleCloseExportStudent}/>
                 </CustomModal>)}
-            <Toaster/>
+            <Toaster richColors/>
         </StudentProviderContext>
     </>)
 }

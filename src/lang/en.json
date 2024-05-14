@@ -1,9 +1,17 @@
 {
   "greeting": "Hello, world!",
   "slide_bar": {
+    "home": "Home",
     "dashboard": "Dashboard",
     "student_management": "Student Management",
-    "teacher_management": "Teacher Management"
+    "teacher_management": "Teacher Management",
+    "course_management": "Course Management",
+    "admin_management": "Admin Management",
+    "class_management": "Class Management",
+    "reporting": "Reporting",
+    "settings": "Settings",
+    "agenda": "Agenda",
+    "invoice": "Invoice"
   },
   "student": {
     "student": "Student",

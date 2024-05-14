@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import {useFetcher,Link} from "react-router-dom";
 import {useCurrentUser} from "@/hooks/use-current-user.ts";
-import {ParamIcon} from "@/components/svg/SvgIcon/ParamIcon.tsx";
+import {SettingsIcon} from "@/components/svg/SvgIcon/SettingsIcon.tsx";
 import {AccountIcon} from "@/components/svg/SvgIcon/AccountIcon.tsx";
 
 
@@ -67,7 +67,7 @@ const AccountActions = () => {
         <ListItem disablePadding>
             <ListItemButton component={Link} to="/settings">
                 <ListItemIcon>
-                    <ParamIcon/>
+                    <SettingsIcon/>
                 </ListItemIcon>
                 <ListItemText primary="Parametre"/>
             </ListItemButton>
