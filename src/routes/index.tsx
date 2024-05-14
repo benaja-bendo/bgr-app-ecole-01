@@ -22,6 +22,11 @@ import {Account} from "@/pages/Account/Account.tsx";
 import {Profile} from "@/pages/Profile/Profile.tsx";
 import {Settings} from "@/pages/Settings/Settings.tsx";
 import {StudentLoader} from "@/routes/loaders/StudentLoader.ts";
+import {Home} from "@/pages/Home/Home.tsx";
+import {Reporting} from "@/pages/Reporting/Reporting.tsx";
+import {Agenda} from "@/pages/Agenda/Agenda.tsx";
+import {Admins} from "@/pages/Admins/Admins.tsx";
+import {Invoice} from "@/pages/Invoice/Invoice.tsx";
 
 const routes: RouteObject[] = [
     {
@@ -35,7 +40,27 @@ const routes: RouteObject[] = [
             {
                 index: true,
                 path: "/",
+                Component: Home,
+            },
+            {
+                path: "/dashboard",
                 Component: Dashboard,
+            },
+            {
+                path: "/reporting",
+                Component: Reporting,
+            },
+            {
+                path: "/agenda",
+                Component: Agenda,
+            },
+            {
+                path: "/admins",
+                Component: Admins,
+            },
+            {
+                path: "/invoice",
+                Component: Invoice,
             },
             {
                 path: "/students",

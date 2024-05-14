@@ -1,9 +1,17 @@
 {
   "greeting": "Bonjour, le monde !",
   "slide_bar": {
+    "home": "Accueil",
     "dashboard": "Tableau de bord",
     "student_management": "Gestion des étudiants",
-    "teacher_management": "Gestion des enseignants"
+    "teacher_management": "Gestion des enseignants",
+    "course_management": "Gestion des cours",
+    "admin_management": "Gestion des administrateurs",
+    "class_management": "Gestion des classes",
+    "reporting": "Reporting",
+    "settings": "Paramètres",
+    "agenda": "Agenda",
+    "invoice": "Facture"
   },
   "student": {
     "student": "étudiant",
