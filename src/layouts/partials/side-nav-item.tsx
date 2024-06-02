@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import {Box, ButtonBase} from '@mui/material';
+import {Box, ButtonBase, Divider} from '@mui/material';
 import {NavItem} from "@/types/NavItem.ts";
+import {Divide} from "lucide-react";
 
 
 export const SideNavItem: React.FC<NavItem> = (props) => {
@@ -25,7 +26,8 @@ export const SideNavItem: React.FC<NavItem> = (props) => {
                 to: path,
             };
 
-    return (
+    return (<>
+        {/*<Divider sx={{ borderColor: 'neutral.700' }} />*/}
         <li>
             <ButtonBase
                 sx={{
@@ -86,5 +88,5 @@ export const SideNavItem: React.FC<NavItem> = (props) => {
                 </Box>
             </ButtonBase>
         </li>
-    );
+    </>);
 };

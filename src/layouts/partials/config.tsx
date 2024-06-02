@@ -13,6 +13,7 @@ import {SettingsIcon} from "@/components/svg/SvgIcon/SettingsIcon.tsx";
 export const items: NavItem[] = [
     // for root
     {
+        group: 'General',
         title: 'slide_bar.home',
         path: '/',
         icon: (
@@ -26,6 +27,7 @@ export const items: NavItem[] = [
         role: ['root', 'student', 'teacher', 'admin_school'],
     },
     {
+        group: 'General',
         title: 'slide_bar.dashboard',
         path: '/dashboard',
         icon: (
@@ -39,6 +41,7 @@ export const items: NavItem[] = [
         role: ['root', 'student', 'teacher', 'admin_school'],
     },
     {
+        group: 'General',
         title: 'slide_bar.reporting',
         path: '/reporting',
         icon: (
@@ -52,6 +55,7 @@ export const items: NavItem[] = [
         role: ['root', 'student', 'teacher', 'admin_school'],
     },
     {
+        group: 'General',
         title: 'slide_bar.agenda',
         path: '/agenda',
         icon: (
@@ -65,6 +69,7 @@ export const items: NavItem[] = [
         role: ['root', 'student', 'teacher', 'admin_school'],
     },
     {
+        group: 'User Management',
         title: 'slide_bar.student_management',
         path: '/students',
         icon: (
@@ -78,6 +83,7 @@ export const items: NavItem[] = [
         role: ['root', 'admin_school'],
     },
     {
+        group: 'User Management',
         title: 'slide_bar.teacher_management',
         path: '/teachers',
         icon: (
@@ -91,6 +97,7 @@ export const items: NavItem[] = [
         role: ['root', 'admin_school'],
     },
     {
+        group: 'User Management',
         title: 'slide_bar.admin_management',
         path: '/admins',
         icon: (
@@ -104,6 +111,7 @@ export const items: NavItem[] = [
         role: ['root', 'admin_school'],
     },
     {
+        group: 'Financial',
         title: 'slide_bar.invoice',
         path: '/invoice',
         icon: (
@@ -117,6 +125,7 @@ export const items: NavItem[] = [
         role: ['root', 'admin_school'],
     },
     {
+        group: 'Settings',
         title: 'slide_bar.settings',
         path: '/settings',
         icon: (

@@ -1,36 +1,32 @@
 import React from 'react';
 import { useLocation } from "react-router-dom";
-import {
-    Box,
-    Divider,
-    Drawer,
-    Stack,
-    useMediaQuery,
-    Theme
-} from '@mui/material';
+import { Box, Divider, Drawer, Stack, useMediaQuery, Theme, Typography } from '@mui/material';
 import { Scrollbar } from '@/layouts/partials/scrollbar';
 import { items } from '@/layouts/partials/config';
 import { SideNavItem } from '@/layouts/partials/side-nav-item';
-import { NavItem } from "@/types/NavItem";
-import { WithRole } from "@/components/WithRole.tsx";
-import { LogoTenant } from "@/components/LogoTenant.tsx";
 import { useTranslation } from 'react-i18next';
+import {NavItem} from "@/types/NavItem.ts";
 
 type SideNavProps = {
     onClose?: () => void;
     open?: boolean;
-    auth?: {
-        user: {
-            data: {
-                fullName: string;
-            };
-        };
-    };
 }
+
 export const SideNav: React.FC<SideNavProps> = ({ onClose, open }) => {
     const { t } = useTranslation();
     const location = useLocation();
     const lgUp = useMediaQuery<Theme>((theme: Theme) => theme.breakpoints.up('lg'));
+
+    const groupedItems = items.reduce<Record<string, NavItem[]>>((acc, item: NavItem) => {
+        const group = item?.group;
+        if (group) {
+            if (!acc[group]) {
+                acc[group] = [];
+            }
+            acc[group].push(item);
+        }
+        return acc;
+    }, {});
 
     const content = (
         <Scrollbar
@@ -51,10 +47,6 @@ export const SideNav: React.FC<SideNavProps> = ({ onClose, open }) => {
                     height: '100%'
                 }}
             >
-                <Box sx={{ p: 2, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 2 }}>
-                    {/*<LogoTenant />*/}
-                    {/*<span>-</span>*/}
-                </Box>
                 <Divider sx={{ borderColor: 'neutral.700' }} />
                 <Box
                     component="nav"
@@ -73,10 +65,12 @@ export const SideNav: React.FC<SideNavProps> = ({ onClose, open }) => {
                             m: 0
                         }}
                     >
-                        {items.map((item: NavItem, index: number) => {
-                            if (typeof item.role === 'undefined' || item.role.length === 0) return null;
-                            return (
-                                <WithRole role={item.role} key={index}>
+                        {Object.entries(groupedItems).map(([group, items]) => (
+                            <React.Fragment key={group}>
+                                <Typography variant="subtitle2" sx={{ color: 'neutral.500', px: 2, py: 1 }}>
+                                    {group}
+                                </Typography>
+                                {items.map((item, index) => (
                                     <SideNavItem
                                         active={location.pathname === item.path}
                                         disabled={item.disabled}
@@ -86,9 +80,9 @@ export const SideNav: React.FC<SideNavProps> = ({ onClose, open }) => {
                                         path={item.path}
                                         title={t(item.title)}
                                     />
-                                </WithRole>
-                            );
-                        })}
+                                ))}
+                            </React.Fragment>
+                        ))}
                     </Stack>
                 </Box>
                 <Divider sx={{ borderColor: 'neutral.700' }} />
@@ -96,30 +90,11 @@ export const SideNav: React.FC<SideNavProps> = ({ onClose, open }) => {
         </Scrollbar>
     );
 
-    if (lgUp) {
-        return (
-            <Drawer
-                anchor="left"
-                open
-                PaperProps={{
-                    sx: {
-                        backgroundColor: 'neutral.800',
-                        color: 'common.white',
-                        width: 280
-                    }
-                }}
-                variant="permanent"
-            >
-                {content}
-            </Drawer>
-        );
-    }
-
     return (
         <Drawer
             anchor="left"
-            onClose={onClose}
-            open={open}
+            onClose={!lgUp ? onClose : undefined}
+            open={lgUp || open}
             PaperProps={{
                 sx: {
                     backgroundColor: 'neutral.800',
@@ -127,8 +102,8 @@ export const SideNav: React.FC<SideNavProps> = ({ onClose, open }) => {
                     width: 280
                 }
             }}
-            sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}
-            variant="temporary"
+            sx={!lgUp ? { zIndex: (theme) => theme.zIndex.appBar + 100 } : {}}
+            variant={lgUp ? "permanent" : "temporary"}
         >
             {content}
         </Drawer>
