@@ -25,6 +25,7 @@ export interface Route {
         create: string;
         delete: (id: number) => string;
         deletes: string;
+        export: (user_id: number) => string;
     }
 }
 
@@ -55,6 +56,7 @@ const configRoutes: Route = {
         create: '/calendar-events',
         delete: (id: number) => `/calendar-events/${id}`,
         deletes: '/calendar-events/deletes',
+        export: (user_id: number) => `/calendar-events/${user_id}/export`,
     }
 };
 
