@@ -28,6 +28,8 @@ import {Agenda} from "@/pages/Agenda/Agenda.tsx";
 import {Admins} from "@/pages/Admins/Admins.tsx";
 import {Invoice} from "@/pages/Invoice/Invoice.tsx";
 
+import { GoogleCallback } from "@/pages/Agenda/GoogleCallback";
+
 const routes: RouteObject[] = [
     {
         id: "main",
@@ -101,6 +103,10 @@ const routes: RouteObject[] = [
             { path: "/classes", element: <div>Classes</div>},
             { path: "/teachers", element: <Teachers /> },
             { path: "/about", element: <div>About</div> },
+            {
+                path: "/google-callback",
+                Component: GoogleCallback,
+            },
         ]
     },
     {
